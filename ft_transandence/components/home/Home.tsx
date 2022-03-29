@@ -1,12 +1,12 @@
+import Link from 'next/link';
 import { useState } from 'react';
 import styles from '../../styles/home/home.module.css'
 import Popup from '../Popup/popup';
+import Router, { useRouter } from 'next/router';
 const Home = () => {
+    const router = useRouter();
     const [popup, setPopup] = useState<boolean>(false);
     const popupTxt = "A small ball moves across the screen, bouncing off the top and bottom ledges, and the two players each control a pad, sliding it vertically between the ends of the screen using the controls. If the ball hits the pad, it bounces back to the other player. If it misses the pad, the other player scores a point. The ball bounces in different ways depending on how it hits the pad.";
-    const handleClick = (e: any) => {
-        setPopup(true);
-    }
     return (
         <>
         <div className={styles.title}>
@@ -21,10 +21,10 @@ const Home = () => {
             </div>
         </div>
         <div className={styles.container}>
-            <div className={styles.howToplay} onClick={(e: any) => handleClick(e, )}>
+            <div className={styles.howToplay} onClick={() => {setPopup(true)}}>
                 <p>How To play</p>
             </div>
-            <div className={styles.FindFriends}>
+            <div className={styles.FindFriends} onClick={() => {router.push("/users")}}>
                 <p>Find Friends</p>
             </div>
             <div className={styles.dontNow}>

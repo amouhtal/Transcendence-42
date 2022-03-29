@@ -152,7 +152,6 @@
     justify-content: center;
     background: #34568B;
     border: 2px solid #34568B;
-
     width: 300px;
     height: 50px;
     font-size: 24px;
@@ -163,6 +162,7 @@
     position: absolute;
     top: 10%;
     left: 43%;
+    text-decoration: none;
 }
 
 .FindFriends:hover {
