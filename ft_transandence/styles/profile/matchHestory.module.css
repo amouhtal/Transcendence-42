@@ -1,0 +1,146 @@
+.Container{
+    background-color: #f5f5f5;
+    width: 70%;
+    height: 830px;
+    border-radius: 20px;
+    position: relative;
+    overflow-y: scroll;
+    box-shadow:rgba(3, 124, 118, 0.561) 0px 50px 150px 20px inset
+    , rgba(3, 124, 118, 0.15) 0px -36px 30px 100px inset,
+    rgba(3, 124, 118, 0.1) 100px -79px 40px 20px inset,
+    rgba(3, 124, 118, 0.06) 0px 2px 1px,
+    rgba(3, 124, 118, 0.09) 0px 4px 2px, rgba(3, 124, 118, 0.09) 0px 8px 4px,
+    rgba(3, 124, 118, 0.09) 0px 16px 8px, rgba(3, 124, 118, 0.548) 0px 15px 20px;
+}
+.matchHestory{
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bolder;
+    color: #025159;
+    font-size: 25px;
+    text-align: center;
+    position: sticky;
+    top: 10px;
+}
+
+.match{
+    background-color: rgba(6, 158, 150, 0.5);
+    height: 120px;
+    width: 85%;
+    margin: auto;
+    border-radius: 20px;
+    border: 1.4px solid white;
+    box-shadow: 0px 5px 25px 5px white;
+}
+
+.separet{
+    width: 1400px;
+    height: 20px;
+}
+.allcontainer{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.Container::-webkit-scrollbar {
+    width: 12px;
+    height: 5%;
+}
+  /* Track  */
+.Container::-webkit-scrollbar-track {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 50px;
+}  
+  /* Handle */
+.Container::-webkit-scrollbar-thumb {
+    background-color: #025159;
+    border-radius: 50px;
+}
+  
+  /* Handle on hover */
+.Container::-webkit-scrollbar-thumb:hover {
+    background-color: #025159;
+}
+
+.content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.match{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+}
+.chaild1{
+    height: 10%;
+    display: flex;
+    justify-content: space-around;
+}
+.child2{
+    width: 45%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    color: white;
+    /* margin-bottom: 15px; */
+}
+.child3{
+    width: 45%;
+    height: 100%;
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    flex-direction: row-reverse;
+    color: white;
+    /* margin-bottom: 15px; */
+}
+.winIcon{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.img1{
+    width: 70px;
+    height: 70px;
+    background-color: white;
+    border-radius: 50%;
+    margin-left: 20px;
+}
+
+.img2{
+    width: 70px;
+    height: 70px;
+    background-color: white;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.VS{
+    font-size: 17px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bolder;
+    color: red;
+}
+.imgicon{
+    width: 23px;
+    height: 23px;
+}
+
+.EndMatch{
+    font-size: 17px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+    color: #025159;
+}
+
+.EndMatch1{
+    font-size: 23px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+    color: #025159;  
+}

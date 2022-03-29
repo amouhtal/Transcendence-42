@@ -1,2 +1,1 @@
-# ft_transandance
-ft_ransandance 1337/42
+# ft_transcendence_42
