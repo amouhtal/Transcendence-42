@@ -32,7 +32,7 @@ const Users = (props:UsersType) => {
         userStatus ? setStatus(false) : setStatus(true);
     }
     return (
-        <>
+        <div className={styles.globalContainer}>
         <div className={styles.container}>
             <div className={styles.SearchBar}>
                 <button className={userStatus? styles.buttonStatusOFF : styles.buttonStatusOn} onClick={(e:any) => ChangeStatus(e, )}>{userStatus? "Offline" : "Online"}</button>
@@ -44,7 +44,7 @@ const Users = (props:UsersType) => {
             <div className={styles.child}>
             {filterData.map((e: any | any[]) => {
                     return  (
-                        <Link href={"/users/" + e.first_name}>
+                        <Link href={`/users/${e.first_name}`} key={Math.random()}>
                             <div className={styles.userCard} key={Math.random()}>
                                 <div className={userStatus?styles.userStatusOn : styles.userStatusOff}>
                                     <Image src={image.src} width={90} height={90} className={styles.profileImage}/>
@@ -59,7 +59,7 @@ const Users = (props:UsersType) => {
             })}
             </div>
         </div>
-        </>
+        </div>
     );
 }
 

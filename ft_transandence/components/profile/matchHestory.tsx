@@ -1,5 +1,5 @@
 import style from "../../styles/profile/matchHestory.module.css"
-import users from "../../users-data.json"
+import users from "../../data.json"
 import img from "../../public/images/homme-jouant-au-tennis.png"
 import image from "../../public/images/sttar.png"
 import imag from "../../public/images/profile.jpg"

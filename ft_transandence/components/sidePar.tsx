@@ -9,11 +9,16 @@ import  Notification from './../public/images/notification-icon.png';
 import  setting from './../public/images/setting-icon.png';
 import  search from './../public/images/search.png';
 import Link from 'next/link';
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { AiOutlineBars } from "react-icons/ai";
 
 function SidePar(){
+    const [isNavBar, setNavBar] = useState<boolean>(true);
     return (
         <>
-            <div className={Style.sidePar}>
+        <div>
+            <div className={isNavBar?Style.sideParOn: Style.sideParOff}>
                 <div className={Style.container1}>
                     <img src={Profile.src} className={Style.imgProfile}/>
                     <p className={Style.P}>Zakarya Akdim</p>
@@ -53,6 +58,11 @@ function SidePar(){
                         <p className={Style.Picon}>Logout</p>
                     </div>
             </div>
+            {/* <button className={isNavBar? Style.closebtnOn: Style.closebtnOff} onClick={() => {setNavBar(true)}}><AiOutlineBars className={Style.icon}/></button> */}
+            <button className={isNavBar? Style.btnOn: Style.btnOff} onClick={() => {setNavBar(!isNavBar)}}><AiOutlineBars className={Style.icon}/></button>
+            {console.log(isNavBar)
+            }
+        </div>
         </>
     )
 }

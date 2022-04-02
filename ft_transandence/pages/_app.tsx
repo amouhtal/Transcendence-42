@@ -10,6 +10,8 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(()=>{
     document.getElementsByTagName("body")[0].style.margin = "0"
     document.getElementsByTagName("body")[0].style.backgroundColor = "#C7D1D2"
+    document.getElementsByTagName("body")[0].style.width = "100wh"
+    document.getElementsByTagName("body")[0].style.height = "100vh"
   })
 
   return (
@@ -19,7 +21,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       isConnect ? 
       <div className={Style.App}>
             <SidePar />
-              <Component {...pageProps}/>
+              <Component {...pageProps} className={Style.component}/>
         </div>
         :
         <>

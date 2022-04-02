@@ -1,33 +1,20 @@
 import type { NextPage } from 'next'
 import styles from '../../styles/login/login.module.css'
 import {FcGoogle} from 'react-icons/fc'
-import { GoogleAuthProvider, signInWithPopup, getAuth } from "firebase/auth";
-import { firebaseApp } from '../../firebase-config'
 import { NextRouter, useRouter } from 'next/router';
 import React, { useEffect } from "react";
+import Server from 'next/dist/server/base-server';
 
 const Login = () => {
-    // const firebaseAuth: firebaseApp | undefined = getAuth(firebaseApp);
-    // const provider : GoogleAuthProvider = new GoogleAuthProvider();
-    // const router: NextRouter = useRouter();
-    // const signIn = async () => {
-    //     const {user} = await signInWithPopup(firebaseAuth, provider);
-    //     const {refreshToken, providerData} = user;
-
-    //     localStorage.setItem('user', JSON.stringify(providerData));
-    //     localStorage.setItem('accessToken', JSON.stringify(refreshToken));
-    //     router.push("/home");
-    // };
+    const router = useRouter();
+    console.log(process.env.NEXT_PUBLIC_APP_UID)
     return (
         <div className={styles.login}>
-            <div className={styles.layer}></div>
-                <div className={styles.google}>
-                    <FcGoogle fontSize={30} />
-                    <p>Sign in with Google</p>
+                <div className={styles.intra}>
+                    <p onClick={() => {router.push(`/auth/42/callback`)}}>Sign in with 42Intra</p>
                 </div>
         </div>
     );
 }
-
 
 export default Login;

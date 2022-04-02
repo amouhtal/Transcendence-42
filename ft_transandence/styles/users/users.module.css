@@ -135,7 +135,7 @@
 }
 
 .profileImage {
-    z-index: 2;
+    /* z-index: 2; */
     width: 90px;
     height: 90px;
     object-fit: cover;
@@ -172,7 +172,7 @@
     background: rgb(255, 0, 0);
     position: absolute;
     left: 8px;
-    z-index: 1;
+    /* z-index: 1; */
     margin-left: 20px;
 }
 .userStatusOn {
@@ -185,7 +185,7 @@
     background: green;
     position: absolute;
     left: 8px;
-    z-index: 1;
+    /* z-index: 1; */
     margin-left: 20px;
 
 }
@@ -233,4 +233,15 @@
     background: green;
     border-radius: 50px;
     left:1500px;
+}
+
+@media only screen and (max-width: 414px) {
+    .globalContainer {
+        background: red;
+        width: 100%;
+    }
+    .container {
+        margin: 0;
+    }
+
 }
