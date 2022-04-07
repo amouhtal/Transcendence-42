@@ -1,0 +1,187 @@
+
+.sideParOn{
+    transform: translateX(0);
+    transition: 0.6s all;
+    display: flex;
+    flex-flow:column;
+    width: 350px;
+    height: 100vh;
+    background-color: #303136;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    /* z-index: 3; */
+    /* position: absolute;
+    left:0; */
+}
+.sideParOff{
+    transform: translateX(0);
+    transition: 0.6s all;
+    display: flex;
+    flex-flow:column;
+    width: 350px;
+    height: 100vh;
+    background-color: #025159;
+    border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px;
+    /* z-index: 3; */
+
+    /* position: relative; */
+    /* display:none; */
+}
+
+.container1{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow:column;
+    position: relative;
+    top: 30px;
+    width: 350px;
+    height: 15vh;
+}
+
+.imgProfile{
+    border-radius: 50%;
+    width: 140px;
+    height: 140px;
+    margin-bottom: 5px;
+    object-fit:cover;
+}
+.iconimg{
+    width: 40px;
+    height: 40px;
+    margin-left: 220px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.iconimgLogout{
+    width: 50px;
+    height: 50px;
+    margin-left: 220px;
+    margin-right: 20px;
+}
+.Picon{
+    font-size: 15px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+    color: #D1DBDC;
+    margin-right: 270px;
+}
+.P{
+    font-size: 20px;
+   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+   font-weight: bold;
+   color: #D1DBDC;
+   margin: auto;
+}
+
+.container2{
+    display: flex;
+    flex-flow: column;
+    margin: auto;
+    width: 100%;
+    margin-top: 70px;
+}
+
+.home{
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    height: 46px;
+    margin-bottom: 45px;
+}
+
+.Profile{
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    height: 46px;
+    margin-bottom: 45px;
+    margin-left: 9px;
+}
+
+.Messages{
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    height: 46px;
+    margin-bottom: 45px;
+    margin-left: 20px;
+
+}
+.Notification{
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    height: 46px;
+    margin-bottom: 45px;
+    margin-left: 35px;
+}
+
+.Setting{
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    height: 46px;
+    margin-bottom: 45px;
+    margin-left: 9px;
+}
+
+.Game{
+    display: flex;
+    justify-content:space-evenly;
+    height: 45px;
+    margin-bottom: 45px;
+    
+}
+
+.Logout{
+    display: flex;
+    padding: 30px;
+    margin-bottom: 80px;
+    justify-content: center;
+    align-items: center;
+}
+
+.btnOn {
+    display: none;
+}
+
+.btnOff {
+    display: none;
+}
+
+.icon {
+    width: 30px;
+    height: 30px;
+}
+
+@media only screen and (max-width: 1580px) {
+    .sideParOn {
+        transform: translateX(-350px);
+        transition: 0.6s all;
+        display: flex;
+
+    }
+    .sideParOff {
+        transform: translateX(0);
+        transition: 0.6s all;
+        display: flex;
+    }
+    .btnOn, .btnOff {
+        width: 50px;
+        height: 50px;
+        position: fixed;
+        top: 10px;
+        left: 20px;
+        border: none;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        background: none;
+        background: rgba(255, 255, 255, 0.139);
+        border-radius: 20px;
+        cursor: pointer;
+    }
+}

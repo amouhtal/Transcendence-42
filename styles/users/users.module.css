@@ -1,0 +1,345 @@
+.globalContainer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    /* background: #717171; */
+    height: 100%;
+    width: 87.9%;
+    position: absolute;
+    right: 0;;
+}
+
+.container {
+    display: flex;
+    /* overflow: hidden; */
+    /* justify-content: center;
+    align-items: center; */
+    background-color: #c7d1d262;
+    width: 80%;
+    height: 70%;
+    margin-bottom: 165px;
+    border-radius: 50px;
+    /* border: 2px solid gray; */
+    box-shadow:rgba(3, 124, 118, 0.406) 0px 50px 150px 50px inset
+    , rgba(3, 124, 118, 0.15) 0px -36px 30px 100px inset,
+    rgba(3, 124, 118, 0.1) 100px -79px 40px 20px inset,
+    rgba(3, 124, 118, 0.06) 0px 2px 1px,
+    rgba(3, 124, 118, 0.09) 0px 4px 2px, rgba(3, 124, 118, 0.09) 0px 8px 4px,
+    rgba(3, 124, 118, 0.09) 0px 16px 8px, rgba(3, 124, 118, 0.548) 0px 15px 40px;
+}
+
+.searchButton:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.SearchBar {
+    position: absolute;
+    top : 12%;
+    left: 11%;
+}
+
+.SearchInput {
+    width: 500px;
+    height: 50px;
+    border-radius: 50px;
+    opacity: 0.9;
+    text-indent: 55px;
+    outline: none;
+    border: none;
+    background: white;
+    box-shadow:rgba(3, 124, 118, 0.561) 0px 50px 50px 50px inset
+    , rgba(3, 124, 118, 0.15) 0px -36px 30px 50px inset,
+    rgba(3, 124, 118, 0.1) 100px -79px 40px 20px inset,
+    rgba(3, 124, 118, 0.06) 0px 2px 1px,
+    rgba(3, 124, 118, 0.09) 0px 4px 2px, rgba(3, 124, 118, 0.09) 0px 8px 4px,
+    rgba(3, 124, 118, 0.09) 0px 16px 8px, rgba(3, 124, 118, 0.548) 0px 15px 40px;
+}
+
+.SearchInput::placeholder {
+    font-size: 16px;
+    opacity: .7;
+    position: relative;
+    color: #D1DBDC;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+/* .SearchInput:: */
+
+.searchButton {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    right: 450px;
+    top: 0;
+    opacity: 0.5;
+}
+
+.child {
+    /* overflow-y: scroll;
+    overflow: hidden; */
+    overflow: scroll;
+    /* background: cyan; */
+    /* overflow:auto; */
+    width: 96%;
+    margin-top: 50px;
+    max-height: 86%;
+    display: flex;
+   justify-content: center;
+    align-items: center;
+    /* left: 50%; */
+    /* transform: translateX(-50%); */
+    gap: 80px;
+    flex-wrap: wrap;
+    padding-top: 50px;
+    padding-bottom: 20px;
+    /* position: a4solute; */
+    /* background: red; */
+}
+
+.userCard:hover {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 280px;
+    height: 150px;
+    cursor: pointer;
+    transform: translate(0, -10px);
+    transition: 0.15s all;
+    /* margin-top: 80px; */
+    /* margin-left: 100px; */
+    background: rgba(120, 118, 118, 0.495);
+    border-radius: 30px;
+    position: relative;
+        box-shadow:rgba(3, 124, 118, 0.561) 0px 50px 150px 50px inset
+    , rgba(3, 124, 118, 0.15) 0px -36px 30px 100px inset,
+    rgba(3, 124, 118, 0.1) 100px -79px 40px 20px inset,
+    rgba(3, 124, 118, 0.06) 0px 2px 1px,
+    rgba(3, 124, 118, 0.09) 0px 4px 2px, rgba(3, 124, 118, 0.09) 0px 8px 4px,
+    rgba(3, 124, 118, 0.09) 0px 16px 8px, rgba(3, 124, 118, 0.548) 0px 15px 40px;
+}
+
+.userCard {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 280px;
+    height: 150px;
+    cursor: pointer;
+    /* margin-top: 80px; */
+    /* margin-left: 100px; */
+    background: white;
+    /* background: red; */
+    border-radius: 30px;
+    position: relative;
+        box-shadow:rgba(3, 124, 118, 0.561) 0px 50px 150px 50px inset
+    , rgba(3, 124, 118, 0.15) 0px -36px 30px 100px inset,
+    rgba(3, 124, 118, 0.1) 100px -79px 40px 20px inset,
+    rgba(3, 124, 118, 0.06) 0px 2px 1px,
+    rgba(3, 124, 118, 0.09) 0px 4px 2px, rgba(3, 124, 118, 0.09) 0px 8px 4px,
+    rgba(3, 124, 118, 0.09) 0px 16px 8px, rgba(3, 124, 118, 0.548) 0px 15px 40px;
+}
+
+.profileImage {
+    /* z-index: 2; */
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.userName {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 30px;
+    margin-left: 115px;
+    font-size: 22px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: 600;
+    letter-spacing: 1px;
+    border-radius: 18px;
+    position: absolute;
+    top: 20px;
+    color: #025159;
+
+}
+
+.userStatusOff {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 98px;
+    height: 98px;
+    border-radius: 50%;
+    background: rgb(255, 0, 0);
+    position: absolute;
+    left: 8px;
+    /* z-index: 1; */
+    margin-left: 20px;
+}
+.userStatusOn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 98px;
+    height: 98px;
+    border-radius: 50%;
+    background: green;
+    position: absolute;
+    left: 8px;
+    /* z-index: 1; */
+    margin-left: 20px;
+
+}
+
+.child::-webkit-scrollbar {
+    width: 12px;
+    height: 5%;
+}
+  /* Track  */
+.child::-webkit-scrollbar-track {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 50px;
+} 
+
+  /* Handle */
+  .child::-webkit-scrollbar-thumb {
+    background-color: #025159;
+    border-radius: 50px;
+  }
+
+  /* Handle on hover */
+ .child::-webkit-scrollbar-thumb:hover {
+    background-color: #025159;
+  }
+
+.SearchSubmit {
+    position: relative;
+    top: 0;
+    /* display: none; */
+}
+
+.buttonStatusOFF {
+    position: absolute;
+    top:80px;
+    left:1500px;
+    width: 100px;
+    background: red;
+    border-radius: 50px;
+}
+.buttonStatusOn {
+    position: absolute;
+    top:80px;
+    width: 100px;
+    background: green;
+    border-radius: 50px;
+    left:1500px;
+}
+
+@media only screen and (max-width: 1440px) and (min-width: 768px) {
+    .globalContainer {
+        width: 100%;
+    }
+    .container {
+        /* margin: 0; */
+        /* background: red; */
+    }
+    .SearchBar {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .child {
+        margin-top: 40px;
+        max-width: 90%;
+    }
+    .userCard {
+        width: 140px;
+        height: 130px;
+        /* background: red; */
+    }
+    .userCard:hover {
+        width: 140px;
+        height: 130px;
+        /* background: red; */
+    }
+    .userName {
+        /* background: red; */
+        margin: 0;
+        top:100px;
+        font-size: 20px;
+    }
+    .userStatusOff {
+        top: 5px;
+        left: 2px;
+    }
+    .profileImage {
+        width: 500px;
+        height: 500px;
+    }
+
+}
+@media only screen and (max-width: 767px){
+    .globalContainer {
+        width: 100%;
+    }
+    .container {
+        /* margin: 0; */
+        /* background: red; */
+        /* background: hotpink; */
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin:0;
+        bottom:50%;
+        transform: translateY(50%);
+        overflow: hidden;
+        /* bottom: 0; */
+    }
+    .SearchBar {
+        top:0;
+        left: 3%;
+        margin: auto;
+        width: 150px;
+        z-index: 2;
+    }
+    .SearchInput {
+        width: 230px;
+    }
+    .searchButton {
+        left: 0;
+    }
+    .child {
+        /* margin-top: 45px; */
+        max-height: 84%;
+        /* overflow: hidden; */
+        /* background: green; */
+    }
+    .userCard {
+        width: 140px;
+        height: 130px;
+        z-index: 1;
+        /* background: red; */
+    }
+    .img {
+        width: 10px;
+    }
+    .userName {
+        /* background: red; */
+        margin: 0;
+        top:100px;
+        font-size: 20px;
+    }
+    .userStatusOff {
+        top: 5px;
+        left: 2px;
+    }
+
+}
+
+@media only screen and (max-height: 767px){
+}

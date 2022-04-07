@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500;600;700;800&display=swap');
+.globaleContainer {
+    height: 100%;
+    width: calc(100% - 351px);
+    position: absolute;
+    margin: 0; padding: 0; top:0; right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    background-color: white;
+    height: 95%;
+    width: 95%;
+    border-radius: 50px;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+}
+
+.tmp {
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+/*************************************Chat designe*********************************/
+.chatContainer {
+    background-color: rgba(0, 72, 255, 0.18);
+    /* border-radius: 20px; */
+    width: 50%;
+    height: 80%;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    position: relative;
+    
+}
+
+.form>input {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 20px;
+    width: 500px;
+    height: 30px;
+    border : none;
+    border-bottom: 1px solid white;
+    outline: none;
+    background: none;
+}
+
+.messages {
+    border: none;
+    border-bottom: 1px solid black;
+    width: 500px;
+    height: 930px;
+    position: absolute;
+    top: 20px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.friendListshow {
+    height: 100%;
+    width: 23%;
+    background-color: rgb(244, 244, 244);
+    /* border-radius: 50px 0 50px 0; */
+    display: flex;
+    flex-direction: column;
+    /* align-items: center;
+    justify-content: center; */
+    gap: 20px;
+    position: relative;
+    border-radius: 30px 0 0 30px;
+}
+
+.friendListDontshow {
+    height: 100%;
+    width: 23%;
+    background-color: rgb(244, 244, 244);
+    /* border-radius: 50px 0 50px 0; */
+    display: flex;
+    flex-direction: column;
+    /* align-items: center;
+    justify-content: center; */
+    gap: 20px;
+    position: relative;
+    border-radius: 30px 0 0 30px;
+}
+
+.searchBar {
+    position: absolute;
+    width: 100%;
+    top: 40px;
+    left: 50%;
+    transform: translateX(calc(-36%));
+}
+
+.search {
+    position: relative;
+    width: 70%;
+    height: 40px;
+    border-radius: 20px;
+    background: none;
+    outline: none;
+    border: none;
+    text-indent: 20%;
+    background: rgba(211, 211, 211, 0.365);
+}
+
+.searchIcon {
+    position: absolute;
+    width: 30px;
+    height: 100%;
+    opacity: 0.5;
+    left: 5%;
+}
+
+.creatNewGrp {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    display: flex;
+    width: 250px;
+    height: 30px;
+    right: 10%;
+    top: 10%;
+    /* background: lightgreen; */
+}
+
+.creatNewGrp>p {
+    position: absolute;
+    left: 35%;
+    color: rgb(164, 164, 164);
+}
+
+.creatIcon {
+    position: absolute;
+    width: 30px;
+    right: 0;
+    /* float: right; */
+    height: 100%;
+}
+.creatIcon:hover {
+    position: absolute;
+    width: 30px;
+    right: 0;
+    /* float: right; */
+    height: 100%;
+    cursor: pointer;
+    transform: translateY(-2px);
+    transition: 0.2 all;
+
+}
+
+.friendscard {
+    position: absolute;
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* background-color: brown; */
+}
+
+@media only screen and (max-width: 1440px){
+    .globaleContainer {
+        width: 100%;
+    }
+    .friendListDontshow {
+        display:none;
+        width: 0px;
+        z-index: 2;
+        /* display: none; */
+    }
+    .friendListshow {
+        /* opacity: 0; */
+        width: 100%;
+        position: absolute;
+        z-index: 2;
+        /* position: absolute;
+        left: 50%; */
+    }
+    .container {
+        height: 80%;
+    }
+}
