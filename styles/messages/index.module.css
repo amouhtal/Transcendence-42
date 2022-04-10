@@ -39,3 +39,9 @@
     color: gray;
     opacity: 0.4;
 }
+
+@media only screen and (max-width: 1440px){
+    .globaleContainer {
+        width: 100%;
+    }
+}

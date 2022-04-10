@@ -286,7 +286,7 @@
         width: 30px;
         transform: rotate(90deg);
     }
-    
+
 }
 @media only screen and (max-width: 768px){
     .fileupload{
@@ -326,8 +326,51 @@
         transform: translate(30%, 30%);
         /* opacity: 0.5; */
     }
+    .fileupload{
+        left: 5%;
+        top: 20%;
+        width: 50px;
+        height: 50px;
+    }
+    .fileupload img{
+        border: 50%;
+        height:20px;
+        width:20px;
+        /* margin:15px; */
+        position: absolute;
+        top:-35%;
+        left: -30%;
+        transform: translate(30%, 30%);
+        /* opacity: 0.5; */
+    }
     .message::placeholder {
         font-size: 14px;
+    }
+    .messageContainer {
+        font-size: 15px;
+        letter-spacing: 0.5px;
+        padding: 0 20px;
+        right: 5%;
+    }
+    .messageStyle {
+        width: 10px;
+        height: 17px;
+        bottom: -5%;
+    }
+    .formMessage {
+        width: 90%;
+        height: 75%;
+    }
+    .message {
+        text-indent: 20%;
+    }
+
+    /* .messagesZone {
+        height: 100px;
+        align-items: flex-start;
+    } */
+    .chatMain {
+        height: 80%;
     }
 }
 
@@ -335,4 +378,5 @@
     .imgHeaderContainer {
         display: none;
     }
+
 }

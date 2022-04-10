@@ -9,19 +9,22 @@ import clip from '../../public/images/paperclip.png'
 import send from '../../public/images/send-message.png'
 import { useState } from 'react';
 import UserInfo from './UserInfo';
+import io from 'socket.io-client';
 import Friends from '../../dataFriend.json'
 import FriendsZone from '../../components/Messages/friendsZone';
 import back from '../../public/images/left.png'
+const socket = io("10.12.11.5:3000",{transports:['websocket']});
 const ChatZone = (props:any) => {
     const [messageValue, setMessage] = useState<string>("Hello how are you?");
     const [userInfo, setuserInfo] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
     const handelSubmit = (e:any) => {
         e.preventDefault();
-        if (e.target.message.value !== '')
-            setMessage(e.target.message.value);
+        e.target.message.value !== '' ? setMessage(e.target.message.value) : messageValue;
+        socket.emit("message",e.target.message.value,1,2);
         e.target.message.value = '';
     }
+    socket.on("message", (data) => { console.log("data = " ,data);})
     return (
         <>
         <FriendsZone data={Friends} status={props.status} show={showFriends} setShow={setShowFriends}/>

@@ -11,6 +11,7 @@ import UserInfo from '../../components/Messages/UserInfo';
 import ChatZone from '../../components/Messages/chatZone';
 const messages = () => {
     const [Status ,setStatus] = useState<boolean>(false);
+    const [showFriends, setShowFriends] = useState<boolean>(true);
     const router = useRouter();
     const [filterData] = Friends.filter((value: any) => {
         return (value.first_name === router.query.id);
@@ -20,12 +21,10 @@ const messages = () => {
         <div className={styles.globaleContainer}>
             <button className={styles.tmp} onClick={(e:any) => {e.preventDefault();setStatus(!Status)}}>Status</button>
             <div className={styles.container}>
-                <FriendsZone data={Friends} status={Status}/>
-                {/* <ChatZone data={filterData} status={Status}/> */}
+                <FriendsZone data={Friends} status={Status} show={showFriends} setShow={setShowFriends}/>
                 <div className={styles.indexWelcomeZone}>
                     <h1 className={styles.indexWelcomeSentence}>Welcome To ft_transcendance Chat</h1>
                 </div>
-                {/* <UserInfo data={filterData} status={Status}/> */}
             </div>
         </div>
     );

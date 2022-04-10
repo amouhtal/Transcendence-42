@@ -2,7 +2,7 @@ import styles from '../../styles/messages/friends.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
 import image from '../../public/images/profile.jpg'
-
+import { Dispatch, SetStateAction, FunctionComponent } from 'react';
 
 const FriendsCart = (props:any) => {
     return (

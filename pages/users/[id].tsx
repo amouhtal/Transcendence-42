@@ -5,7 +5,6 @@ import SliderAchevment from "../../components/profile/sliderAchevment"
 import userData from '../../data.json'
 import { useRouter } from 'next/router'
 
-
 function Profile (){
     const router = useRouter();
     const [filtredData] = userData.filter((value: any) => {
