@@ -5,13 +5,17 @@ import { NextRouter, useRouter } from 'next/router';
 import React, { useEffect } from "react";
 import Server from 'next/dist/server/base-server';
 
+
+
 const Login = () => {
     const router = useRouter();
-    console.log(process.env.NEXT_PUBLIC_APP_UID)
+    const url:string = "http://10.12.11.3:3000/auth/42"
+    // fetchData(url);
     return (
         <div className={styles.login}>
                 <div className={styles.intra}>
-                    <p onClick={() => {router.push(`/auth/42/callback`)}}>Sign in with 42Intra</p>
+                    <p><a href='http://10.12.11.3:3000/auth/42'>Sign in with 42Intra</a></p>
+                    {console.log(router.pathname)}
                 </div>
         </div>
     );

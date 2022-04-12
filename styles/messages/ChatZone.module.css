@@ -1,29 +1,18 @@
 .chatZone {
-    /* background-color: blue; */
     height: 100%;
     width: 57%;
     position: relative;
     transition: 0.6s all;
-    z-index: 0;
-    /* position: absolute; */
 }
 .fullChatZone {
-    /* background-color: blue; */
-    z-index: 2;
     height: 100%;
     width: 77%;
     transition: 0.5s all;
-    z-index: 0;
-    /* display: none; */
-    /* position: absolute; */
 }
 
 .showFriendsZone {
     display: none;
 }
-/* .dontShowFriendsZone {
-    display: none;
-} */
 /*zone of the who im talking with*/
 .chatHeader {
     background-color: white;
@@ -277,14 +266,15 @@
         transform: translateY(-50%);
         left: 5%;
         cursor: pointer;
-        z-index: 3;
     }
     .settings {
         top:-10px;
     }
     .settingsIcon {
         width: 30px;
+        position: absolute;
         transform: rotate(90deg);
+        top: 20px;
     }
 
 }
