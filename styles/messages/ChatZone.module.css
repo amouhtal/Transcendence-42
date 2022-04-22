@@ -1,3 +1,9 @@
+/* :root {
+    --black: black;
+    --pink: pink;
+    --blue: rgb(81 205 205);
+    --default: green;
+} */
 .chatZone {
     height: 100%;
     width: 57%;
@@ -104,7 +110,6 @@
 
 .messageContainer {
     /* text-overflow: ellipsis; */
-    background: #44d7b6;
     position: absolute;
     bottom: 40px;
     right: 60px;
@@ -119,7 +124,7 @@
 }
 
 .messageStyle {
-    background: #44d7b6;
+    /* background: #44d7b6; */
     /* background: red; */
     width: 20px;
     height: 27px;
@@ -128,6 +133,19 @@
     bottom:-15%;
     border-radius: 0 0 0 50px;
     transform: rotate(-35deg);
+}
+
+.messageContainerBlack {
+    background: black;
+}
+.messageContainerPink {
+    background: pink;
+}   
+.messageContainerBlue {
+    background: rgb(81 205 205);
+}
+.none {
+    background: #44d7b6;
 }
 
 /************************messagesZone********************/
@@ -354,7 +372,10 @@
     .message {
         text-indent: 20%;
     }
-
+    .btn {
+        width: 40px;
+        height: 30px;
+    }
     /* .messagesZone {
         height: 100px;
         align-items: flex-start;

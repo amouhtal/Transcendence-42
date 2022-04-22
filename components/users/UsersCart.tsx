@@ -13,7 +13,6 @@ const UsersCart = (props:any) => {
                     <div className={styles.userCard} key={Math.random()}>
                         <div className={props.status?styles.userStatusOn : styles.userStatusOff}>
                             <Image src={image.src} width={90} height={90} className={styles.profileImage}/>
-                            {/* <img src={image.src} alt="img" className={styles.profileImage} /> */}
                         </div>
                         <div className={styles.userName}>
                             <p>{e.first_name}</p>

@@ -6,7 +6,8 @@
     height: 100%;
     width: 87.9%;
     position: absolute;
-    right: 0;;
+    right: 0;
+    overflow: hidden;
 }
 
 .container {
@@ -14,7 +15,9 @@
     /* overflow: hidden; */
     /* justify-content: center;
     align-items: center; */
+    overflow: hidden;
     background-color: #c7d1d262;
+    position: relative;
     width: 80%;
     height: 70%;
     margin-bottom: 165px;
@@ -35,8 +38,8 @@
 
 .SearchBar {
     position: absolute;
-    top : 12%;
-    left: 11%;
+    top : -80px;
+    left: 10px;
 }
 
 .SearchInput {
@@ -48,6 +51,7 @@
     outline: none;
     border: none;
     background: white;
+    position: fixed;
     box-shadow:rgba(3, 124, 118, 0.561) 0px 50px 50px 50px inset
     , rgba(3, 124, 118, 0.15) 0px -36px 30px 50px inset,
     rgba(3, 124, 118, 0.1) 100px -79px 40px 20px inset,
@@ -67,11 +71,9 @@
 /* .SearchInput:: */
 
 .searchButton {
-    position: absolute;
+    position: fixed;
     width: 50px;
     height: 50px;
-    right: 450px;
-    top: 0;
     opacity: 0.5;
 }
 
@@ -244,10 +246,6 @@
     .globalContainer {
         width: 100%;
     }
-    .container {
-        /* margin: 0; */
-        /* background: red; */
-    }
     .SearchBar {
         left: 50%;
         transform: translateX(-50%);
@@ -341,5 +339,36 @@
 
 }
 
-@media only screen and (max-height: 767px){
+@media only screen and (max-height: 1024px){
+    .SearchBar {
+        top:0;
+        left: 10%;
+        margin: auto;
+        width: 150px;
+        z-index: 2;
+    }
+    .SearchInput {
+        width: 230px;
+    }
+    .searchButton {
+        left: 0;
+    }
+    .globalContainer {
+        /* width: 1200px; */
+        height: 100%;
+    }
+    .container {
+        /* margin: 0; */
+        /* background: red; */
+        /* background: hotpink; */
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin:0;
+        bottom:50%;
+        transform: translateY(50%);
+        overflow: hidden;
+        /* bottom: 0; */
+    }
 }

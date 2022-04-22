@@ -18,16 +18,14 @@ const Users = (props:UsersType) => {
     const [userStatus, setStatus] = useState<boolean>(false);
     // let userStatus: boolean = true;
     const router = useRouter()
-    const handleChange = (e: any) => {
+    const handleChange = (e: any) : void => {
         const searchWord: string = e.target.value;
         const newFilter = props.usersData.filter((value: any) => {
             return (value.first_name.includes(searchWord));
         });
         setFilterData(newFilter);
     }
-    const handleClick = (e: any) => {
-        e.preventDefault();
-    }
+    const handleClick = (e: any) : void => { e.preventDefault(); }
     const ChangeStatus = (e: any) => {
         userStatus ? setStatus(false) : setStatus(true);
     }
@@ -38,7 +36,7 @@ const Users = (props:UsersType) => {
                 {/* <button className={userStatus? styles.buttonStatusOFF : styles.buttonStatusOn} onClick={(e:any) => ChangeStatus(e, )}>{userStatus? "Offline" : "Online"}</button> */}
                 <form action="">
                     <input type="search" placeholder={props.placeholder} className={styles.SearchInput}  onChange={(e: any) => handleChange(e, )}/>
-                    <input type="image" name="submit" src={iconSearch.src} onClick={(e: any) => handleClick(e, )} className={styles.searchButton}/>
+                    <input type="image" name="submit" src={iconSearch.src} onClick={handleClick} className={styles.searchButton}/>
                 </form>
             </div>
             <div className={styles.child}>

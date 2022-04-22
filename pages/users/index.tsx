@@ -6,7 +6,7 @@ const users = () => {
     return (
         <div>
             <Users placeholder="Search..." usersData={usersData}/>
-                                                                                                                                                     </div>
+        </div>
     );
 }
 

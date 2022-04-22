@@ -7,30 +7,35 @@ import {MdUploadFile} from "react-icons/md";
 import img from '../../public/images/send.png'
 import clip from '../../public/images/paperclip.png'
 import send from '../../public/images/send-message.png'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserInfo from './UserInfo';
 import io from 'socket.io-client';
 import Friends from '../../dataFriend.json'
 import FriendsZone from '../../components/Messages/friendsZone';
 import back from '../../public/images/left.png'
-const socket = io("10.12.11.5:3000",{transports:['websocket']});
+// const socket = io("10.12.11.5:3000",{transports:['websocket']});
 const ChatZone = (props:any) => {
+    const checkout:string = process.browser ? localStorage.getItem('color') as string : 'default';
     const [messageValue, setMessage] = useState<string>("Hello how are you?");
     const [userInfo, setuserInfo] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
+    const [color, setColor] = useState<string>(checkout);
     const handelSubmit = (e:any) => {
         e.preventDefault();
         e.target.message.value !== '' ? setMessage(e.target.message.value) : messageValue;
-        socket.emit("message",e.target.message.value,1,2);
+        // socket.emit("message",e.target.message.value,1,2);
         e.target.message.value = '';
     }
-    socket.on("message", (data) => { console.log("data = " ,data);})
+    if (process.browser)
+        localStorage.setItem("color", color as string);
+    console.log(color);
+    // socket.on("message", (data) => { console.log("data = " ,data);})
     return (
         <>
         <FriendsZone data={Friends} status={props.status} show={showFriends} setShow={setShowFriends}/>
         <div className={userInfo? styles.chatZone : styles.fullChatZone}>
             <div className={styles.chatHeader}>
-            <img src={back.src}className={styles.showFriendsZone} onClick={(e:any) => {e.preventDefault(); setShowFriends(!showFriends)}}/>
+            <img src={back.src} className={styles.showFriendsZone} onClick={(e:any) => {e.preventDefault(); setShowFriends(!showFriends)}}/>
                 <div className={styles.imgHeaderContainer}>
                     <Image src={image.src} width={80} height={80} className={styles.img}/>
                     <div className={props.status? styles.HeaderStatusOnline : styles.HeaderStatusOffline}></div>
@@ -40,9 +45,11 @@ const ChatZone = (props:any) => {
                 <p className={styles.settings} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
             </div>
             <div className={styles.chatMain}>
-                <div className={styles.messageContainer}>
-                    <p className={styles.messageChatMain}>{messageValue}</p>
-                        <div className={styles.messageStyle}></div>
+                {console.log(`MyColor=${color}`)}
+                <div className={`${styles.messageContainer} ${color === 'black' ? styles.messageContainerBlack : 
+                color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}>
+                    <p className={`${styles.messageChatMain}`}>{messageValue}</p>
+                        <div className={`${styles.messageStyle} ${color === 'black' ? styles.messageContainerBlack : color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}></div>
                 </div>
             </div>
             <div className={styles.messagesZone}>
@@ -56,8 +63,7 @@ const ChatZone = (props:any) => {
                 </form>
              </div>
          </div>
-         <UserInfo data={props.data} status={props.status} display={userInfo}/>
-         {console.log(showFriends)}
+         <UserInfo data={props.data} status={props.status} display={userInfo} color={setColor} setDisplay={setuserInfo}/>
         </>
     );
 }

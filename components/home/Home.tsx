@@ -9,9 +9,9 @@ const Home = () => {
     const popupTxt = "A small ball moves across the screen, bouncing off the top and bottom ledges, and the two players each control a pad, sliding it vertically between the ends of the screen using the controls. If the ball hits the pad, it bounces back to the other player. If it misses the pad, the other player scores a point. The ball bounces in different ways depending on how it hits the pad.";
     return (
         <>
-        <div className={styles.title}>
+        {/* <div className={styles.title}>
             <h1>Welcome</h1>
-        </div>
+        </div> */}
         <div className={styles.FullContainer}>
             <div className={styles.game}>
                 <div className={styles.player1}></div>

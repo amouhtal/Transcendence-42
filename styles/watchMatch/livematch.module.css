@@ -1,0 +1,15 @@
+.container{
+    background-color: black;
+    width: calc(100% - 260px);
+    height: 100%;
+    position: absolute;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contentScrole{
+    background-color: gray;
+    height: 90%;
+    width: 90%;
+}
