@@ -4,7 +4,7 @@ import users from '../../pages/users';
 import image from '../../public/images/profile.jpg'
 import iconSearch from '../../public/images/search.png'
 import Link from 'next/link'
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import UsersCart from './UsersCart'
@@ -14,33 +14,40 @@ interface UsersType {
 }
 
 const Users = (props:UsersType) => {
+    console.log("props.data =", props.usersData);
     const [filterData, setFilterData] = useState<any>(props.usersData);
+    console.log(filterData);
     const [userStatus, setStatus] = useState<boolean>(false);
     // let userStatus: boolean = true;
-    const router = useRouter()
+    const router = useRouter();
     const handleChange = (e: any) : void => {
         const searchWord: string = e.target.value;
         const newFilter = props.usersData.filter((value: any) => {
-            return (value.first_name.includes(searchWord));
+            return (value.userName.includes(searchWord));
         });
         setFilterData(newFilter);
+        console.log("filterData = ",newFilter);
     }
     const handleClick = (e: any) : void => { e.preventDefault(); }
     const ChangeStatus = (e: any) => {
         userStatus ? setStatus(false) : setStatus(true);
     }
+    console.log("props.data =", props.usersData);
+    useEffect(() => {
+        setFilterData(props.usersData);
+    }, [])
     return (
         <div className={styles.globalContainer}>
         <div className={styles.container}>
             <div className={styles.SearchBar}>
                 {/* <button className={userStatus? styles.buttonStatusOFF : styles.buttonStatusOn} onClick={(e:any) => ChangeStatus(e, )}>{userStatus? "Offline" : "Online"}</button> */}
-                <form action="">
+                <form action="" className={styles.Form}>
                     <input type="search" placeholder={props.placeholder} className={styles.SearchInput}  onChange={(e: any) => handleChange(e, )}/>
-                    <input type="image" name="submit" src={iconSearch.src} onClick={handleClick} className={styles.searchButton}/>
+                    {/* <input type="image" name="submit" src={iconSearch.src} onClick={handleClick} className={styles.searchButton}/> */}
                 </form>
             </div>
             <div className={styles.child}>
-                <UsersCart data={filterData} status={userStatus}/>
+                <UsersCart data={props.usersData} status={userStatus}/>
             </div>
         </div>
         </div>

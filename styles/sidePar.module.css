@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Clicker+Script&family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
 .sideParOn{
     transform: translateX(0);
     transition: 0.6s all;
@@ -13,8 +13,6 @@
     align-items: center;
     min-width: 70px;
     z-index: 1;
-    /* position: absolute;
-    left: -260px; */
 }
 
 .sideParOff{
@@ -43,16 +41,16 @@
 }
 
 .imgProfile{
-    border-radius: 50%;
     width: 140px;
     height: 140px;
     margin-bottom: 1%;
+    margin-left: 20px;
     object-fit:cover;
 }
 
 .iconimg{
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
     margin-right: 3%;
     cursor: pointer;
 }
@@ -131,6 +129,27 @@
     .container1{
         margin-top: 10px;
     }
+}
+
+.sideParOff::-webkit-scrollbar {
+    width: 12px;
+    height: 5%;
+}
+  /* Track  */
+.sideParOff::-webkit-scrollbar-track {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 50px;
+}  
+  /* Handle */
+.sideParOff::-webkit-scrollbar-thumb {
+    background-color: #025159;
+    border-radius: 50px;
+}
+  
+  /* Handle on hover */
+.sideParOff::-webkit-scrollbar-thumb:hover {
+    background-color: #025159;
 }
 .Logout{
     position: absolute;

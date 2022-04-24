@@ -81,7 +81,7 @@ function getUserInfoPopup() {
   const handleClick = (e: any) => {
     e.preventDefault();
     // axios.post("10.12.11.3:3000/", )
-    console.log(e.target.userName.value);
+    // console.log(e.target.userName.value);
     axios({
       method: 'post',
       url: 'http://10.12.11.3:3000/users/complet',

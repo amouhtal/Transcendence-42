@@ -18,7 +18,7 @@ const UserInfo = (props: any) => {
 	// })
 	// dasdasdfds
 	// let i = 0;
-	console.log(`props.diplay: ${props.display}`);
+	// console.log(`props.diplay: ${props.display}`);
     return (
 		<>
         	<form action="" className={search ? (props.display ? styles.showSearch : styles.DontShowSearch ): styles.DontShowSearch} onSubmit={(e:any) => {e.preventDefault()}}>

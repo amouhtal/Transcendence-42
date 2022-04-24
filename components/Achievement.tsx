@@ -1,6 +1,6 @@
 import style from "../styles/achievement.module.css";
 import datas from "../achievement.json";
-import icon from '../public/images/icon-game.png'
+import icon from '../public/images/search.png'
 
 function ViewAchievement() {
   return (

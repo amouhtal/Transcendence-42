@@ -15,7 +15,7 @@ const Login = () => {
         <div className={styles.login}>
                 <div className={styles.intra}>
                     <p><a href='http://10.12.11.3:3000/auth/42'>Sign in with 42Intra</a></p>
-                    {console.log(router.pathname)}
+                    {/* {console.log(router.pathname)} */}
                 </div>
         </div>
     );

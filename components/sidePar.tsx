@@ -1,13 +1,14 @@
 import  Style  from "../styles/sidePar.module.css"
-import  Profile from './../public/images/profile.jpg';
-// import  iconprofil from './../public/images/iconprofil.png';
-// import  iconHome from './../public/images/home.png';
-// import  iconGame from './../public/images/icon-game.png';
-// import  iconLogout from './../public/images/log-out.png';
-// import  message from './../public/images/message-icon.png';
-// import  Notification from './../public/images/notification-icon.png';
-// import  setting from './../public/images/setting-icon.png';
-import  search from './../public/images/search.png';
+// import  Profile from './../public/images/profile.jpg';
+import  Profile from './../public/images/tennis1.png';
+import  iconprofil from './../public/images/imgeSidBar/profile.png';
+import  iconHome from './../public/images/imgeSidBar/home.png';
+import  iconGame from './../public/images/imgeSidBar/game-controller.png'
+import  iconLogout from './../public/images/imgeSidBar/out.png';
+import  message from './../public/images/imgeSidBar/email.png';
+import  Notification from './../public/images/imgeSidBar/bell.png';
+import  setting from './../public/images/imgeSidBar/profileSetting.png';
+import  friends from './../public/images/imgeSidBar/group.png';
 import Link from 'next/link';
 import { useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
@@ -23,36 +24,36 @@ function SidePar(){
                 </div>
                 <div className={Style.container2}>
                     <div className={Style.child}>
-                    <Link href='/users'><img src={search.src} className={Style.iconimg}/></Link>
+                    <Link href='/users'><img src={friends.src} className={Style.iconimg}/></Link>
                         <p className={Style.Picon}>Friends</p>
                     </div>
                     <div className={Style.child}>
-                    <Link href='/home'><img src={search.src} className={Style.iconimg}></img></Link>
+                        <img src={iconHome.src} className={Style.iconimg}></img>
                         <p className={Style.Picon}>Home</p>
                     </div>
                     <div className={Style.child}>
-                    <Link href='/profile'><img src={search.src} className={Style.iconimg}></img></Link>
+                    <Link href='/profile'><img src={iconprofil.src} className={Style.iconimg}></img></Link>
                         <p className={Style.Picon}>Profile</p>
                     </div>
                     <div className={Style.child}>
-                    <Link href='/messages'><img src={search.src} className={Style.iconimg}></img></Link>
+                        <img src={message.src} className={Style.iconimg}></img>
                         <p className={Style.Picon}>Messages</p>
                     </div>
                     <div className={Style.child}>
-                        <img src={search.src} className={Style.iconimg}></img>
+                        <img src={Notification.src} className={Style.iconimg}></img>
                         <p className={Style.Picon}>Notification</p>
                     </div>
                     <div className={Style.child}>
-                        <img src={search.src} className={Style.iconimg}></img>
+                        <img src={iconGame.src} className={Style.iconimg}></img>
                         <p className={Style.Picon}>Game</p>
                     </div>
                     <div className={Style.child}>
-                        <img src={search.src} className={Style.iconimg}></img>
+                        <img src={setting.src} className={Style.iconimg}></img>
                         <p className={Style.Picon}>Setting</p>
                     </div>
                 </div>
                     <div className={Style.Logout}>
-                        <img src={search.src} className={Style.iconimg}></img>
+                        <img src={iconLogout.src} className={Style.iconimg}></img>
                         <p className={Style.Picon}>Logout</p>
                     </div>
             </div>

@@ -1,0 +1,78 @@
+.userCard {
+    width: 100%;
+    height: 110px;
+    background-color: transparent;
+    position: relative;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.4);
+    margin-top: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.userCard:hover {
+    width: 100%;
+    height: 110px;
+    background-color: rgba(0, 0, 0, 0.03);
+    position: relative;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.4);
+    margin-top: 30px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.imgContainer {
+    width: 90px;
+    height: 90px;
+    /* border-radius: 50%; */
+    /* background: black; */
+    position: relative;
+}
+
+.profileImage {
+    border-radius: 50%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.userStatusOn {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 10px solid rgba(0, 0, 0, 1);
+    background-color: green;
+    position: absolute;
+    top:0;
+    left: 0;
+    z-index: 1;
+}
+.userStatusOff {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 10px solid rgba(0, 0, 0, 1);
+    background-color: gray;
+    position: absolute;
+    top:0;
+    left: 0;
+    z-index: 1;
+    display: none;
+}
+
+.userName {
+    width: 200px;
+    height: 25px;
+    /* background-color: green; */
+    display: flex;
+    align-items: center;
+    /* justify-content: center; */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 120px;
+}
+
+.userName>p {
+    font-size: 24px;
+    font-weight: 700;
+    
+}
