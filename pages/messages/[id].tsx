@@ -9,11 +9,12 @@ import image from '../../public/images/profile.jpg'
 import UserInfo from '../../components/Messages/UserInfo';
 // const socket = io("10.12.11.5:3000",{transports:['websocket']});
 import ChatZone from '../../components/Messages/chatZone';
+import FakeData from '../../data.json'
 const Messages = () => {
     const [Status ,setStatus] = useState<boolean>(false);
     const router = useRouter();
-    const [filterData] = Friends.filter((value: any) => {
-        return (value.first_name === router.query.id);
+    const [filterData] = FakeData.filter((value: any) => {
+        return (value.userName === router.query.id);
     });
     const handleClick = (e:any) => {
             e.preventDefault();

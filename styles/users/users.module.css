@@ -4,7 +4,7 @@
     justify-content: center;
     /* background: #717171; */
     height: 100%;
-    width: calc(100% - 260px);
+    width: calc(100% - 100px);
     position: absolute;
     right: 0;
     overflow: hidden;
@@ -70,13 +70,14 @@
 
 .child {
     width: 80%;
-    height: 85%;
+    height:89%;
     background: transparent;
     position: absolute;
-    bottom: 0;
+    top: 150px;
     display: flex;
     flex-direction: column;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 .child::-webkit-scrollbar
 {
@@ -104,4 +105,11 @@
     background: green;
     border-radius: 50px;
     left:1500px;
+}
+
+@media screen and (max-width: 1446px)
+{
+    .globalContainer {
+        width: 100%;
+    }
 }

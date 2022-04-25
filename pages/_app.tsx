@@ -20,8 +20,8 @@ function MyApp({ Component, pageProps }: AppProps) {
     {
       isConnect ? 
         <div className={Style.App}>
-            <SidePar /> 
             <Component {...pageProps}/>
+            <SidePar /> 
         </div>
         :
         <>

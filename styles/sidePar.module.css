@@ -2,17 +2,20 @@
 .sideParOn{
     transform: translateX(0);
     transition: 0.6s all;
-    position: absolute;
+    position: relative;
     display: flex;
     flex-direction:column;
-    width: 260px;
-    height: 100vh;
-    background-color: #025159;
-    border-top-right-radius: 40px;
-    border-bottom-right-radius: 40px;
+    width: 100px;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.2);
+    /* border-top-right-radius: 40px; */
+    /* border-bottom-right-radius: 40px; */
     align-items: center;
     min-width: 70px;
     z-index: 1;
+    backdrop-filter: blur(2px);
+    box-shadow: 2px 0px  10px 1px rgba(0, 0, 0, 0.4);
+
 }
 
 .sideParOff{
@@ -21,13 +24,15 @@
     position: relative;
     display: flex;
     flex-direction:column;
-    width: 260px;
-    height: 100vh;
-    background-color: #025159;
-    border-top-right-radius: 40px;
-    border-bottom-right-radius: 40px;
+    width: 100px;
+    height: 100%;
+    background-color: rgba(128, 128, 128, 0.2);
+    /* border-top-right-radius: 40px;
+    border-bottom-right-radius: 40px; */
     align-items: center;
     min-width: 70px;
+    backdrop-filter: blur(2px);
+    box-shadow: 2px 0px  10px 1px rgba(0, 0, 0, 0.4);
 
 }
 
@@ -82,7 +87,7 @@
     flex-flow: column;
     width: 100%;
     position: absolute;
-    top: 300px;
+    top: 100px;
     align-items: center;
 } 
 
@@ -93,6 +98,7 @@
     align-items: center;
     height: 46px;
     margin-bottom: 10%;
+    margin-bottom: 40px;
 }
 
 @media screen  and (max-width: 1752px){
@@ -104,7 +110,7 @@
         height: 100px;
     }
 }
-@media screen and (max-height: 1162px)
+/* @media screen and (max-height: 1162px)
 {
     .sideParOn{
         overflow-y: scroll;
@@ -118,9 +124,15 @@
     .Logout{
         top: 200px;
     }
-}
-@media screen and (max-height: 818px){
-    .container2{
+} */
+@media screen and (max-height: 780px){
+    /* .sideParOff {
+        height: 780px;
+    } */
+    .child {
+        margin-bottom: 10px;
+    }
+    /* .container2{
         top: 200px;
     }
     .Logout{
@@ -128,7 +140,22 @@
     }
     .container1{
         margin-top: 10px;
+    } */
+}
+@media screen and (max-height: 570px){
+    .sideParOff {
+        height: 570px;
+        overflow-y: scroll;
     }
+    /* .container2{
+        top: 200px;
+    }
+    .Logout{
+        margin-top: -370px;
+    }
+    .container1{
+        margin-top: 10px;
+    } */
 }
 
 .sideParOff::-webkit-scrollbar {
@@ -156,7 +183,7 @@
     display: flex;
     justify-content:center;
     align-items: center;
-    top: 1200px;
+    bottom: 20px;
     height: 46px;
 }
 
@@ -196,7 +223,7 @@
         justify-content: center;
         align-items: center;
         background: none;
-        background: rgba(255, 255, 255, 0.139);
+        /* background: rgba(255, 255, 255, 0.139); */
         border-radius: 20px;
         z-index: 2;
         cursor: pointer;

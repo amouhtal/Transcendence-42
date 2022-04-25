@@ -32,10 +32,6 @@ const Users = (props:UsersType) => {
     const ChangeStatus = (e: any) => {
         userStatus ? setStatus(false) : setStatus(true);
     }
-    console.log("props.data =", props.usersData);
-    useEffect(() => {
-        setFilterData(props.usersData);
-    }, [])
     return (
         <div className={styles.globalContainer}>
         <div className={styles.container}>
@@ -47,7 +43,7 @@ const Users = (props:UsersType) => {
                 </form>
             </div>
             <div className={styles.child}>
-                <UsersCart data={props.usersData} status={userStatus}/>
+                <UsersCart data={filterData} status={false}/>
             </div>
         </div>
         </div>

@@ -18,43 +18,43 @@ function SidePar(){
     return (
         <>
             <div className={isNavBar?Style.sideParOn: Style.sideParOff}>
-                <div className={Style.container1}>
+                {/* <div className={Style.container1}>
                     <img src={Profile.src} className={Style.imgProfile}></img>
                     <p className={Style.P}>FT_transcendence</p>
-                </div>
+                </div> */}
                 <div className={Style.container2}>
                     <div className={Style.child}>
-                    <Link href='/users'><img src={friends.src} className={Style.iconimg}/></Link>
-                        <p className={Style.Picon}>Friends</p>
+                    <Link href='/users'><img src={friends.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}/></Link>
+                        {/* <p className={Style.Picon}>Friends</p> */}
                     </div>
                     <div className={Style.child}>
-                        <img src={iconHome.src} className={Style.iconimg}></img>
-                        <p className={Style.Picon}>Home</p>
+                    <Link href='/home'><img src={iconHome.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img></Link>
+                        {/* <p className={Style.Picon}>Home</p> */}
                     </div>
                     <div className={Style.child}>
-                    <Link href='/profile'><img src={iconprofil.src} className={Style.iconimg}></img></Link>
-                        <p className={Style.Picon}>Profile</p>
+                    <Link href='/profile'><img src={iconprofil.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img></Link>
+                        {/* <p className={Style.Picon}>Profile</p> */}
                     </div>
                     <div className={Style.child}>
-                        <img src={message.src} className={Style.iconimg}></img>
-                        <p className={Style.Picon}>Messages</p>
+                        <Link href='/messages'><img src={message.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img></Link>
+                        {/* <p className={Style.Picon}>Messages</p> */}
                     </div>
                     <div className={Style.child}>
-                        <img src={Notification.src} className={Style.iconimg}></img>
-                        <p className={Style.Picon}>Notification</p>
+                        <img src={Notification.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img>
+                        {/* <p className={Style.Picon}>Notification</p> */}
                     </div>
                     <div className={Style.child}>
-                        <img src={iconGame.src} className={Style.iconimg}></img>
-                        <p className={Style.Picon}>Game</p>
+                        <img src={iconGame.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img>
+                        {/* <p className={Style.Picon}>Game</p> */}
                     </div>
                     <div className={Style.child}>
-                        <img src={setting.src} className={Style.iconimg}></img>
-                        <p className={Style.Picon}>Setting</p>
+                        <img src={setting.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img>
+                        {/* <p className={Style.Picon}>Setting</p> */}
                     </div>
                 </div>
                     <div className={Style.Logout}>
-                        <img src={iconLogout.src} className={Style.iconimg}></img>
-                        <p className={Style.Picon}>Logout</p>
+                        <img src={iconLogout.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img>
+                        {/* <p className={Style.Picon}>Logout</p> */}
                     </div>
             </div>
             <button className={isNavBar? Style.btnOn: Style.btnOff} onClick={() => {setNavBar(!isNavBar)}}><AiOutlineBars className={Style.icon}/></button>
