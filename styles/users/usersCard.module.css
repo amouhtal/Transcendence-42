@@ -95,7 +95,9 @@
     right: 80px;
 }
 
-
+.none {
+    display: none;
+}
 
 @media screen and (max-width: 550px)
 {

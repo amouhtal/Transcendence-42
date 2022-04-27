@@ -8,6 +8,7 @@ import addUser from '../../public/images/usersImages/add-user.png'
 import chatting from '../../public/images/usersImages/chatting.png'
 import { useRouter } from 'next/router'
 import profileIcon from '../../public/images/profile.jpg'
+import blockUser from '../../public/images/usersImages/block-user.png'
 
 const UsersCart = (props:any) => {
     const [friends, setFriends] = useState<any>([])
@@ -36,10 +37,11 @@ const UsersCart = (props:any) => {
                             <p>{e.userName}</p>
                         </div>
                         <div className={styles.icons}>
-                            <img src={addUser.src} alt="add" className={styles.addUserIcon} />
+                            <img src={addUser.src} alt="add" className={props.friends ? styles.none : styles.addUserIcon} />
                             <Link href={`/messages/${e.userName}`}>
                                 <img src={chatting.src} alt="chat" className={styles.chattingIcon}/>
                             </Link>
+                            <img src={blockUser.src} alt="add" className={props.blocked ? styles.addUserIcon : styles.none} />
                         </div>
                     </div>
                 </Link>

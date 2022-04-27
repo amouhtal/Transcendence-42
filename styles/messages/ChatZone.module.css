@@ -383,6 +383,14 @@
     .chatMain {
         height: 80%;
     }
+    .showFriendsZone {
+        display: inline;
+        position: absolute;
+        top:50%;
+        transform: translateY(-50%);
+        left: 15%;
+        cursor: pointer;
+    }
 }
 
 @media only screen and (max-height: 1255px){

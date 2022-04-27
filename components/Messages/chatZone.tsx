@@ -45,7 +45,6 @@ const ChatZone = (props:any) => {
                 <p className={styles.settings} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
             </div>
             <div className={styles.chatMain}>
-                {/* {console.log(`MyColor=${color}`)} */}
                 <div className={`${styles.messageContainer} ${color === 'black' ? styles.messageContainerBlack : 
                 color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}>
                     <p className={`${styles.messageChatMain}`}>{messageValue}</p>

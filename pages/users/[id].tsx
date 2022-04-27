@@ -37,7 +37,7 @@ function Profile (){
                 <SliderAchevment/>
             </div>
            <div className={Style.matchH}>
-               <MatchHestory userdata={userInfo.userInfo} gameHistory={userInfo.gameHistory}/>
+               <MatchHestory userdata={userInfo.userInfo} gameHistory={userInfo.gameHistory} friends={false}/>
            </div>
         </div>
     )

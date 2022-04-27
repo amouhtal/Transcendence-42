@@ -15,16 +15,20 @@ import { AiOutlineBars } from "react-icons/ai";
 
 function SidePar(){
     const [isNavBar, setNavBar] = useState<boolean>(true);
+    const [UsersInterface, setUsersInterface] = useState<boolean>(false);
     return (
         <>
-            <div className={isNavBar?Style.sideParOn: Style.sideParOff}>
-                {/* <div className={Style.container1}>
-                    <img src={Profile.src} className={Style.imgProfile}></img>
-                    <p className={Style.P}>FT_transcendence</p>
-                </div> */}
+            <div className={isNavBar? Style.sideParOn: Style.sideParOff}>
                 <div className={Style.container2}>
-                    <div className={Style.child}>
-                    <Link href='/users'><img src={friends.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}/></Link>
+                    <div className={Style.child} onClick={(e:any) => {setUsersInterface(!UsersInterface)}}>
+                        <img src={friends.src} className={Style.iconimg}/>
+                        <div className={UsersInterface ? Style.userInterface : Style.none}>
+                            <ul className={Style.usersInterfaceUl} >
+                                <Link href={`/users`}><li onClick={(e:any) => {setNavBar(!isNavBar)}}>Users</li></Link>
+                                <Link href={`/users/friends`}><li onClick={(e:any) => {setNavBar(!isNavBar)}}>Friends</li></Link>
+                                <Link href={`/users/blocked`}><li onClick={(e:any) => {setNavBar(!isNavBar)}}>Blocked</li></Link>
+                            </ul>
+                        </div>
                         {/* <p className={Style.Picon}>Friends</p> */}
                     </div>
                     <div className={Style.child}>
