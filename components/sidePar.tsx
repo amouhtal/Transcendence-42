@@ -22,7 +22,7 @@ function SidePar(){
                 <div className={Style.container2}>
                     <div className={Style.child} onClick={(e:any) => {setUsersInterface(!UsersInterface)}}>
                         <img src={friends.src} className={Style.iconimg}/>
-                        <div className={UsersInterface ? Style.userInterface : Style.none}>
+                        <div className={Style.userInterface}>
                             <ul className={Style.usersInterfaceUl} >
                                 <Link href={`/users`}><li onClick={(e:any) => {setNavBar(!isNavBar)}}>Users</li></Link>
                                 <Link href={`/users/friends`}><li onClick={(e:any) => {setNavBar(!isNavBar)}}>Friends</li></Link>

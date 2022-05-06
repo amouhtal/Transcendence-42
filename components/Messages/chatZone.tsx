@@ -37,7 +37,7 @@ const ChatZone = (props:any) => {
             <div className={styles.chatHeader}>
             <img src={back.src} className={styles.showFriendsZone} onClick={(e:any) => {e.preventDefault(); setShowFriends(!showFriends)}}/>
                 <div className={styles.imgHeaderContainer}>
-                    <Image src={image.src} width={80} height={80} className={styles.img}/>
+                    <img src={image.src} className={styles.img}/>
                     <div className={props.status? styles.HeaderStatusOnline : styles.HeaderStatusOffline}></div>
                 </div>
                 <p className={styles.fullName}>{props.data?.first_name} {props.data?.last_name}</p>

@@ -80,7 +80,7 @@
 .status {
     position: absolute;
     left: 28%;
-    top:30%;
+    top:20%;
     color: #a9a9a9;
 }
 
@@ -105,7 +105,22 @@
   background-color: #025159;
 }
 
-@media only screen and (max-width: 1440px) and (min-width: 1001px) {
+@media only screen and (max-width: 2000px){
+    .userName {
+        font-size: 15px;
+        left: 90px;
+        top: 12%;
+        width: 160px;
+        /* background-color: red; */
+    }
+    .status {
+        left: 90px;
+        top: 20%;
+        font-size: 12px;
+    }
+}
+
+@media only screen and (max-width: 1440px) {
     .userCard {
         height: 150px;
         width: 60%;
@@ -119,7 +134,8 @@
         font-size: 15px;
         left: 130px;
         top: 15%;
-        width: 150px;
+        width: 200px;
+        /* background-color: red; */
     }
     .status {
         left: 130px;
@@ -128,7 +144,6 @@
     }
 }
 @media only screen and (max-width: 1000px){
-
     .userCard {
         height: 150px;
         width: 60%;
@@ -147,5 +162,12 @@
     .status {
         left: 40%;
         top: 35%;
+    }
+}
+
+@media only screen and (max-width: 345px){
+    .userCard {
+        height: 150px;
+        width: 200px;
     }
 }

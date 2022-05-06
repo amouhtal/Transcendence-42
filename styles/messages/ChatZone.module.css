@@ -31,6 +31,8 @@
 }
 
 .imgHeaderContainer {
+    width: 80px;
+    height: 80px;
     position: absolute;
     top:20%;
     left: 2%;
@@ -40,6 +42,8 @@
     border-radius: 50%;
     object-fit: cover;
     position: absolute;
+    width: 80px;
+    height: 80px;
 
 }
 
@@ -66,7 +70,7 @@
 .status {
     position: absolute;
     left: 135px;
-    top: 40%;
+    top: 30%;
     color: rgb(155, 152, 152);
     font-size: 15px;
 }
@@ -84,6 +88,8 @@
     font-family: 'Roboto Slab', serif;
     font-weight: 700;
     font-size: 22px;
+    color: #025159;
+
 }
 .settings {
     position: absolute;
@@ -195,6 +201,7 @@
     justify-content: center;
     right: 0px;
     position: absolute;
+    /* display: none; */
 }
 .btn:hover {
     cursor: pointer;
@@ -263,27 +270,40 @@
     }
     .fullName, .status {
         margin: -2px;
-        position: unset;
+        /* position: unset; */
     }
     .fullName {
         font-size: 20px;
+        top: 100px;
+        left: 50%;
+        transform: translateX(-50%);
+        /* position: relative; */
+        /* bottom: 60%; */
     }
     .status {
         font-size: 14px;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        top: 90%;
     }
     .imgHeaderContainer {
-        position: relative;
+        position: absolute;
         margin-top: 5px;
         top: 5%;
-        left:0;
+        left:50%;
+        transform: translateX(-50%);
+        /* background-color: red; */
     }
     .showFriendsZone {
         display: inline;
         position: absolute;
-        top:50%;
-        transform: translateY(-50%);
-        left: 5%;
+        left: 3%;
+        bottom: 20%;
         cursor: pointer;
+        /* background-color: red; */
+        width: 40px;
+        height: 40px;
     }
     .settings {
         top:-10px;
@@ -391,11 +411,37 @@
         left: 15%;
         cursor: pointer;
     }
+    /* .img {
+        width: 60px;
+        height: 60px;
+    } */
+    .imgHeaderContainer {
+        width: 60px;
+        height: 60px;
+    }
+    .fullName {
+        font-size: 16px;
+    }
+    .status {
+        font-size: 12px;
+    }
 }
 
 @media only screen and (max-height: 1255px){
     .imgHeaderContainer {
         display: none;
+    }
+    .fullName{
+        /* position: unset; */
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+    }
+    .status {
+        top: 55%;
+        left: 50%;
+        transform: translateX(-50%);
+
     }
 
 }
