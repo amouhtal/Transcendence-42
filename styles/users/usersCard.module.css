@@ -94,6 +94,18 @@
     position: absolute;
     right: 80px;
 }
+.acceptInvite {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 30px;
+}
+.rejectInvite {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 0px;
+}
 
 .none {
     display: none;

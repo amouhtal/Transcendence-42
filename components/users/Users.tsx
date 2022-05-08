@@ -13,10 +13,12 @@ interface UsersType {
     usersData:  any | any[];
 }
 
-const Users = (props:UsersType) => {
-    console.log("props.data =", props.usersData);
+const Users = (props:any) => {
+    // console.log("props.data =", props.usersData);
+    // console.log("props.userSinvite", props.usersSinvite);
+    // console.log("props.userSinvite", props.usersRinvite);
     const [filterData, setFilterData] = useState<any>(props.usersData);
-    console.log(filterData);
+    // console.log(filterData);
     const [userStatus, setStatus] = useState<boolean>(false);
     // let userStatus: boolean = true;
     const router = useRouter();
@@ -26,7 +28,7 @@ const Users = (props:UsersType) => {
             return (value.userName.includes(searchWord));
         });
         setFilterData(newFilter);
-        console.log("filterData = ",newFilter);
+        // console.log("filterData = ",newFilter);
     }
     const handleClick = (e: any) : void => { e.preventDefault(); }
     const ChangeStatus = (e: any) => {
@@ -43,7 +45,7 @@ const Users = (props:UsersType) => {
                 </form>
             </div>
             <div className={styles.child}>
-                <UsersCart data={filterData} status={false}/>
+                <UsersCart data={filterData} status={false} usersSinvite={props.usersSinvite} usersRinvite={props.usersRinvite} friends={props.friends}/>
             </div>
         </div>
         </div>
