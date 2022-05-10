@@ -15,7 +15,8 @@ interface UsersType {
 
 const Blocked = (props:UsersType) => {
     console.log("props.data =", props.usersData);
-    const [filterData, setFilterData] = useState<any>(props.usersData);
+    console.log("inBlock =", props.inBlock)
+    const [filterData, setFilterData] = useState<any>(props.usersData);useEffect(() => {setFilterData(props.usersData);},props.userData);
     // console.log(filterData);
     const [userStatus, setStatus] = useState<boolean>(false);
     // let userStatus: boolean = true;
@@ -43,7 +44,14 @@ const Blocked = (props:UsersType) => {
                 </form>
             </div>
             <div className={styles.child}>
-                <UsersCart data={filterData} status={false} friends={true} blocked={true}/>
+                <UsersCart data={filterData}
+                status={false}
+                usersSinvite={props.usersSinvite}
+                usersRinvite={props.usersRinvite}
+                friends={props.friends}
+                setUpdate={props.setUpdate}
+                inBlock={props.inBlock}
+                update={props.update} />
             </div>
         </div>
         </div>

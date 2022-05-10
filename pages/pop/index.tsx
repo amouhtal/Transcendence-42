@@ -87,7 +87,7 @@ const CinFormation = () => {
     const data ={userName, imageName};
     axios.post('http://10.12.11.3:3000/users/complet',data,{
       headers:{
-        'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhbW91aHRhbEBzdHVkZW50LjEzMzcubWEiLCJpYXQiOjE2NTA2Mzk0MjAsImV4cCI6MTY1MTY3NjIyMH0.BXv9s17uEzNUXsBekwm42fCNnIV1dTLDW63bM-DkKwQ`
+        'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhYmV0dGFjaEBzdHVkZW50LjEzMzcubWEiLCJpYXQiOjE2NTIwMTM0NDQsImV4cCI6MTY1MzA1MDI0NH0.hv6DAluhbY8MoWS7cbmtOLkdZxp4NDDHck9Kdn53P-o`
       }
     }).then((res) =>{
       console.log(res.data.message)

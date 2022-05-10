@@ -9,27 +9,22 @@ import { useEffect, useState } from 'react'
 import FakeData from '../../data.json'
 
 function Profile (){
-    const [userInfo, setuserInfo] = useState<any>([])
+    const [usersData, setUsersData] = useState<any>([])
     const router = useRouter();
-    const [filtredData] = FakeData.filter((value: any) => {
-        // console.log(router.query.id);
+    useEffect(() => {
+        axios.get('http://10.12.11.3:3000/friends/all', {
+            headers:{
+                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhYmV0dGFjaEBzdHVkZW50LjEzMzcubWEiLCJpYXQiOjE2NTA4MjA5OTMsImV4cCI6MTY1MTg1Nzc5M30.2hjp2cBut1fSxh_mhNmnBIi7w2cj3teS8CW63AcuDYo`
+            }
+        }).then((res) =>{
+            console.log("response = ", res.data);
+            setUsersData(res.data.all_users);
+            // console.log("usersData=",usersData)
+        })
+    },[])
+    const [filtredData] = usersData.filter((value: any) => {
         return (value.userName === router.query.id)
     });
-    // const info = {userName: router.query.id}
-    // console.log("info :", typeof router.query.id);
-    // console.log(router.query);
-    // useEffect(() => {
-    //     if(!router.isReady) return;
-    //     axios.post('http://10.12.11.3:3000/friends/one',{userName: `${router.query.id}`},{
-    //         headers:{
-    //             'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhbW91aHRhbEBzdHVkZW50LjEzMzcubWEiLCJpYXQiOjE2NTA2Mzk0MjAsImV4cCI6MTY1MTY3NjIyMH0.BXv9s17uEzNUXsBekwm42fCNnIV1dTLDW63bM-DkKwQ`
-    //         }
-    //     }).then((res) =>{
-    //         // console.log(res.data);
-    //         setuserInfo(res.data);
-    //     })
-    // },[router.isReady])
-    // console.log(router.query.id);
     return (
         <div className={Style.container}>
             <div className={Style.container2}>
@@ -37,7 +32,8 @@ function Profile (){
                 <SliderAchevment/>
             </div>
            <div className={Style.matchH}>
-               <MatchHestory userdata={userInfo.userInfo} gameHistory={userInfo.gameHistory} friends={false}/>
+               <MatchHestory  friends={false}/>
+               {/* userdata={''} gameHistory={} */}
            </div>
         </div>
     )

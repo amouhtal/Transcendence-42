@@ -4,8 +4,9 @@ import FakeFriendsData from '../../dataFriend.json'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import styles from '../../styles/users/users.module.css'
-const friends = () => {
+const blocked = (props:any) => {
     const [usersData, setUsersData] = useState<any>([]);
+    const [update, setUpdate] = useState<boolean>(false);
     useEffect(() => {
         axios.get('http://10.12.11.3:3000/friends/all', {
             headers:{
@@ -16,12 +17,20 @@ const friends = () => {
             setUsersData(res.data);
             // console.log("usersData=",usersData)
         })
-    },[])
+    },[update])
     return (
         <div>
-            <Blocked placeholder="Search..." usersData={usersData.user_blocked}/>
+            <Blocked placeholder="Search..."
+            usersData={usersData?.blocked_friends}
+            usersSinvite={usersData?.user_sinvite}
+            usersRinvite={usersData?.user_rinvite}
+            blocked={usersData?.blocked_friends}
+            friends={usersData?.user_friends}
+            setUpdate={setUpdate}
+            inBlock={true}
+            update={update}/>
         </div>
     );
 }
 
-export default friends;
+export default blocked;

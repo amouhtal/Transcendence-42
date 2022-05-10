@@ -8,25 +8,17 @@ import {useEffect, useState} from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import UsersCart from './UsersCart'
-interface UsersType {
-    placeholder: string;
-    usersData:  any | any[];
-}
 
-const Friends = (props:UsersType) => {
-    // console.log("props.data.Friends =", props.friendsData);
-    const [filterData, setFilterData] = useState<any>(props.friendsData);
-    // console.log(filterData);
+const Friends = (props:any) => {
+    const [filterData, setFilterData] = useState<any>(props.usersData); useEffect(() => {setFilterData(props.usersData)})
     const [userStatus, setStatus] = useState<boolean>(false);
-    // let userStatus: boolean = true;
     const router = useRouter();
     const handleChange = (e: any) : void => {
         const searchWord: string = e.target.value;
-        const newFilter = props.friendsData.filter((value: any) => {
+        const newFilter = props.usersData.filter((value: any) => {
             return (value.userName.includes(searchWord));
         });
         setFilterData(newFilter);
-        // console.log("filterData = ",newFilter);
     }
     const handleClick = (e: any) : void => { e.preventDefault(); }
     const ChangeStatus = (e: any) => {
@@ -36,14 +28,24 @@ const Friends = (props:UsersType) => {
         <div className={styles.globalContainer}>
         <div className={styles.container}>
             <div className={styles.SearchBar}>
-                {/* <button className={userStatus? styles.buttonStatusOFF : styles.buttonStatusOn} onClick={(e:any) => ChangeStatus(e, )}>{userStatus? "Offline" : "Online"}</button> */}
                 <form action="" className={styles.Form}>
-                    <input type="search" placeholder={props.placeholder} className={styles.SearchInput}  onChange={(e: any) => handleChange(e, )}/>
-                    {/* <input type="image" name="submit" src={iconSearch.src} onClick={handleClick} className={styles.searchButton}/> */}
+                <input type="search"
+                    placeholder={props.placeholder}
+                    className={styles.SearchInput}
+                    onChange={(e: any) => handleChange(e, )}
+                    />
                 </form>
             </div>
             <div className={styles.child}>
-                <UsersCart data={filterData} status={false} friends={props.friendsData}/>
+            <UsersCart data={filterData}
+                status={false}
+                usersSinvite={props.usersSinvite}
+                usersRinvite={props.usersRinvite}
+                friends={props.friends}
+                setUpdate={props.setUpdate}
+                inBlock={props.inBlock}
+                update={props.update}/>
+                {/* <UsersCart data={filterData} status={false} friends={props.friendsData}/> */}
             </div>
         </div>
         </div>
