@@ -15,7 +15,7 @@ function Profile (){
     useEffect(() => {
         axios.get('http://10.12.11.3:3000/users/profile',{
             headers:{
-              'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
+              'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
             }
           }).then((res) =>{
               console.log(res.data);

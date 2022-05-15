@@ -11,15 +11,15 @@ function users() {
     const [update, setUpdateVar] = useState<boolean>(false);
     useEffect(() => {
         axios.get('http://10.12.11.3:3000/friends/all', {
-            headers: {
-                'Authorization': `Bearer ${localStorage.getItem("accessToken")}}`
+            headers:{
+                'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
             }
-        }).then((res) => {
-            console.log("data = ", res.data);
-                setUsersData(res.data);
-        });
-        console.log("im here");
-    },[update]);
+        }).then((res) =>{
+            console.log("response = ", res.data);
+            setUsersData(res.data);
+            // console.log("usersData=",usersData)
+        })
+    },[update])
     return (
         <div>
             <Users placeholder="Search..."

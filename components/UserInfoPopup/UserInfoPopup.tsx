@@ -1,25 +1,31 @@
 import style from "../../styles/addUser.module.css";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import imagee from "../../public/images/profile.jpg";
-// import { AiFillCloseCircle } from "react-icons/ai";
-import axios from 'axios';
+import axios from "axios";
+import Router, { withRouter } from "next/router";
 
-function getUserInfoPopup() {
-  const [close, setClose] = useState<boolean>(true);
+const CinFormation = (props:any) => {
   const [valid, setValid] = useState<number>(0);
   const [image, setImage] = useState<string | undefined>(imagee.src);
+  const [userName, setUserName] = useState<string>("");
+  const [imageName, changeImageName] = useState<string>("");
   const changeStyle = useRef(null);
+  // Check if login or no start
+  // useEffect(() => {
+  //   localStorage.setItem("token",document.cookie);
+  //   const accessToken: string = process.browser ? localStorage.getItem("token") as string : "";
+  //   console.log(accessToken);
+  //   if (accessToken)
+  //       Router.push({pathname: '/Login'})
+  // });
+  // Check if login or no end
 
-  const handelClick = () => {
-    setClose(false);
-  };
   const handelChange = (e: any) => {
     let lent: string = e.target.value;
-    if (lent.length >= 6 && lent.length <= 9) setValid(1);
-    else setValid(2);
-    // console.log(e.target.value);
-    // axios.post("10.12.11.3/complet", e.target.value);
-
+    if (lent.length >= 6 && lent.length <= 9) {
+      setValid(1);
+      setUserName(e.target.value);
+    } else setValid(2);
   };
 
   function checkimage(src: any) {
@@ -44,7 +50,7 @@ function getUserInfoPopup() {
     });
   }
 
-  let put = (e: any) => {
+  let putfile = (e: any) => {
     var reader = new FileReader();
     var file = document.querySelector("input[type=file]") as HTMLInputElement;
 
@@ -61,6 +67,7 @@ function getUserInfoPopup() {
       let image_: FileList | null = file.files;
       if (image_ && image_.length > 0) {
         if (image_[0].name != undefined) {
+          changeImageName(image_[0].name);
           var ext = image_[0].name.split(".").pop();
           if (ext === "png" || ext === "jpg" || ext === "jpeg")
             reader.readAsDataURL(image_[0]);
@@ -69,101 +76,89 @@ function getUserInfoPopup() {
       }
     }
   };
-  // useEffect(() => {
-  //   if (changeStyle.current){
-  //     var input:HTMLInputElement = changeStyle.current
-  //     input.classList.remove('inptInvalid')
-  //     input.classList.add('inpt')
-  //   }
-  //   console.log(1)
-  // }, []);
-  // console.log(2)
-  const handleClick = (e: any) => {
+
+  const handelSubmit = (e: any) => {
     e.preventDefault();
-    // axios.post("10.12.11.3:3000/", )
-    // console.log(e.target.userName.value);
-    axios({
-      method: 'post',
-      url: 'http://10.12.11.3:3000/users/complet',
-      data: {
-        userName: `${e.target.userName.value}`
-      }
-    });
-  }
+    const data = { userName, imageName };
+    axios
+      .post("http://10.12.11.3:3000/users/complet", data, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`,
+        }
+      })
+      .then((res) => {
+        if (
+          (res.data.message && res.data.message == "valid username") ||
+          res.data.message == "Already have a username"
+          ) {
+              props.setUpdate(!props.update)
+        } else if (res.data.message) alert(res.data.message);
+      });
+  };
   return (
     <>
-      {close && (
-        <div className={style.container}>
-          <div className={style.row0}>
-            <div className={style.row}>
-              <p className={style.text1}>
-                The user should be able to upload an avatar. If the user doesn’t
-                upload an avatar.
-              </p>
-            </div>
-            <div className={style.form}>
-              <div className={style.content}>
-                <div className={style.imge}>
-                  <img className={style.img} src={image}></img>
-                </div>
-                <div className={style.child}>
-                  <p className={style.text2}>
-                    should be able to upload an avatar
-                  </p>
-                  <input
-                    style={{ display: "none" }}
-                    type="file"
-                    id="file"
-                    onChange={(e) => put(e.target)}
-                  />
-                  <label htmlFor="file">
-                    <div className={style.Btn}>
-                      <p className={style.Pavatar}>Chose Avatar</p>
-                    </div>
-                  </label>
-                </div>
+      <div className={style.container}>
+        <div className={style.row0}>
+          <div className={style.row}>
+            <p className={style.text1}>
+              The user should be able to upload an avatar. If the user doesn’t
+              upload an avatar.
+            </p>
+          </div>
+          <form className={style.form} onSubmit={handelSubmit}>
+            <div className={style.content}>
+              <div className={style.imge}>
+                <img className={style.img} src={image}></img>
               </div>
-              <div className={style.row1}>
-                <p className={style.text3}>Please Add Your UserName</p>
-                <div>
-                  <form action="" onSubmit={handleClick}>
-
-                  <input ref={changeStyle}
-                    className={
-                      valid == 1
+              <div className={style.child}>
+                <p className={style.text2}>
+                  should be able to upload an avatar
+                </p>
+                <input
+                  style={{ display: "none" }}
+                  type="file"
+                  id="file"
+                  onChange={(e) => putfile(e.target)}
+                />
+                <label htmlFor="file">
+                  <div className={style.Btn}>
+                    <p className={style.Pavatar}>Chose Avatar</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div className={style.row1}>
+              <p className={style.text3}>Please Add Your UserName</p>
+              <div>
+                <input
+                  ref={changeStyle}
+                  className={
+                    valid == 1
                       ? style.inptvalid
                       : valid == 2
                       ? style.inptInvalid
                       : style.inpt
-                    }
-                    placeholder="UserName"
-                    id="userName"
-                    // onChange={(e) => handelChange(e)}
-                    onSubmit={handleClick}
-                    ></input>
-                  {valid == 2 ? (
-                    <p className={style.error}>
-                      Username Should Be Between 6 and 9 characters
-                    </p>
-                  ) : valid == 1 ? (
-                    <p className={style.ValidText}>Successful UserName</p>
-                    ) : (
-                      ""
-                      )}
-                      </form>
-                </div>
+                  }
+                  placeholder="UserName"
+                  onChange={(e) => handelChange(e)}
+                ></input>
+                {valid == 2 ? (
+                  <p className={style.error}>
+                    Username Should Be Between 6 and 9 characters
+                  </p>
+                ) : valid == 1 ? (
+                  <p className={style.ValidText}>Successful UserName</p>
+                ) : (
+                  ""
+                )}
               </div>
             </div>
-          </div>
-          {valid == 1 && (
-            <button type="submit" className={style.subm}>
-              Register
-            </button>
-          )}
+            {valid == 1 && <button className={style.subm}>Register</button>}
+          </form>
         </div>
-      )}
+      </div>
     </>
   );
-}
+};
 
-export default getUserInfoPopup;
+export default CinFormation;

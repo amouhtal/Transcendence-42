@@ -134,9 +134,12 @@
 .Ptext2 {
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   color: #dbfcff;
+  /* background-color: red; */
   font-size: 17px;
   letter-spacing: 1px;
   font-weight: bolder;
+  /* position: absolute; */
+  width:100px;
 }
 .child1 {
   font-size: 17px;
@@ -149,7 +152,7 @@
 }
 .child2 {
   font-size: 20px;
-  width: 60px;
+  width: 90%;
   display: flex;
   gap: 78px;
   height: 10%;

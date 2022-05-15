@@ -90,7 +90,7 @@ const UsersCart = (props:any) => {
                             <img src={blockUser.src} alt="add" id={e.userName} className={props.inBlock ? styles.addUserIcon : styles.none} onClick={(e:any) => {
                                 const data = {userName: `${e.target.id}`};
                                 axios.post('http://10.12.11.3:3000/friends/unblock',data,{ headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
-                                props.setUpdate(!props.update)
+                                props.setUpdate(!props.update);
                             }}/>
                         </div>
                     </div>

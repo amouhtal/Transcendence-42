@@ -33,10 +33,7 @@
   align-items: center;
   justify-content: center;
 }
-/* .child{
-  width: 50%;
-  height: 50%;
-} */
+
 .row0 {
   margin-top: 6%;
   width: 100%;
@@ -55,7 +52,6 @@
 .error {
   position: absolute;
   right: 70px;
-  /* bottom: 11%; */
   color: rgba(255, 0, 0, 0.924);
   font-size: 17px;
   font-weight: bolder;
@@ -63,7 +59,6 @@
 .ValidText {
   position: absolute;
   right: 180px;
-  /* bottom: 11%; */
   color: rgba(0, 255, 255, 0.733);
   font-size: 17px;
   font-weight: bolder;

@@ -10,7 +10,7 @@ const blocked = (props:any) => {
     useEffect(() => {
         axios.get('http://10.12.11.3:3000/friends/all', {
             headers:{
-                'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
+                'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
             }
         }).then((res) =>{
             console.log("response = ", res.data);
