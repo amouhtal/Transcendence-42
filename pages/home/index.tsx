@@ -1,7 +1,7 @@
 import Home from '../../components/home/Home'
 import styles from '../../styles/home/home.module.css'
 import UserInfoPopup from '../../components/UserInfoPopup/UserInfoPopup'
-import SidePar from '../../components/SidePar'
+import SidePar from '../../components/sideBar'
 
 
 const home = () => {

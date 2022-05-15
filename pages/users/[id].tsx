@@ -3,7 +3,7 @@ import userData from '../../data.json'
 import { useRouter } from 'next/router'
 import CartProfile from "../../components/profile/cartProfile"
 import SliderAchevment from "../../components/profile/sliderAchevment"
-import MatchHestory from "../../components/profile/MatchHestory"
+import MatchHestory from "../../components/profile/matchHestory"
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import FakeData from '../../data.json'
@@ -14,7 +14,7 @@ function Profile (){
     useEffect(() => {
         axios.get('http://10.12.11.3:3000/friends/all', {
             headers:{
-                'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhYmV0dGFjaEBzdHVkZW50LjEzMzcubWEiLCJpYXQiOjE2NTA4MjA5OTMsImV4cCI6MTY1MTg1Nzc5M30.2hjp2cBut1fSxh_mhNmnBIi7w2cj3teS8CW63AcuDYo`
+                'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
             }
         }).then((res) =>{
             console.log("response = ", res.data);

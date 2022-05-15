@@ -1,7 +1,7 @@
 
 import type { AppProps } from 'next/app'
 import { useEffect, useState } from 'react'
-import SidePar from '../components/SidePar'
+import SidePar from '../components/sideBar'
 import  Style  from '../styles/app.module.css'
 import backgrd from '../public/images/cool.png'
 
