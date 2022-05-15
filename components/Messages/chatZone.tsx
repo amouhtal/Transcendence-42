@@ -13,7 +13,7 @@ import io from 'socket.io-client';
 import Friends from '../../dataFriend.json'
 import FriendsZone from '../../components/Messages/friendsZone';
 import back from '../../public/images/left.png'
-// const socket = io("10.12.11.5:3000",{transports:['websocket']});
+const socket = io("10.12.10.4:3300",{transports:['websocket']});
 const ChatZone = (props:any) => {
     const checkout:string = process.browser ? localStorage.getItem('color') as string : 'default';
     const [messageValue, setMessage] = useState<string>("Hello how are you?");
@@ -23,13 +23,13 @@ const ChatZone = (props:any) => {
     const handelSubmit = (e:any) => {
         e.preventDefault();
         e.target.message.value !== '' ? setMessage(e.target.message.value) : messageValue;
-        // socket.emit("message",e.target.message.value,1,2);
+        socket.emit("message",e.target.message.value,1,2);
         e.target.message.value = '';
     }
     if (process.browser)
         localStorage.setItem("color", color as string);
     // console.log(color);
-    // socket.on("message", (data) => { console.log("data = " ,data);})
+    socket.on("message", (data) => { console.log("data = " ,data);})
     return (
         <>
         <FriendsZone data={Friends} status={props.status} show={showFriends} setShow={setShowFriends}/>

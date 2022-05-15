@@ -27,6 +27,9 @@
 .red, .green {
     display: none;
 }
+.none {
+    display: none; 
+}
 @media screen  and (max-width: 2273px) {
   .cartPf {
     left: 98px;

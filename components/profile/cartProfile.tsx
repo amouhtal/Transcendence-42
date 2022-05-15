@@ -30,13 +30,13 @@ function CartProfile (props:any){
                 </div>
             </div>
             <div className={style.addPlock}>
-                <img src={ajout.src} className={style.ajoute}></img>
-                <img src={blocked.src} className={style.block} onClick={(e:any) => {
+                <img src={ajout.src} className={props.Myprofile ? style.none : style.ajoute}></img>
+                <img src={blocked.src} className={props.Myprofile ? style.none :style.block} onClick={(e:any) => {
                     console.log("im here");
                     const data = {userName:`${props.userdata?.userName}`}
-                    axios.post('http://10.12.11.3:3000/friends/block',data,{headers:{'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhYmV0dGFjaEBzdHVkZW50LjEzMzcubWEiLCJpYXQiOjE2NTIwMTM0NDQsImV4cCI6MTY1MzA1MDI0NH0.hv6DAluhbY8MoWS7cbmtOLkdZxp4NDDHck9Kdn53P-o`}})}}></img>
-                <img src={play.src} className={style.play}></img>
-                <img src={chatIcon.src} className={style.play}></img>
+                    axios.post('http://10.12.11.3:3000/friends/block',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})}}></img>
+                <img src={play.src} className={props.Myprofile ? style.none : style.play}></img>
+                <img src={chatIcon.src} className={props.Myprofile ? style.none : style.play}></img>
             </div>
         </div>
     )

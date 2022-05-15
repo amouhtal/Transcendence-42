@@ -18,7 +18,6 @@ const Users = (props:any) => {
     const [userStatus, setStatus] = useState<boolean>(false);
     const router = useRouter();
     const handleChange = (e: any) : void => {
-        console.log("im here");
         const searchWord: string = e.target.value;
         const newFilter = props.usersData.filter((value: any) => {
             return (value.userName.includes(searchWord));

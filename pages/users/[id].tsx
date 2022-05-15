@@ -28,7 +28,7 @@ function Profile (){
     return (
         <div className={Style.container}>
             <div className={Style.container2}>
-                <CartProfile userdata={filtredData}/>
+                <CartProfile userdata={filtredData} Myprofile={false}/>
                 <SliderAchevment/>
             </div>
            <div className={Style.matchH}>

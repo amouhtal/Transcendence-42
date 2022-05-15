@@ -13,6 +13,10 @@ import FakeData from '../../data.json'
 const Messages = () => {
     const [Status ,setStatus] = useState<boolean>(false);
     const router = useRouter();
+    var test:boolean = true;
+    if (test)
+        var socket = io("10.12.10.4:3300",{transports:['websocket']});
+    test = false;
     const [filterData] = FakeData.filter((value: any) => {
         return (value.userName === router.query.id);
     });
@@ -28,7 +32,7 @@ const Messages = () => {
     // })
     return (
         <div className={styles.globaleContainer}>
-            <button className={styles.tmp} onClick={(e:any) => {e.preventDefault();setStatus(!Status)}}>Status</button>
+            <button className={styles.tmp} onClick={(e:any) => {e.preventDefault(); setStatus(!Status)}}>Status</button>
             <div className={styles.container}>
                 <ChatZone data={filterData} status={Status}/>
             </div>
@@ -36,4 +40,4 @@ const Messages = () => {
     );
 }
 
-export default Messages     ;
+export default Messages;

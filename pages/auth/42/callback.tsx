@@ -1,7 +1,7 @@
 import { NextRouter, useRouter } from 'next/router';
 async function fetchData(url:string) {
     const router = useRouter();
-    console.log(process.env.NEXT_PUBLIC_APP_UID);
+    console.log(process.env);
     const data = await fetch(url);
     console.log(data);
     

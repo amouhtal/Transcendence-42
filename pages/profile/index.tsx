@@ -15,7 +15,7 @@ function Profile (){
     useEffect(() => {
         axios.get('http://10.12.11.3:3000/users/profile',{
             headers:{
-              'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJhYmV0dGFjaEBzdHVkZW50LjEzMzcubWEiLCJpYXQiOjE2NTA2NDYyMzYsImV4cCI6MTY1MTY4MzAzNn0.mkVYrkzhNsL1RzuORqJwiCllxZD9Vq0Yl9MzN6a4lYU`
+              'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
             }
           }).then((res) =>{
               console.log(res.data);
@@ -26,7 +26,7 @@ function Profile (){
     return (
         <div className={Style.container}>
           <div className={Style.header}>
-            <CartProfile userdata={userInfo}/>
+            <CartProfile userdata={userInfo} Myprofile={true}/>
             <SliderAchevment />
           </div>
             <MatchHestory userData={userInfo} gameHistory={MatchHistory}/>

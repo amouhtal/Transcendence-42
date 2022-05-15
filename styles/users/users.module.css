@@ -107,6 +107,17 @@
     left:1500px;
 }
 
+.isEmpty {
+    position: absolute;
+    left: 45%;
+    top: 40%;
+    transform: translate(50%, 50%);
+}
+.isEmpty>h1 {
+    font-size: 80px;
+    color: rgba(128, 128, 128, 0.257);
+}
+
 @media screen and (max-width: 1446px)
 {
     .globalContainer {
