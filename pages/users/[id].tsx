@@ -10,6 +10,8 @@ import FakeData from '../../data.json'
 
 function Profile (){
     const [usersData, setUsersData] = useState<any>([])
+    const [update, setUpdate] = useState<boolean>(false);
+
     const router = useRouter();
     useEffect(() => {
         axios.get('http://10.12.11.3:3000/friends/all', {
@@ -18,17 +20,26 @@ function Profile (){
             }
         }).then((res) =>{
             console.log("response = ", res.data);
-            setUsersData(res.data.all_users);
+            setUsersData(res.data);
             // console.log("usersData=",usersData)
         })
-    },[])
-    const [filtredData] = usersData.filter((value: any) => {
+    },[update])
+    let filtredData = usersData?.all_users?.filter((value: any) => {
         return (value.userName === router.query.id)
-    });
+    })[0];
     return (
         <div className={Style.container}>
             <div className={Style.container2}>
-                <CartProfile userdata={filtredData} Myprofile={false}/>
+                {console.log(filtredData)}
+                <CartProfile data={filtredData}
+                usersdata={usersData?.all_users}
+                status={false}
+                usersSinvite={usersData?.user_sinvite}
+                usersRinvite={usersData?.user_rinvite}
+                friends={usersData?.user_friends}
+                setUpdate={setUpdate}
+                update={update}
+                Myprofile={false}/>
                 <SliderAchevment/>
             </div>
            <div className={Style.matchH}>

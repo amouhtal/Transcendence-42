@@ -1,27 +1,28 @@
 import { useEffect } from 'react';
 import styles from '../../styles/twofactor/twofactor.module.css'
 import axios from 'axios';
-const twofactor = () => {
-    useEffect(() => {
-        let data;
-        axios({
-            url: "http://10.12.11.3:3000/2fa/generate",
-            data:data,
-            headers: {Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`},
-            method:'POST',
-            responseType: 'blob'
-        })
-        .then((response) => {
-            console.log(response);
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('img');
-            link.src = url;
-            link.setAttribute(`style`, `width:250px;heght250px;`); //or any other extension
-            console.log(link);
-            document.getElementById("QrcodeContainer")?.appendChild(link);
-            link.click();
-        });
-    })
+import { useRouter } from 'next/router';
+const authentication = () => {
+    // useEffect(() => {
+    //     let data;
+        // axios({
+        //     url: "http://10.12.11.3:3000/2fa/generate",
+        //     data:data,
+        //     headers: {Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`},
+        //     method:'POST',
+        //     responseType: 'blob'
+        // })
+        // .then((response) => {
+        //     console.log(response);
+        //     const url = window.URL.createObjectURL(new Blob([response.data]));
+        //     const link = document.createElement('img');
+        //     link.src = url;
+        //     link.setAttribute(`style`, `width:250px;heght250px;`); //or any other extension
+        //     console.log(link);
+        //     document.getElementById("QrcodeContainer")?.appendChild(link);
+        //     link.click();
+        // });
+    // })
         // axios({
         //     url: 'http://10.12.11.3/2fa/generate',
         //     headers:{ 'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`},
@@ -37,6 +38,18 @@ const twofactor = () => {
         //     // link.click();
         // });
     // })
+    const route = useRouter();
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            if (route.query.token && route.query.refreshToken)
+            {
+                localStorage.setItem("accessToken",route.query.token as string);
+                localStorage.setItem("refreshToken",route.query.refreshToken as string);
+            }
+            // route.query.token = '';
+            // route.query.refreshToken = '';
+        }
+    },[route.query.token])
     let result:any = [];
     let counter = 6;
     const handleClick = (first:any,last:string) => {
@@ -55,7 +68,8 @@ const twofactor = () => {
             counter++;
             console.log(first.target.value)
             if (first?.target.value?.length === 0) {
-                const two: any =document.getElementById(last)?.focus();
+                result.pop();
+                const two: any = document.getElementById(last)?.focus();
             }
         }
     }
@@ -74,11 +88,11 @@ const twofactor = () => {
                     <input type="text" id="fifth" className={styles.codeInput} maxLength={1} onChange={(e:any) => handleClick(e,"sixth")} onKeyUp={(e:any) => {hendleDelete(e,"fourth")}}/>
                     <input type="text" id="sixth" className={styles.codeInput} onChange={(e:any) => handleClick(e,"none")} onKeyUp={(e:any) => {hendleDelete(e,"fifth")}}/>
                     <h2>{counter}</h2>
-                    <input type="submit" value={`       lettere left`} className={styles.submitButton} onClick={(e:any) => {
+                    <input type="submit" value={`   lettere left`} className={styles.submitButton} onClick={(e:any) => {
                         console.log(result.join(''));
                         const data = {twoFactorAuthenticationCode:result.join('')}
                         console.log(data)
-                    axios.post('http://10.12.11.3:3000/2fa/turn-on',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+                    axios.post('http://10.12.11.3:3000/2fa/authenticate',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("refreshToken")}`}}
                     ).then((res) => {
                         console.log(res)
                         if (res.status === 200)
@@ -86,7 +100,7 @@ const twofactor = () => {
                             console.log(res.data.accessToken);
                             localStorage.setItem("accessToken",res.data.accessToken);
                             localStorage.setItem("refreshToken",res.data.refreshToken);
-                            // axios.post('http://10.12.11.3:3000/2fa/turn-one',{twoFactorAuthenticationCode:result.join('')},{headers:{'Authorization': `Bearer ${res.data.accessToken}`}})
+                            route.push("/home")
                         }
                     })
                     result = [];
@@ -98,7 +112,7 @@ const twofactor = () => {
     )
 }
 
-export default twofactor;
+export default authentication;
 
 // {data: {…}, status: 200, statusText: 'OK', headers: {…}, config: {…}, …}
 // config: {transitional: {…}, transformRequest: Array(1), transformResponse: Array(1), timeout: 0, adapter: ƒ, …}

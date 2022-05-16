@@ -216,13 +216,25 @@
 .ajoute {
   width: 28px;
   height: 28px;
+  cursor: pointer;
 }
 
 .block {
   width: 35px;
   height: 35px;
+  cursor: pointer;
+
 }
 .play {
   width: 32px;
   height: 32px;
+  cursor: pointer;
+
+}
+
+.none {
+  display: none;
+}
+.rejectInvite{
+  cursor: pointer;
 }

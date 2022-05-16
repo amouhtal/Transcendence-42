@@ -6,12 +6,14 @@ import Watch from '../../components/livematch'
 import { useEffect } from 'react'
 import Router, { useRouter } from 'next/router'
 import axios from "axios"
-
+import {useSelector} from 'react-redux'
 
 const home = () => {
     const [update, setUpdate] = useState<boolean>(false);
     const [userName, setUsername] = useState<boolean>(false);
     const route = useRouter();
+    const test:any = useSelector<any>(state=>state);
+
     useEffect(() => {
         if (typeof window !== "undefined") {
             if (route.query.token && route.query.refreshToken)
@@ -29,20 +31,20 @@ const home = () => {
                     'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
                 }
             }) .then((res) => {
-                console.log("res = ",res);
                 setUsername(res.data.exist);
             });
         }
     },[route.query.token])
     return (
         <>
-        <div className={styles.globaleHomeContainer}>
-            < Watch/>
-        </div>
-        <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainerBlure}></div>
-        <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainer}>
+            <div className={styles.globaleHomeContainer}>
+                < Watch/>
+            </div>
+            <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainerBlure}></div>
+            <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainer}>
             <UserInfoPopup setUpdate={setUpdate} update={update} isUsername={setUsername}/>
-        </div>
+            </div>
+            {test.sizes_.zak_test && <UserInfoPopup setUpdate={setUpdate} update={update} isUsername={setUsername}/>}
         </>
     );
 }

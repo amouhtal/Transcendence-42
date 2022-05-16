@@ -3,23 +3,27 @@ import { useState, useRef, useEffect } from "react";
 import imagee from "../../public/images/profile.jpg";
 import axios from "axios";
 import Router, { withRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { update_test } from "../../redux/sizes";
 
 const CinFormation = (props:any) => {
   const [valid, setValid] = useState<number>(0);
-  const [image, setImage] = useState<string | undefined>(imagee.src);
+  const [image, setImage] = useState<string | undefined>(props.image);
   const [userName, setUserName] = useState<string>("");
   const [imageName, changeImageName] = useState<string>("");
   const changeStyle = useRef(null);
-  // Check if login or no start
-  // useEffect(() => {
-  //   localStorage.setItem("token",document.cookie);
-  //   const accessToken: string = process.browser ? localStorage.getItem("token") as string : "";
-  //   console.log(accessToken);
-  //   if (accessToken)
-  //       Router.push({pathname: '/Login'})
-  // });
-  // Check if login or no end
+  const [userInfo, setUserInfo] = useState<any>({});
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    axios.get('http://10.12.11.3:3000/users/profile',{
+        headers:{
+          'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
+        }
+      }).then((res) =>{
+        setUserInfo(res.data.userInfo);
+      })
+  }, [])
   const handelChange = (e: any) => {
     let lent: string = e.target.value;
     if (lent.length >= 6 && lent.length <= 9) {
@@ -79,6 +83,7 @@ const CinFormation = (props:any) => {
 
   const handelSubmit = (e: any) => {
     e.preventDefault();
+    dispatch(update_test());
     const data = { userName, imageName };
     axios
       .post("http://10.12.11.3:3000/users/complet", data, {
@@ -87,12 +92,10 @@ const CinFormation = (props:any) => {
         }
       })
       .then((res) => {
-        if (
-          (res.data.message && res.data.message == "valid username") ||
-          res.data.message == "Already have a username"
-          ) {
-              props.setUpdate(!props.update)
-        } else if (res.data.message) alert(res.data.message);
+        console.log(res.data);
+        if(res.data.message && (res.data.message == "valid username" ||
+            res.data.message == "Already have a username")){props.setUpdate(!props.update)}
+        else if (res.data.message) alert(res.data.message);
       });
   };
   return (
@@ -108,7 +111,7 @@ const CinFormation = (props:any) => {
           <form className={style.form} onSubmit={handelSubmit}>
             <div className={style.content}>
               <div className={style.imge}>
-                <img className={style.img} src={image}></img>
+                <img className={style.img} src={userInfo?.picture}></img>
               </div>
               <div className={style.child}>
                 <p className={style.text2}>

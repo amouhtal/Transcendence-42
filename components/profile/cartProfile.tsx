@@ -5,38 +5,90 @@ import blocked from "../../public/images/blockUser.png"
 import play from "../../public/images/tennis1.png"
 import chatIcon from "../../public/images/chat1.png"
 import axios from 'axios'
+import accept from '../../public/images/usersImages/accept.png'
+import reject from '../../public/images/usersImages/reject.png'
+import { useRouter } from "next/router"
 
 
 function CartProfile (props:any){
     let isConected = false;
+    const route = useRouter();
+    const CheckIfFriend = (user:any) => {
+        let friendstest = false;
+        props.friends?.map ((e:any) => {
+            if (e?.userName === user)
+            friendstest = true;
+        })        
+        return friendstest
+    }
+    const CheckIfInviteRecive = (user:any) => {
+        let isInvite = false;
+        props.usersRinvite?.map((e:any) => {
+            if (e?.userName === user)
+            isInvite = true;
+        })
+        return isInvite;
+    }
+    const CheckIfInviteSend = (user:any) => {
+        let isInvite = false;
+        props.usersSinvite?.map((e:any) => {
+            if (e?.userName === user)
+            isInvite = true;
+        })        
+        return isInvite;
+    }
+    let checkFriends: boolean;
+    let checkInviteRecive: boolean;
+    let checkInviteSend:boolean
     return (
         <div className={style.cartPf}>
-            <img className={style.img} src={props.userdata?.picture} />
+            <img className={style.img} src={props.data?.picture} />
             <div className={style.formationCart}>
                 <div className={style.child1}>
                     <p className={isConected ? style.online : style.offline}> {isConected ? "Online" : "Offline"}</p>
                 </div>
                 <div className={style.child2}>
                     <p className={style.Ptext}>UserName:</p>
-                    <p className={style.Ptext2}>{props.userdata?.userName}</p>
+                    <p className={style.Ptext2}>{props.data?.userName}</p>
                 </div>
                 <div className={style.child3}>
                     <p className={style.Ptext}>Country:</p>
-                    <p className={style.Ptext2}>{props.userdata?.country}</p>
+                    <p className={style.Ptext2}>{props.data?.country}</p>
                 </div>
                 <div className={style.child4}>
-                    <div className={style.childwin}><p className={style.Ptext}>WinMatch: </p><p className={style.allWinLuse}>{props.userdata?.winMatch}</p></div>
-                    <div className={style.childwin}><p className={style.Ptext}>LuserMatch: </p><p className={style.allWinLuse}>{props.userdata?.loserMatch}</p></div>  
+                    <div className={style.childwin}><p className={style.Ptext}>WinMatch: </p><p className={style.allWinLuse}>{props.data?.winMatch}</p></div>
+                    <div className={style.childwin}><p className={style.Ptext}>LuserMatch: </p><p className={style.allWinLuse}>{props.data?.loserMatch}</p></div>  
                 </div>
             </div>
             <div className={style.addPlock}>
-                <img src={ajout.src} className={props.Myprofile ? style.none : style.ajoute}></img>
+                {checkFriends = CheckIfFriend(props.data?.userName)}
+                {checkInviteRecive = CheckIfInviteRecive(props.data?.userName)}
+                {checkInviteSend = CheckIfInviteSend(props.data?.userName)}
+                {console.log(props.data)}
+                <img src={ajout.src} id={props.data?.userName} className={props.Myprofile ? style.none : checkInviteRecive ? style.none : checkInviteSend ? style.none : checkFriends ? style.none : style.ajoute} onClick={(e:any) => {
+                    const data = {recipent_id:`${props.data?.userName}`}
+                    console.log(data);
+                    axios.post('http://10.12.11.3:3000/friends/send',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}).then((res) => {props.setUpdate(!props.update);})
+
+                    }
+                    }></img>
                 <img src={blocked.src} className={props.Myprofile ? style.none :style.block} onClick={(e:any) => {
-                    console.log("im here");
-                    const data = {userName:`${props.userdata?.userName}`}
+                    const data = {sender_id:`${props.data?.userName}`}
                     axios.post('http://10.12.11.3:3000/friends/block',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})}}></img>
                 <img src={play.src} className={props.Myprofile ? style.none : style.play}></img>
                 <img src={chatIcon.src} className={props.Myprofile ? style.none : style.play}></img>
+                <img src={accept.src} alt="accept" id={props.data?.userName} className={props.inBlock ? style.none : checkInviteRecive && !checkFriends ? style.acceptInvite: style.none}
+                    onClick={(e:any) => { const data = {sender_id: `${props.data?.userName}`};
+                            axios.post('http://10.12.11.3:3000/friends/accept',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                                props.setUpdate(!props.update);}}/>
+                            <img src={reject.src} width={20} height={20} alt="reject" id={props.data?.userName} className={props.inBlock ? style.none : checkInviteRecive && !checkFriends ? style.rejectInvite : checkInviteSend ? style.rejectInvite : style.none} onClick={(e: any) => {
+                                const data = { recipent_id: `${e.target.id}` };
+                                axios.post('http://10.12.11.3:3000/friends/cancell',data,{ headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                                props.setUpdate(!props.update);
+                            }}/>
+                {checkFriends = false}
+                {checkInviteRecive = false}
+                {checkInviteSend = false}     
             </div>
         </div>
     )

@@ -10,7 +10,8 @@ export const sizes = createSlice({
         ballSize:8,
         rectMovment:6,
         ballMovmentX:1,
-        ballMovmentY:0
+        ballMovmentY:0,
+        zak_test: false
     },
     reducers:{
         change: (state, action) =>{
@@ -20,9 +21,15 @@ export const sizes = createSlice({
             state.rectHeigth = action.payload / 8
             state.ballSize = action.payload / 55
             state.ballMovmentX = action.payload / 520
+        },
+        update_test : (state) =>{
+            if (state.zak_test == false)
+                state.zak_test = true;
+            else 
+                state.zak_test = false;
         }
     }
 }) 
 
-export const { change } = sizes.actions
+export const { change, update_test } = sizes.actions
 export default sizes.reducer

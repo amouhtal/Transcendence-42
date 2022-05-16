@@ -12,13 +12,26 @@ import  friends from './../public/images/imgeSidBar/group.png';
 import Link from 'next/link';
 import { useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import { update_test } from "../redux/sizes";
+import { useDispatch } from "react-redux";
+import axios from "axios";
 
-function SidePar(){
+function SidePar(props:any){
     const [isNavBar, setNavBar] = useState<boolean>(true);
     const [UsersInterface, setUsersInterface] = useState<boolean>(false);
+
+    const test = useSelector<object>((state)=>state);
+    // console.log(test);
+    const dispatch = useDispatch<any>();
+    const onclickHandler = () =>
+    {
+        // console.log(test);
+        dispatch(update_test());
+    }
     return (
         <>
-            <div className={isNavBar? Style.sideParOn: Style.sideParOff}>
+            <div className={props.showSidBar ? Style.none : props.isNavBar? Style.sideParOn: Style.sideParOff}>
                 <div className={Style.container2}>
                     <div className={Style.child} onClick={(e:any) => {setUsersInterface(!UsersInterface)}}>
                         <img src={friends.src} className={Style.iconimg}/>
@@ -29,36 +42,42 @@ function SidePar(){
                                 <Link href={`/users/blocked`}><li onClick={(e:any) => {setNavBar(!isNavBar)}}>Blocked</li></Link>
                             </ul>
                         </div>
-                        {/* <p className={Style.Picon}>Friends</p> */}
                     </div>
                     <div className={Style.child}>
                     <Link href='/home'><img src={iconHome.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img></Link>
-                        {/* <p className={Style.Picon}>Home</p> */}
                     </div>
                     <div className={Style.child}>
                     <Link href='/profile'><img src={iconprofil.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img></Link>
-                        {/* <p className={Style.Picon}>Profile</p> */}
                     </div>
                     <div className={Style.child}>
                         <Link href='/messages'><img src={message.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img></Link>
-                        {/* <p className={Style.Picon}>Messages</p> */}
                     </div>
                     <div className={Style.child}>
                         <img src={Notification.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img>
-                        {/* <p className={Style.Picon}>Notification</p> */}
                     </div>
                     <div className={Style.child}>
-                        <img src={iconGame.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img>
-                        {/* <p className={Style.Picon}>Game</p> */}
+                        <Link href='/game'><img src={iconGame.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img></Link>
                     </div>
                     <div className={Style.child}>
-                        <img src={setting.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img>
-                        {/* <p className={Style.Picon}>Setting</p> */}
+                        <img src={setting.src} onClick={onclickHandler} className={Style.iconimg} /*onClick={(e:any) => {setNavBar(!isNavBar);}} */></img>
                     </div>
                 </div>
-                    <div className={Style.Logout}>
+                    <div className={Style.Logout} onClick={(e:any) => {
+                        const headers = { 
+                            'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
+                        };
+                        const data = {
+                            'refreshToken': `${localStorage.getItem("refreshToken")}`
+                        }
+                        axios.delete('http://10.12.11.3:3000/auth/42/logout',{headers,data})
+                        .then(() => {
+                                    localStorage.removeItem("accessToken")
+                                    localStorage.removeItem("refreshToken")
+                                    console.log('Delete successful')
+                                    props.setUpdate(!props.update);
+                                });
+                            }}>
                         <img src={iconLogout.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img>
-                        {/* <p className={Style.Picon}>Logout</p> */}
                     </div>
             </div>
             <button className={isNavBar? Style.btnOn: Style.btnOff} onClick={() => {setNavBar(!isNavBar)}}><AiOutlineBars className={Style.icon}/></button>
