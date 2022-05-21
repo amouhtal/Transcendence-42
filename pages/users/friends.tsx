@@ -7,17 +7,21 @@ import styles from '../../styles/users/users.module.css'
 const friends = () => {
     const [usersData, setUsersData] = useState<any>([]);
     const [update, setUpdate] = useState<boolean>(false);
-
     useEffect(() => {
-        axios.get('http://10.12.11.3:3000/friends/all', {
-            headers:{
-                'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
-            }
-        }).then((res) =>{
-            console.log("response = ", res.data);
-            setUsersData(res.data);
-            // console.log("usersData=",usersData)
-        })
+        try {
+            const rest = axios.get('http://10.12.10.1:3000/friends/all', {
+                headers:{
+                    'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
+                }
+            }).then((res) =>{
+                console.log("response = ", res.data);
+                setUsersData(res.data);
+            })
+        }
+        catch (res:any)
+        {
+            console.log(res);
+        }
     },[update])
     return (
         <div>

@@ -2,7 +2,7 @@
 .sideParOn{
     transform: translateX(0);
     transition: 0.6s all;
-    position: relative;
+    position: fixed;
     display: flex;
     flex-direction:column;
     width: 100px;
@@ -21,7 +21,7 @@
 .sideParOff{
     transform: translateX(0);
     transition: 0.6s all;
-    position: relative;
+    position: fixed;
     display: flex;
     flex-direction:column;
     width: 100px;

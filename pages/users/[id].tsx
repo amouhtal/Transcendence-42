@@ -14,16 +14,18 @@ function Profile (){
 
     const router = useRouter();
     useEffect(() => {
-        axios.get('http://10.12.11.3:3000/friends/all', {
+        const data = {userName: "fjdkljgdfklfgjk"}
+        console.log(data)
+        axios.post('http://10.12.10.1:3000/users/profile',data, {
             headers:{
                 'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
             }
         }).then((res) =>{
-            console.log("response = ", res.data);
+            console.log("responserere = ", res.data);
             setUsersData(res.data);
             // console.log("usersData=",usersData)
         })
-    },[update])
+    },[update, router.query.id])
     let filtredData = usersData?.all_users?.filter((value: any) => {
         return (value.userName === router.query.id)
     })[0];
@@ -31,7 +33,7 @@ function Profile (){
         <div className={Style.container}>
             <div className={Style.container2}>
                 {console.log(filtredData)}
-                <CartProfile data={filtredData}
+                <CartProfile data={usersData?.userInfo}
                 usersdata={usersData?.all_users}
                 status={false}
                 usersSinvite={usersData?.user_sinvite}

@@ -7,13 +7,13 @@ import Fire from "../fire/fiere";
 
 const Login = () => {
   const router = useRouter();
-  const url: string = "http://10.12.11.3:3000/auth/42";
+  const url: string = "http://10.12.10.1:3000/auth/42";
   // fetchData(url);
   return (
     <div className={styles.login}>
       <p className={styles.Ft_trance}>Ft_Transcendence</p>
       <button className={styles.intra}>
-        <a href="http://10.12.11.3:3000/auth/42" className={styles.link}>
+        <a href="http://10.12.10.1:3000/auth/42" className={styles.link}>
           <div className={styles.Fire}>
             <Fire />
           </div>{" "}

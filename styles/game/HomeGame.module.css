@@ -4,7 +4,7 @@
     height: 100%;
     position: absolute;
     right: 0;
-    background-color: white;
+    background-color: rgb(220, 220, 220);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,7 +12,7 @@
 }
 .cartPlayer{
     width: 247px;
-    height: 20%;
+    height: 290px;
     background-color: rgba(128, 128, 128, 0.262);
     border: 1px solid rgba(128, 128, 128, 0.303);
     border-radius: 20px;
@@ -22,4 +22,12 @@
    width: 850px;
    height: 400px;
    background-color: black;
+}
+
+.imgImoji{
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    position: absolute;
+    top: 15%;
 }

@@ -16,6 +16,7 @@ import users from '../../pages/users'
 const UsersCart = (props:any) => {
     const [myData, setData] = useState<any>(props.data);
     const router = useRouter();
+    const [status, setStatus] = useState<boolean>(false)
     useEffect(() => {
         setData(props.data)
     })
@@ -49,11 +50,21 @@ const UsersCart = (props:any) => {
     return (
         <>
         {props.data?.map((e: any | any[]) => {
+            {
+                axios.post('http://10.12.10.1:3000/users/profile',{userName : e.userName},{
+                    headers:{
+                      'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
+                    }
+                  }).then((res) =>{
+                        setStatus("RRREESSS = ", res.data);
+                        console.log(res)
+                  })
+            }
             return  (
                 <div className={styles.userCard} key={Math.random()}>
                         <div className={`${styles.imgContainer}`}>
                             <Link href={`/users/${e.userName}`} key={Math.random()}>
-                                <img src={e.picture} width={80} height={80} className={`${styles.profileImage} ${props.status?styles.userStatusOn : styles.userStatusOff}`}/>
+                                <img src={e.picture} width={80} height={80} className={`${styles.profileImage} ${status ?styles.userStatusOn : styles.userStatusOff}`}/>
                             </Link>
                         </div>
                         <div className={styles.userName}>
@@ -65,7 +76,7 @@ const UsersCart = (props:any) => {
                             {checkInviteSend = CheckIfInviteSend(e)}                            
                             <img src={addUser.src} alt="add" id={e.userName} className={props.inBlock ? styles.none : checkInviteRecive ? styles.none : checkInviteSend ? styles.none : checkFriends ? styles.none : styles.addUserIcon} onClick={(e:any) => {
                                     const data = { recipent_id: `${e.target.id}` };
-                                    axios.post('http://10.12.11.3:3000/friends/send',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}
+                                    axios.post('http://10.12.10.1:3000/friends/send',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}
                                 })
                                 props.setUpdate(!props.update);
                             }}/>
@@ -73,12 +84,12 @@ const UsersCart = (props:any) => {
                                 const data = {
                                     sender_id: `${e.target.id}`
                                 };
-                                axios.post('http://10.12.11.3:3000/friends/accept',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                                axios.post('http://10.12.10.1:3000/friends/accept',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
                                 props.setUpdate(!props.update);
                             }}/>
                             <img src={reject.src} width={20} height={20} alt="reject" id={e.userName} className={props.inBlock ? styles.none : checkInviteRecive && !checkFriends ? styles.rejectInvite : checkInviteSend ? styles.rejectInvite : styles.none} onClick={(e: any) => {
                                 const data = { recipent_id: `${e.target.id}` };
-                                axios.post('http://10.12.11.3:3000/friends/cancell',data,{ headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                                axios.post('http://10.12.10.1:3000/friends/cancell',data,{ headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
                                 props.setUpdate(!props.update);
                             }}/>
                             {checkInviteRecive = false}
@@ -89,7 +100,7 @@ const UsersCart = (props:any) => {
                             </Link>
                             <img src={blockUser.src} alt="add" id={e.userName} className={props.inBlock ? styles.addUserIcon : styles.none} onClick={(e:any) => {
                                 const data = {userName: `${e.target.id}`};
-                                axios.post('http://10.12.11.3:3000/friends/unblock',data,{ headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                                axios.post('http://10.12.10.1:3000/friends/unblock',data,{ headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
                                 props.setUpdate(!props.update);
                             }}/>
                         </div>

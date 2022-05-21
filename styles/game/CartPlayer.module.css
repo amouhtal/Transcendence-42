@@ -19,7 +19,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 15px;
     border-radius: 20px;
 }
 .UserName{
@@ -39,4 +39,18 @@
     font-weight: bold;
     letter-spacing: 2px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+.ListImoji{
+    width: 243px;
+    height: 65px;
+    margin-top: -5%;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.imgImoji{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
 }

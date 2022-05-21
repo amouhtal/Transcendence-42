@@ -9,7 +9,7 @@ import {
   switch_,
 } from "../tools/gameTools";
 
-export default function Game(props:any) {
+export default function Game(props: any) {
   const canvasRef = useRef(null);
   const {
     canvaWidth,
@@ -41,12 +41,12 @@ export default function Game(props:any) {
   const ballTrajecX = useRef(ballMovmentX);
   const ballSpeed = useRef(10);
   const [player1, changePlayer1] = useState({
-    x: 0,
+    x: 5,
     y: canvaHeight / 2 - rectHeigth / 2,
     score: 0,
   });
   const [player2, changePlayer2] = useState({
-    x: canvaWidth - rectWidth,
+    x: canvaWidth - rectWidth - 5,
     y: canvaHeight / 2 - rectHeigth / 2,
     score: 0,
   });
@@ -115,7 +115,7 @@ export default function Game(props:any) {
         changePlayer2((oldValue) => ({
           ...oldValue,
           y: newPosition1,
-          x: size.current.canvaWidth - size.current.rectWidth,
+          x: size.current.canvaWidth - size.current.rectWidth - 5,
         }));
         changePlayer1((oldValue) => ({ ...oldValue, y: newPosition2 }));
         changeBall({ x: newPosition.x, y: newPosition.y });
@@ -136,24 +136,24 @@ export default function Game(props:any) {
         changePlayer2((oldValue) => ({
           ...oldValue,
           y: newPosition1,
-          x: size.current.canvaWidth - size.current.rectWidth,
+          x: size.current.canvaWidth - size.current.rectWidth - 5,
         }));
         changePlayer1((oldValue) => ({ ...oldValue, y: newPosition2 }));
         changeBall({ x: newPosition.x, y: newPosition.y });
         console.log(newPosition.x, newPosition.y);
         resizeOneTime.current = 2;
       } else if (resizeOneTime.current != 3 && window.innerWidth > 1300) {
-        dispatch(change(720));
-        let newPosition1 = 720 / 2 - ((720 / 2) * changePerc1) / 100;
-        let newPosition2 = 720 / 2 - ((720 / 2) * changePerc2) / 100;
+        dispatch(change(1000));
+        let newPosition1 = 1000 / 2 - ((1000 / 2) * changePerc1) / 100;
+        let newPosition2 = 1000 / 2 - ((1000 / 2) * changePerc2) / 100;
         let newPosition = {
-          x: 720 - (720 * ballPerc.changePercX) / 100,
-          y: 720 / 2 - ((720 / 2) * ballPerc.changePercY) / 100,
+          x: 1000 - (1000 * ballPerc.changePercX) / 100,
+          y: 1000 / 2 - ((1000 / 2) * ballPerc.changePercY) / 100,
         };
         changePlayer2((oldValue) => ({
           ...oldValue,
           y: newPosition1,
-          x: size.current.canvaWidth - size.current.rectWidth,
+          x: size.current.canvaWidth - size.current.rectWidth - 5,
         }));
         changePlayer1((oldValue) => ({ ...oldValue, y: newPosition2 }));
         changeBall({ x: newPosition.x, y: newPosition.y });
@@ -250,10 +250,11 @@ export default function Game(props:any) {
       const canva: HTMLCanvasElement = canvasRef.current;
       const context = canva.getContext("2d");
       context?.clearRect(0, 0, canvaWidth, canvaHeight);
+      drawRect(0, 0, canvaWidth, canvaHeight, "black", context);
       drawMiddle(canvaWidth, canvaHeight, context);
-      drawRect(player1.x, player1.y, rectWidth, rectHeigth, "black", context);
-      drawBall(ball.x, ball.y, ballSize, "black", context);
-      drawRect(player2.x, player2.y, rectWidth, rectHeigth, "black", context);
+      drawRect(player1.x, player1.y, rectWidth, rectHeigth, "white", context);
+      drawBall(ball.x, ball.y, ballSize, "white", context);
+      drawRect(player2.x, player2.y, rectWidth, rectHeigth, "white", context);
     }
   });
   useEffect(() => {
@@ -303,20 +304,20 @@ export default function Game(props:any) {
           y: size.current.canvaHeight / 2,
         });
         ballSpeed.current = 10;
-        props.changeScore((oldvalues:any) =>({
-            ...oldvalues,
-            player2: oldvalues.player2 + 1
-        }))
+        props.changeScore((oldvalues: any) => ({
+          ...oldvalues,
+          player2: oldvalues.player2 + 1,
+        }));
       } else if (ball.x >= size.current.canvaWidth) {
         changeBall({
           x: size.current.canvaWidth / 2,
           y: size.current.canvaHeight / 2,
         });
         ballSpeed.current = 10;
-        props.changeScore((oldvalues:any) =>({
-            ...oldvalues,
-            player1: oldvalues.player1 + 1
-        }))
+        props.changeScore((oldvalues: any) => ({
+          ...oldvalues,
+          player1: oldvalues.player1 + 1,
+        }));
       } else
         changeBall((oldValues) => ({
           y: ballY.current
@@ -334,7 +335,7 @@ export default function Game(props:any) {
   return (
     <>
       <canvas
-        style={{ border: "1px solid #d3d3d3" }}
+        style={{ border: "1px solid #d3d3d3", borderRadius: "10px" }}
         id="canvas"
         width={canvaWidth}
         height={canvaHeight}

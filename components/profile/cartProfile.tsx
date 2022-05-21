@@ -12,6 +12,7 @@ import { useRouter } from "next/router"
 
 function CartProfile (props:any){
     let isConected = false;
+    console.log(props)
     const route = useRouter();
     const CheckIfFriend = (user:any) => {
         let friendstest = false;
@@ -42,10 +43,10 @@ function CartProfile (props:any){
     let checkInviteSend:boolean
     return (
         <div className={style.cartPf}>
-            <img className={style.img} src={props.data?.picture} />
+            <img className={style.img} id={props.data?.userName} src={props.data?.picture} />
             <div className={style.formationCart}>
                 <div className={style.child1}>
-                    <p className={isConected ? style.online : style.offline}> {isConected ? "Online" : "Offline"}</p>
+                    <p className={props.Myprofile ? style.none :props.data?.isActive ? style.online : style.offline}> {props.data?.isActive ? "Online" : "Offline"}</p>
                 </div>
                 <div className={style.child2}>
                     <p className={style.Ptext}>UserName:</p>
@@ -68,22 +69,22 @@ function CartProfile (props:any){
                 <img src={ajout.src} id={props.data?.userName} className={props.Myprofile ? style.none : checkInviteRecive ? style.none : checkInviteSend ? style.none : checkFriends ? style.none : style.ajoute} onClick={(e:any) => {
                     const data = {recipent_id:`${props.data?.userName}`}
                     console.log(data);
-                    axios.post('http://10.12.11.3:3000/friends/send',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}).then((res) => {props.setUpdate(!props.update);})
+                    axios.post('http://10.12.10.1:3000/friends/send',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}).then((res) => {props.setUpdate(!props.update);})
 
                     }
                     }></img>
                 <img src={blocked.src} className={props.Myprofile ? style.none :style.block} onClick={(e:any) => {
-                    const data = {sender_id:`${props.data?.userName}`}
-                    axios.post('http://10.12.11.3:3000/friends/block',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})}}></img>
+                    const data = {userName:`${props.data?.userName}`}
+                    axios.post('http://10.12.10.1:3000/friends/block',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})}}></img>
                 <img src={play.src} className={props.Myprofile ? style.none : style.play}></img>
                 <img src={chatIcon.src} className={props.Myprofile ? style.none : style.play}></img>
                 <img src={accept.src} alt="accept" id={props.data?.userName} className={props.inBlock ? style.none : checkInviteRecive && !checkFriends ? style.acceptInvite: style.none}
                     onClick={(e:any) => { const data = {sender_id: `${props.data?.userName}`};
-                            axios.post('http://10.12.11.3:3000/friends/accept',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                            axios.post('http://10.12.10.1:3000/friends/accept',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
                                 props.setUpdate(!props.update);}}/>
                             <img src={reject.src} width={20} height={20} alt="reject" id={props.data?.userName} className={props.inBlock ? style.none : checkInviteRecive && !checkFriends ? style.rejectInvite : checkInviteSend ? style.rejectInvite : style.none} onClick={(e: any) => {
                                 const data = { recipent_id: `${e.target.id}` };
-                                axios.post('http://10.12.11.3:3000/friends/cancell',data,{ headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                                axios.post('http://10.12.10.1:3000/friends/cancell',data,{ headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
                                 props.setUpdate(!props.update);
                             }}/>
                 {checkFriends = false}

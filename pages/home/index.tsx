@@ -26,7 +26,7 @@ const home = () => {
         }
         if (localStorage.getItem("accessToken") !== "undefined" && localStorage.getItem("accessToken") !== null)
         {
-            axios.get('http://10.12.11.3:3000/users/CheckUserName',{
+            axios.get('http://10.12.10.1:3000/users/CheckUserName',{
                 headers:{
                     'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
                 }

@@ -8,7 +8,7 @@ import { update_test } from "../../redux/sizes";
 
 const CinFormation = (props:any) => {
   const [valid, setValid] = useState<number>(0);
-  const [image, setImage] = useState<string | undefined>(props.image);
+  const [image, setImage] = useState<string | undefined>();
   const [userName, setUserName] = useState<string>("");
   const [imageName, changeImageName] = useState<string>("");
   const changeStyle = useRef(null);
@@ -16,10 +16,10 @@ const CinFormation = (props:any) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.get('http://10.12.11.3:3000/users/profile',{
-        headers:{
-          'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
-        }
+    axios.post('http://10.12.10.1:3000/users/profile',null,{
+      headers:{
+        'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
+      }
       }).then((res) =>{
         setUserInfo(res.data.userInfo);
       })
@@ -53,7 +53,7 @@ const CinFormation = (props:any) => {
       } else resolve(false);
     });
   }
-
+  // {console.log("====>", image)};
   let putfile = (e: any) => {
     var reader = new FileReader();
     var file = document.querySelector("input[type=file]") as HTMLInputElement;
@@ -85,14 +85,12 @@ const CinFormation = (props:any) => {
     e.preventDefault();
     dispatch(update_test());
     const data = { userName, imageName };
-    axios
-      .post("http://10.12.11.3:3000/users/complet", data, {
+    axios.post("http://10.12.10.1:3000/users/complet", data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`,
         }
       })
       .then((res) => {
-        console.log(res.data);
         if(res.data.message && (res.data.message == "valid username" ||
             res.data.message == "Already have a username")){props.setUpdate(!props.update)}
         else if (res.data.message) alert(res.data.message);
@@ -108,10 +106,11 @@ const CinFormation = (props:any) => {
               upload an avatar.
             </p>
           </div>
-          <form className={style.form} onSubmit={handelSubmit}>
+          <form className={style.form} onSubmit={(e:any) => {e.preventDefault()}}>
             <div className={style.content}>
               <div className={style.imge}>
-                <img className={style.img} src={userInfo?.picture}></img>
+                {console.log(userInfo?.picture)}
+                <img className={style.img} src={userInfo?.picture === undefined ? image : userInfo?.picture}></img>
               </div>
               <div className={style.child}>
                 <p className={style.text2}>
@@ -156,7 +155,7 @@ const CinFormation = (props:any) => {
                 )}
               </div>
             </div>
-            {valid == 1 && <button className={style.subm}>Register</button>}
+            {valid == 1 && <button className={style.subm} onClick={handelSubmit}>Register</button>}
           </form>
         </div>
       </div>

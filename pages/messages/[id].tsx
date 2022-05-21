@@ -10,13 +10,11 @@ import UserInfo from '../../components/Messages/UserInfo';
 // const socket = io("10.12.11.5:3000",{transports:['websocket']});
 import ChatZone from '../../components/Messages/chatZone';
 import FakeData from '../../data.json'
-const Messages = () => {
+const Messages = (props:any) => {
     const [Status ,setStatus] = useState<boolean>(false);
     const router = useRouter();
     var test:boolean = true;
-    if (test)
-        var socket = io("10.12.10.4:3300",{transports:['websocket']});
-    test = false;
+
     const [filterData] = FakeData.filter((value: any) => {
         return (value.userName === router.query.id);
     });
@@ -34,7 +32,7 @@ const Messages = () => {
         <div className={styles.globaleContainer}>
             <button className={styles.tmp} onClick={(e:any) => {e.preventDefault(); setStatus(!Status)}}>Status</button>
             <div className={styles.container}>
-                <ChatZone data={filterData} status={Status}/>
+                <ChatZone data={filterData} status={Status} socket={props.socket} user={props.user}/>
             </div>
         </div>
     );

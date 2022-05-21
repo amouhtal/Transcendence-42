@@ -13,23 +13,26 @@ import io from 'socket.io-client';
 import Friends from '../../dataFriend.json'
 import FriendsZone from '../../components/Messages/friendsZone';
 import back from '../../public/images/left.png'
-const socket = io("10.12.10.4:3300",{transports:['websocket']});
+// const socket = io("10.12.10.4:3300",{transports:['websocket']});
 const ChatZone = (props:any) => {
+    console.log(props);
     const checkout:string = process.browser ? localStorage.getItem('color') as string : 'default';
     const [messageValue, setMessage] = useState<string>("Hello how are you?");
+    const [messages, setMessages] = useState<any>([])
     const [userInfo, setuserInfo] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
     const [color, setColor] = useState<string>(checkout);
     const handelSubmit = (e:any) => {
         e.preventDefault();
         e.target.message.value !== '' ? setMessage(e.target.message.value) : messageValue;
-        socket.emit("message",e.target.message.value,1,2);
+        props.socket?.emit("message",e.target.message.value,"mel-hamr","zakdim");
         e.target.message.value = '';
     }
     if (process.browser)
         localStorage.setItem("color", color as string);
     // console.log(color);
-    socket.on("message", (data) => { console.log("data = " ,data);})
+    props.socket?.on("message", (data:any) => { console.log("mel-hamr:data = " ,data);setMessages(data)})
+    console.log("user = ",props.user)
     return (
         <>
         <FriendsZone data={Friends} status={props.status} show={showFriends} setShow={setShowFriends}/>
@@ -45,11 +48,22 @@ const ChatZone = (props:any) => {
                 <p className={styles.settings} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
             </div>
             <div className={styles.chatMain}>
-                <div className={`${styles.messageContainer} ${color === 'black' ? styles.messageContainerBlack : 
-                color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}>
-                    <p className={`${styles.messageChatMain}`}>{messageValue}</p>
-                        <div className={`${styles.messageStyle} ${color === 'black' ? styles.messageContainerBlack : color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}></div>
-                </div>
+                {messages?.map((e:any) => {
+                    return (
+                        e.senderId === e.messageSender ?
+                            <div className={`${styles.messageSenderContainer} ${color === 'black' ? styles.messageContainerBlack : 
+                            color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}>
+                                <p className={`${styles.messageChatMain}`}>{messageValue}</p>
+                                    {/* <div className={`${styles.messageStyle} ${color === 'black' ? styles.messageContainerBlack : color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}></div> */}
+                            </div>
+                        :
+                        <div className={`${styles.messageReciverContainer} ${color === 'black' ? styles.messageContainerBlack : 
+                        color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}>
+                            <p className={`${styles.messageChatMain}`}>{e.message}</p>
+                                {/* <div className={`${styles.messageStyle} ${color === 'black' ? styles.messageContainerBlack : color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}></div> */}
+                        </div>
+                    )
+                })}
             </div>
             <div className={styles.messagesZone}>
                 <form className={styles.formMessage} onSubmit={handelSubmit}>

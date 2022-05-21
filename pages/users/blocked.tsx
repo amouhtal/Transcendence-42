@@ -6,14 +6,15 @@ import { useEffect, useState } from 'react'
 import styles from '../../styles/users/users.module.css'
 const blocked = (props:any) => {
     const [usersData, setUsersData] = useState<any>([]);
+    const [usersDatas, setUsersDatas] = useState<any>([]);
     const [update, setUpdate] = useState<boolean>(false);
     useEffect(() => {
-        axios.get('http://10.12.11.3:3000/friends/all', {
+        axios.get('http://10.12.10.1:3000/friends/block', {
             headers:{
                 'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
             }
         }).then((res) =>{
-            console.log("response = ", res.data);
+            console.log("responsee = ", res.data);
             setUsersData(res.data);
             // console.log("usersData=",usersData)
         })
@@ -21,11 +22,8 @@ const blocked = (props:any) => {
     return (
         <div>
             <Blocked placeholder="Search..."
-            usersData={usersData?.blocked_friends}
-            usersSinvite={usersData?.user_sinvite}
-            usersRinvite={usersData?.user_rinvite}
-            blocked={usersData?.blocked_friends}
-            friends={usersData?.user_friends}
+            usersData={usersData}
+            blocked={usersData}
             setUpdate={setUpdate}
             inBlock={true}
             update={update}/>

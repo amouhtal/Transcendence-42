@@ -10,15 +10,16 @@ function users() {
     const [count, setCount] = useState(0);
     const [update, setUpdateVar] = useState<boolean>(false);
     useEffect(() => {
-        axios.get('http://10.12.11.3:3000/friends/all', {
+        axios.get('http://10.12.10.1:3000/friends/all', {
             headers:{
                 'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
             }
         }).then((res) =>{
-            console.log("response = ", res.data);
+            console.log("responseII = ", res.data);
             setUsersData(res.data);
             // console.log("usersData=",usersData)
         })
+        
     },[update])
     return (
         <div>
