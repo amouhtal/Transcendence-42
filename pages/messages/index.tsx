@@ -8,7 +8,7 @@ import Image from 'next/image';
 import image from '../../public/images/profile.jpg'
 import UserInfo from '../../components/Messages/UserInfo';
 import ChatZone from '../../components/Messages/chatZone';
-import UserInfoPopup from '../../components/UserInfoPopup/UserInfoPopup'
+import UserInfoPopup2 from '../../components/UserInfoPopup/UserInfoPopup2'
 import {useSelector} from 'react-redux'
 const messages = () => {
     const [Status ,setStatus] = useState<boolean>(false);
@@ -29,7 +29,7 @@ const messages = () => {
                     </div>
                 </div>
             </div>
-            {test.sizes_.zak_test && <UserInfoPopup />}
+            {test.sizes_.zak_test && <UserInfoPopup2 />}
         </>
     );
 }

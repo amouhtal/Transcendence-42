@@ -24,14 +24,15 @@ const ChatZone = (props:any) => {
     const [color, setColor] = useState<string>(checkout);
     const handelSubmit = (e:any) => {
         e.preventDefault();
+        console.log(e.target.message.value)
         e.target.message.value !== '' ? setMessage(e.target.message.value) : messageValue;
-        props.socket?.emit("message",e.target.message.value,"mel-hamr","zakdim");
+        props.socket?.emit("message",e.target.message.value,"zakdim");
         e.target.message.value = '';
     }
     if (process.browser)
         localStorage.setItem("color", color as string);
     // console.log(color);
-    props.socket?.on("message", (data:any) => { console.log("mel-hamr:data = " ,data);setMessages(data)})
+    props.socket?.on("message", (data:any) => { console.log("im here"); console.log("mel-hamr:data = " ,data);setMessages(data)})
     console.log("user = ",props.user)
     return (
         <>
@@ -48,22 +49,22 @@ const ChatZone = (props:any) => {
                 <p className={styles.settings} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
             </div>
             <div className={styles.chatMain}>
-                {messages?.map((e:any) => {
-                    return (
-                        e.senderId === e.messageSender ?
+                {/* {messages?.map((e:any) => { */}
+                    {/* return ( */}
+                        {/* e.senderId === e.messageSender ? */}
                             <div className={`${styles.messageSenderContainer} ${color === 'black' ? styles.messageContainerBlack : 
                             color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}>
                                 <p className={`${styles.messageChatMain}`}>{messageValue}</p>
-                                    {/* <div className={`${styles.messageStyle} ${color === 'black' ? styles.messageContainerBlack : color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}></div> */}
+                                    <div className={`${styles.messageStyle} ${color === 'black' ? styles.messageContainerBlack : color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}></div>
                             </div>
-                        :
-                        <div className={`${styles.messageReciverContainer} ${color === 'black' ? styles.messageContainerBlack : 
-                        color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}>
-                            <p className={`${styles.messageChatMain}`}>{e.message}</p>
-                                {/* <div className={`${styles.messageStyle} ${color === 'black' ? styles.messageContainerBlack : color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}></div> */}
-                        </div>
-                    )
-                })}
+                        {/* // : */}
+                        {/* // <div className={`${styles.messageReciverContainer} ${color === 'black' ? styles.messageContainerBlack :  */}
+                        {/* // color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}> */}
+                        {/* //     <p className={`${styles.messageChatMain}`}>{e.message}</p> */}
+                        {/* //         <div className={`${styles.messageStyle} ${color === 'black' ? styles.messageContainerBlack : color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}></div> */}
+                        {/* // </div> */}
+                    {/* ) */}
+                {/* })} */}
             </div>
             <div className={styles.messagesZone}>
                 <form className={styles.formMessage} onSubmit={handelSubmit}>

@@ -5,6 +5,7 @@ import { NextRouter, useRouter } from "next/router";
 import React, { useEffect } from "react";
 import Fire from "../fire/fiere";
 
+
 const Login = () => {
   const router = useRouter();
   const url: string = "http://10.12.10.1:3000/auth/42";

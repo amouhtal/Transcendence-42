@@ -6,7 +6,7 @@ import Router, { withRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { update_test } from "../../redux/sizes";
 
-const CinFormation = (props:any) => {
+const CinFormation2 = (props:any) => {
   const [valid, setValid] = useState<number>(0);
   const [image, setImage] = useState<string | undefined>();
   const [userName, setUserName] = useState<string>("");
@@ -84,18 +84,16 @@ const CinFormation = (props:any) => {
   const handelSubmit = (e: any) => {
     e.preventDefault();
     dispatch(update_test());
-    const data = { userName, imageName };
-    axios.post("http://10.12.10.1:3000/users/complet", data, {
+    console.log("image = ",image);
+    // const data = { userName : userName, image: image, key: imageName };
+    const data = new FormData();
+
+    data.append('image',image,imageName);
+    axios.post("http://10.12.10.1:3000/upload", data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`,
         }
       })
-      .then((res) => {
-        props.setUpdate(!props.update)
-        if(res.data.message && (res.data.message == "valid username" ||
-            res.data.message == "Already have a username")){props.setUpdate(!props.update)}
-        else if (res.data.message) alert(res.data.message);
-      });
   };
   return (
     <>
@@ -111,7 +109,7 @@ const CinFormation = (props:any) => {
             <div className={style.content}>
               <div className={style.imge}>
                 {console.log(userInfo?.picture)}
-                <img className={style.img} src={userInfo?.picture === undefined ? image : userInfo?.picture}></img>
+                <img className={style.img} src={image !== undefined ? image : userInfo?.picture}></img>
               </div>
               <div className={style.child}>
                 <p className={style.text2}>
@@ -156,7 +154,7 @@ const CinFormation = (props:any) => {
                 )}
               </div>
             </div>
-            {valid == 1 && <button className={style.subm} onClick={handelSubmit}>Register</button>}
+            <button className={style.subm} onClick={handelSubmit}>Register</button>
           </form>
         </div>
       </div>
@@ -164,4 +162,4 @@ const CinFormation = (props:any) => {
   );
 };
 
-export default CinFormation;
+export default CinFormation2;

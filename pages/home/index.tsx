@@ -1,5 +1,6 @@
 import styles from '../../styles/home/home.module.css'
 import UserInfoPopup from '../../components/UserInfoPopup/UserInfoPopup'
+import UserInfoPopup2 from '../../components/UserInfoPopup/UserInfoPopup2'
 import SidePar from '../../components/sideBar'
 import { useState } from 'react'
 import Watch from '../../components/livematch'
@@ -44,7 +45,7 @@ const home = () => {
             <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainer}>
             <UserInfoPopup setUpdate={setUpdate} update={update} isUsername={setUsername}/>
             </div>
-            {test.sizes_.zak_test && <UserInfoPopup setUpdate={setUpdate} update={update} isUsername={setUsername}/>}
+            {test.sizes_.zak_test && <UserInfoPopup2/>}
         </>
     );
 }

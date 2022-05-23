@@ -14,7 +14,7 @@ function Profile (){
 
     const router = useRouter();
     useEffect(() => {
-        const data = {userName: "fjdkljgdfklfgjk"}
+        const data = {userName: router.query.id}
         console.log(data)
         axios.post('http://10.12.10.1:3000/users/profile',data, {
             headers:{

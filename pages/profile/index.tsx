@@ -7,7 +7,7 @@ import Router, { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { type } from "os"
 import FakeData from '../../data.json'
-import UserInfoPopup from '../../components/UserInfoPopup/UserInfoPopup'
+import UserInfoPopup2 from '../../components/UserInfoPopup/UserInfoPopup2'
 import {useSelector} from 'react-redux'
 
 function Profile (){
@@ -34,7 +34,7 @@ function Profile (){
             </div>
               <MatchHestory userData={userInfo} gameHistory={MatchHistory}/>
           </div>
-          {test.sizes_.zak_test && <UserInfoPopup />}
+          {test.sizes_.zak_test && <UserInfoPopup2 />}
         </>
     )
 }

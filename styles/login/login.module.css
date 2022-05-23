@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Henny+Penny&family=Irish+Grover&family=Nosifer&family=Reggae+One&family=Shojumaru&family=Trade+Winds&display=swap');
 .login {
   background-image: url("../../public/images/ivan-cortez-c9aGBqkeoE4-unsplash.jpg");
   width: 100%;
@@ -15,7 +16,8 @@
 }
 
 .intra {
-  font-family: cursive;
+  /* font-family: cursive; */
+  font-family: 'Henny Penny', cursive;
   background: rgb(43, 42, 42);
   font-weight: bolder;
   width: 290px;
@@ -24,17 +26,17 @@
   align-items: center;
   justify-content: center;
   border-radius: 50px;
-  font-size: 22px;
+  font-size: 19px;
   z-index: 3;
   border: none;
   text-align: center;
   box-shadow: rgb(2, 144, 144) 0px 0px 30px;
 }
 .P42 {
-  font-size: 33px;
+  font-size: 30px;
   font-weight: bolder;
   color: rgb(4, 192, 217);
-  font-family: "Clicker Script", cursive;
+  font-family: 'Shojumaru', cursive;
 }
 .Fire {
   position: absolute;
@@ -50,11 +52,20 @@
   color: rgb(197, 196, 196);
 }
 
+/* font-family: 'Henny Penny', cursive;
+font-family: 'Irish Grover', cursive;
+font-family: 'Nosifer', cursive;
+font-family: 'Reggae One', cursive;
+font-family: 'Shojumaru', cursive;
+font-family: 'Trade Winds', cursive; */
+
 .Ft_trance {
-  font-size: 190px;
+  font-size: 145px;
   position: absolute;
-  top: -7%;
-  font-family: monospace;
+  top: 2%;
+  letter-spacing: 2px;
+  /* font-family: monospace; */
+  font-family: 'Shojumaru', cursive;
   font-weight: bolder;
   background: black;
   -webkit-background-clip: text;

@@ -55,14 +55,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 		// 	setUserInfo(res);
         //   })
 	},[])
-	useEffect(() => {
-	  if (typeof window !== 'undefined') {
-	    if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined" || localStorage.getItem("accessToken") === "")
-	      changeStatus(false);
-	    else
-			changeStatus(true);
-	}
-	},[update])
+	// useEffect(() => {
+	//   if (typeof window !== 'undefined') {
+	//     if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined" || localStorage.getItem("accessToken") === "")
+	//       changeStatus(false);
+	//     else
+	// 		changeStatus(true);
+	// }
+	// },[update])
 	console.log("socket = ",socket)
 	console.log("userInfo = ", userInfo?.data?.userInfo)
 	return (

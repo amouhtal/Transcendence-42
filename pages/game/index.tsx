@@ -1,7 +1,7 @@
 import CartPlayer from "../../components/game/cartPlayer";
 import style from "../../styles/game/HomeGame.module.css";
 import Game from "../../components/game";
-import UserInfoPopup from '../../components/UserInfoPopup/UserInfoPopup'
+import UserInfoPopup2 from '../../components/UserInfoPopup/UserInfoPopup2'
 import { useState } from "react";
 import {useSelector} from "react-redux"
 import leagend from '../../public/images/3amii9.png'
@@ -20,15 +20,15 @@ const HomeGame = () => {
             <div className={style.cartPlayer}>
                 <CartPlayer score={score.player1}/>
             </div>
-            <div className={style.Game}>
-                {/* <Game changeScore={changeScore}/> */}
-            </div>
+            {/* <div className={style.Game}> */}
+                <Game changeScore={changeScore}/>
+            {/* </div> */}
             <div className={style.cartPlayer}>
                 <CartPlayer  score={score.player2}/>
             </div>
         </div>
 
-        {test.sizes_.zak_test && <UserInfoPopup />}
+        {test.sizes_.zak_test && <UserInfoPopup2 />}
         
     </>
   );

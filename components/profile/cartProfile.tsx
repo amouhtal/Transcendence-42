@@ -12,7 +12,7 @@ import { useRouter } from "next/router"
 
 function CartProfile (props:any){
     let isConected = false;
-    console.log(props)
+    console.log("test =", props)
     const route = useRouter();
     const CheckIfFriend = (user:any) => {
         let friendstest = false;
