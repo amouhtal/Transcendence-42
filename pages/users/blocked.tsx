@@ -9,7 +9,7 @@ const blocked = (props:any) => {
     const [usersDatas, setUsersDatas] = useState<any>([]);
     const [update, setUpdate] = useState<boolean>(false);
     useEffect(() => {
-        axios.get('http://10.12.10.1:3000/friends/block', {
+        axios.get('http://10.12.11.3:3000/friends/block', {
             headers:{
                 'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
             }

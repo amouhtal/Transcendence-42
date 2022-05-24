@@ -5,7 +5,7 @@ const twofactor = () => {
     useEffect(() => {
         let data;
         axios({
-            url: "http://10.12.10.1:3000/2fa/generate",
+            url: "http://10.12.11.3:3000/2fa/generate",
             data:data,
             headers: {Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`},
             method:'POST',
@@ -23,7 +23,7 @@ const twofactor = () => {
         });
     })
         // axios({
-        //     url: 'http://10.12.10.1/2fa/generate',
+        //     url: 'http://10.12.11.3/2fa/generate',
         //     headers:{ 'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`},
         //     method: 'POST',
         //     responseType: 'blob', // important
@@ -78,7 +78,7 @@ const twofactor = () => {
                         console.log(result.join(''));
                         const data = {twoFactorAuthenticationCode:result.join('')}
                         console.log(data)
-                    axios.post('http://10.12.10.1:3000/2fa/turn-on',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+                    axios.post('http://10.12.11.3:3000/2fa/turn-on',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
                     ).then((res) => {
                         console.log(res)
                         if (res.status === 200)
@@ -86,7 +86,7 @@ const twofactor = () => {
                             console.log(res.data.accessToken);
                             localStorage.setItem("accessToken",res.data.accessToken);
                             localStorage.setItem("refreshToken",res.data.refreshToken);
-                            // axios.post('http://10.12.10.1:3000/2fa/turn-one',{twoFactorAuthenticationCode:result.join('')},{headers:{'Authorization': `Bearer ${res.data.accessToken}`}})
+                            // axios.post('http://10.12.11.3:3000/2fa/turn-one',{twoFactorAuthenticationCode:result.join('')},{headers:{'Authorization': `Bearer ${res.data.accessToken}`}})
                         }
                     })
                     result = [];

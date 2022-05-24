@@ -16,7 +16,7 @@ function Profile (){
     useEffect(() => {
         const data = {userName: router.query.id}
         console.log(data)
-        axios.post('http://10.12.10.1:3000/users/profile',data, {
+        axios.post('http://10.12.11.3:3000/users/profile',data, {
             headers:{
                 'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
             }

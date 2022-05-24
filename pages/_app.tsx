@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 					Authorization: `${localStorage.getItem("accessToken") as string}`
 				}
 			};
-			socket = io("10.12.11.2:3300",socketOptions);
+			socket = io("10.12.10.4:3300",socketOptions);
 	// 	}
 	// }
 		// axios.get('http://10.12.10.3:3000/users/profile',{
@@ -55,14 +55,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 		// 	setUserInfo(res);
         //   })
 	},[])
-	// useEffect(() => {
-	//   if (typeof window !== 'undefined') {
-	//     if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined" || localStorage.getItem("accessToken") === "")
-	//       changeStatus(false);
-	//     else
-	// 		changeStatus(true);
-	// }
-	// },[update])
+	useEffect(() => {
+	  if (typeof window !== 'undefined') {
+	    if ((localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined" || localStorage.getItem("accessToken") === "") && (router.pathname !== "/home"))
+	      changeStatus(false);
+	    else
+			changeStatus(true);
+	}
+	},[update])
 	console.log("socket = ",socket)
 	console.log("userInfo = ", userInfo?.data?.userInfo)
 	return (

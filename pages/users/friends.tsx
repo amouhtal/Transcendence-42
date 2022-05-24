@@ -9,7 +9,7 @@ const friends = () => {
     const [update, setUpdate] = useState<boolean>(false);
     useEffect(() => {
         try {
-            const rest = axios.get('http://10.12.10.1:3000/friends/all', {
+            const rest = axios.get('http://10.12.11.3:3000/friends/all', {
                 headers:{
                     'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
                 }

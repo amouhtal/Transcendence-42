@@ -16,7 +16,7 @@ const CinFormation2 = (props:any) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.post('http://10.12.10.1:3000/users/profile',null,{
+    axios.post('http://10.12.11.3:3000/users/profile',null,{
       headers:{
         'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
       }
@@ -84,12 +84,12 @@ const CinFormation2 = (props:any) => {
   const handelSubmit = (e: any) => {
     e.preventDefault();
     dispatch(update_test());
-    console.log("image = ",image);
-    // const data = { userName : userName, image: image, key: imageName };
-    const data = new FormData();
+    // console.log("image = ",image);
+    const data = { userName : userName};
+    // const data = new FormData();
 
-    data.append('image',image,imageName);
-    axios.post("http://10.12.10.1:3000/upload", data, {
+    // data.append('image', image);
+    axios.post("http://10.12.11.3:3000/upload", data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`,
         }
