@@ -16,13 +16,16 @@ const CinFormation = (props:any) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    axios.post('http://10.12.11.3:3000/users/profile',null,{
-      headers:{
-        'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
-      }
-      }).then((res) =>{
-        setUserInfo(res.data.userInfo);
-      })
+    if (typeof window !== 'undefined') {
+	    if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined"|| localStorage.getItem("accessToken") === '')
+        axios.post('http://10.12.11.3:3000/users/profile',null,{
+          headers:{
+            'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
+          }
+          }).then((res) =>{
+            setUserInfo(res.data.userInfo);
+          })
+        }
   }, [])
   const handelChange = (e: any) => {
     let lent: string = e.target.value;

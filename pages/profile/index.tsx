@@ -15,6 +15,7 @@ function Profile (){
     const [MatchHistory, setMatchHistory] = useState<any>([]);
     const Router = useRouter();
     useEffect(() => {
+      if (localStorage.getItem("accessToken") !== "undefined" && localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== '')
         axios.post('http://10.12.11.3:3000/users/profile',null,{
             headers:{
               'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`

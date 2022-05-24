@@ -7,10 +7,11 @@ function Home (){
     console.log(route.query.refreshToken)
     useEffect(() => {
         if (typeof window !== "undefined") {
-            localStorage.setItem("accessToken",route.query.token as string);
-            localStorage.setItem("refreshToken",route.query.refreshToken as string);
-            route.query.token = '';
-            route.query.refreshToken = '';
+            if (route.query.token !== "undefined" && route.query.refreshToken !== "undefined")
+            {
+                localStorage.setItem("accessToken",route.query.token as string);
+                localStorage.setItem("refreshToken",route.query.refreshToken as string);
+            }
         }
     },[route.query.token])
     return (

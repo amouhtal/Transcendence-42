@@ -22,6 +22,7 @@ const ChatZone = (props:any) => {
     const [userInfo, setuserInfo] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
     const [color, setColor] = useState<string>(checkout);
+    const [allMessages, setAllMessages] = useState<any>()
     const handelSubmit = (e:any) => {
         e.preventDefault();
         console.log(e.target.message.value)
@@ -81,5 +82,9 @@ const ChatZone = (props:any) => {
         </>
     );
 }
-
+/*
+    messages : {
+        
+    }
+*/
 export default ChatZone;

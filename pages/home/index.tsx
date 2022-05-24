@@ -16,16 +16,16 @@ const home = () => {
     const test:any = useSelector<any>(state=>state);
 
     useEffect(() => {
+        console.log("toke =", route.query.token, "query =", route.query,route.pathname)
         if (typeof window !== "undefined") {
             if (route.query.token && route.query.refreshToken)
             {
                 localStorage.setItem("accessToken",route.query.token as string);
                 localStorage.setItem("refreshToken",route.query.refreshToken as string);
             }
-            // route.query.token = '';
-            // route.query.refreshToken = '';
+            route.push("/home");
         }
-        if (localStorage.getItem("accessToken") !== "undefined" && localStorage.getItem("accessToken") !== null)
+        if (localStorage.getItem("accessToken") !== "undefined" && localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== '')
         {
             axios.get('http://10.12.11.3:3000/users/CheckUserName',{
                 headers:{
@@ -42,9 +42,9 @@ const home = () => {
                 < Watch/>
             </div>
             <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainerBlure}></div>
-            <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainer}>
-            <UserInfoPopup setUpdate={setUpdate} update={update} isUsername={setUsername}/>
-            </div>
+            {/* <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainer}> */}
+            {/* <UserInfoPopup setUpdate={setUpdate} update={update} isUsername={setUsername}/> */}
+            {/* </div> */}
             {test.sizes_.zak_test && <UserInfoPopup2/>}
         </>
     );

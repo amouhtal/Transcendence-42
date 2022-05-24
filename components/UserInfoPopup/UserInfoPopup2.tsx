@@ -16,6 +16,8 @@ const CinFormation2 = (props:any) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+	    if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined"|| localStorage.getItem("accessToken") === '')
     axios.post('http://10.12.11.3:3000/users/profile',null,{
       headers:{
         'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
@@ -23,7 +25,9 @@ const CinFormation2 = (props:any) => {
       }).then((res) =>{
         setUserInfo(res.data.userInfo);
       })
+    }
   }, [])
+
   const handelChange = (e: any) => {
     let lent: string = e.target.value;
     if (lent.length >= 6 && lent.length <= 9) {

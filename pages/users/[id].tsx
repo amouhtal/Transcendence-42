@@ -16,6 +16,8 @@ function Profile (){
     useEffect(() => {
         const data = {userName: router.query.id}
         console.log(data)
+        if (typeof window !== 'undefined') {
+            if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined" || localStorage.getItem("accessToken") === '')
         axios.post('http://10.12.11.3:3000/users/profile',data, {
             headers:{
                 'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
@@ -25,6 +27,7 @@ function Profile (){
             setUsersData(res.data);
             // console.log("usersData=",usersData)
         })
+    }
     },[update, router.query.id])
     let filtredData = usersData?.all_users?.filter((value: any) => {
         return (value.userName === router.query.id)

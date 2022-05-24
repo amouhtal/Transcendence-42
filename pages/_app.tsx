@@ -10,6 +10,7 @@ import Login from '../components/login/Login'
 import { useRouter } from 'next/router'
 import io from 'socket.io-client';
 import axios from 'axios'
+import { access } from 'fs'
 
 let socket:any;
 function MyApp({ Component, pageProps }: AppProps) {
@@ -57,27 +58,28 @@ function MyApp({ Component, pageProps }: AppProps) {
 	},[])
 	useEffect(() => {
 	  if (typeof window !== 'undefined') {
-	    if ((localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined" || localStorage.getItem("accessToken") === "") && (router.pathname !== "/home"))
-	      changeStatus(false);
+	    if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined" || localStorage.getItem("accessToken") === '')
+		{
+			router.push("/login")
+			changeStatus(false);
+		}
 	    else
+		{
+			// router.push("/home")
 			changeStatus(true);
+		}
 	}
-	},[update])
+	})
 	console.log("socket = ",socket)
 	console.log("userInfo = ", userInfo?.data?.userInfo)
 	return (
 	  <>
-	  {
-	    isConnect ?
-	      <Provider store={store}>
+			<Provider store={store}>
 	        <div className={Style.App}>
-	            <Component {...pageProps} socket={socket} user={userInfo?.data?.userInfo}/>
-	            <SideBar setShowSidBar={setShowSidBar} showSidBar={showSidBar} setUpdate={setUpdate} update={update} /> 
+			<Component {...pageProps} socket={socket} user={userInfo?.data?.userInfo}/>
+			<SideBar setShowSidBar={setShowSidBar} showSidBar={showSidBar} setUpdate={setUpdate} update={update} /> 
 	        </div>
-	      </Provider>
-	      :
-		  <Login />
-	  }
+			</Provider>
 	  </>
 	)
 }

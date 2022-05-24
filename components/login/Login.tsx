@@ -15,12 +15,12 @@ const Login = () => {
       <p className={styles.Ft_trance}>Ft_Transcendence</p>
       <button className={styles.intra}>
         <a href="http://10.12.11.3:3000/auth/42" className={styles.link}>
-          <div className={styles.Fire}>
-            <Fire />
-          </div>{" "}
-          <p className={styles.text}>
-            Sign in With <span className={styles.P42}>42</span>Intra
-          </p>
+          {/* <div className={styles.Fire}>
+          </div> */}
+          <div className={styles.text}>
+            {/* <div className={styles.fir}><Fire /></div> */}
+            <div><p>Sign in With <span className={styles.P42}>42</span>Intra</p></div>
+          </div>
         </a>
       </button>
     </div>
