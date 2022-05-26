@@ -7,10 +7,10 @@ const Player = (props:any) =>{
     return(
         <div className={style.Container}>
             <div>
-                <img src={image.src} className={style.imageUser}/>
+                <img src={props.img} className={style.imageUser}/>
             </div>
             <div className={style.Content}>
-                <p className={style.UserName}>Mel-hamr</p>
+                <p className={style.UserName}>{props.name}</p>
                 <div className={style.Score}>
                     <p className={style.Pscore}>Score</p>
                     <h3 className={style.score}>{props.score}</h3>

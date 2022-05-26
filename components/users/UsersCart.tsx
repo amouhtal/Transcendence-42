@@ -50,7 +50,6 @@ const UsersCart = (props:any) => {
     return (
         <>
         {props.data?.map((e: any | any[]) => {
-            {
                 if (typeof window !== 'undefined') {
                     if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined" || localStorage.getItem("accessToken") === '')
                 axios.post('http://10.12.11.3:3000/users/profile',{userName : e.userName},{
@@ -58,10 +57,10 @@ const UsersCart = (props:any) => {
                       'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
                     }
                   }).then((res) =>{
-                        console.log(res)
+                        console.log("myResponse =", res.data);
+                        setStatus(res.data.isActive);
                   })
                 }
-            }
             return  (
                 <div className={styles.userCard} key={Math.random()}>
                         <div className={`${styles.imgContainer}`}>

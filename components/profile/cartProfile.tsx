@@ -46,7 +46,7 @@ function CartProfile (props:any){
             <img className={style.img} id={props.data?.userName} src={props.data?.picture} />
             <div className={style.formationCart}>
                 <div className={style.child1}>
-                    <p className={props.Myprofile ? style.none :props.data?.isActive ? style.online : style.offline}> {props.data?.isActive ? "Online" : "Offline"}</p>
+                    <p className={props.Myprofile ? style.none : props.data?.isActive ? style.online : style.offline}> {props.data?.isActive ? "Online" : "Offline"}</p>
                 </div>
                 <div className={style.child2}>
                     <p className={style.Ptext}>UserName:</p>
@@ -63,7 +63,7 @@ function CartProfile (props:any){
             </div>
             <div className={style.addPlock}>
                 {checkFriends = CheckIfFriend(props.data?.userName)}
-                {checkInviteRecive = CheckIfInviteRecive(props.data?.userName)}
+                {checkInviteRecive = CheckIfInviteRecive(props.ƒisdata?.userName)}
                 {checkInviteSend = CheckIfInviteSend(props.data?.userName)}
                 {console.log(props.data)}
                 <img src={ajout.src} id={props.data?.userName} className={props.Myprofile ? style.none : checkInviteRecive ? style.none : checkInviteSend ? style.none : checkFriends ? style.none : style.ajoute} onClick={(e:any) => {

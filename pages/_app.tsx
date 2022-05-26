@@ -56,28 +56,34 @@ function MyApp({ Component, pageProps }: AppProps) {
 		// 	setUserInfo(res);
         //   })
 	},[])
-	useEffect(() => {
-	  if (typeof window !== 'undefined') {
-	    if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined" || localStorage.getItem("accessToken") === '')
-		{
-			router.push("/login")
-			changeStatus(false);
-		}
-	    else
-		{
-			// router.push("/home")
-			changeStatus(true);
-		}
-	}
-	})
+	// useEffect(() => {
+	//   if (typeof window !== 'undefined') {
+	//     if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined" || localStorage.getItem("accessToken") === '')
+	// 	{
+	// 		router.push("/login")
+	// 		changeStatus(false);
+	// 	}
+	//     else
+	// 	{
+	// 		// router.push("/home")
+	// 		changeStatus(true);
+	// 	}
+	// }
+	// },[])
 	console.log("socket = ",socket)
 	console.log("userInfo = ", userInfo?.data?.userInfo)
 	return (
 	  <>
 			<Provider store={store}>
-	        <div className={Style.App}>
-			<Component {...pageProps} socket={socket} user={userInfo?.data?.userInfo}/>
-			<SideBar setShowSidBar={setShowSidBar} showSidBar={showSidBar} setUpdate={setUpdate} update={update} /> 
+			<div className={Style.App}>
+	            <Component {...pageProps} socket={socket} user={userInfo?.data?.userInfo}/>
+				{
+					typeof window != "undefined" &&
+					window.location.href.split('/')[3] != "game" ?
+	            		<SideBar setShowSidBar={setShowSidBar} showSidBar={showSidBar} setUpdate={setUpdate} update={update} /> 
+					:
+					""
+				}
 	        </div>
 			</Provider>
 	  </>

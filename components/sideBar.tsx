@@ -18,7 +18,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 
 function SidePar(props:any){
-    const [isNavBar, setNavBar] = useState<boolean>(true);
+    const [isNavBar, setNavBar] = useState<boolean>(false);
     const [UsersInterface, setUsersInterface] = useState<boolean>(false);
 
     const test = useSelector<object>((state)=>state);
@@ -31,7 +31,7 @@ function SidePar(props:any){
     }
     return (
         <>
-            <div className={props.showSidBar ? Style.none : props.isNavBar? Style.sideParOn: Style.sideParOff}>
+            <div className={props.showSidBar ? Style.none : isNavBar? Style.sideParOn: Style.sideParOff}>
                 <div className={Style.container2}>
                     <div className={Style.child} onClick={(e:any) => {setUsersInterface(!UsersInterface)}}>
                         <img src={friends.src} className={Style.iconimg}/>
