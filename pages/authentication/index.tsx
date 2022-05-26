@@ -100,7 +100,7 @@ const authentication = () => {
                             console.log(res.data.accessToken);
                             localStorage.setItem("accessToken",res.data.accessToken);
                             localStorage.setItem("refreshToken",res.data.refreshToken);
-                            route.push("/home")
+                            // route.push("/home")
                         }
                     })
                     result = [];

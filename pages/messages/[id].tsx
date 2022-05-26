@@ -10,32 +10,26 @@ import UserInfo from '../../components/Messages/UserInfo';
 // const socket = io("10.12.11.5:3000",{transports:['websocket']});
 import ChatZone from '../../components/Messages/chatZone';
 import FakeData from '../../data.json'
+import axios from 'axios';
 const Messages = (props:any) => {
     const [Status ,setStatus] = useState<boolean>(false);
     const router = useRouter();
+    const [userInfo ,setUserInfo] = useState<any>();
     var test:boolean = true;
+    console.log("my Props =", props)
 
     const [filterData] = FakeData.filter((value: any) => {
         return (value.userName === router.query.id);
     });
-    const handleClick = (e:any) => {
-            e.preventDefault();
-            let data = { message: e.target.first.value, senderId: 1, reciver: 2 }
-            const toSend: string = `message: ${e.target.first.value}, senderId: 1, reciverId: 2`;
-            // socket.emit("message",e.target.first.value,1,2)
-            e.target.first.value = "";
-        }
-    // socket.on("message", (data) => {
-    //     console.log("data = " ,data);
-    // })
     return (
         <div className={styles.globaleContainer}>
-            <button className={styles.tmp} onClick={(e:any) => {e.preventDefault(); setStatus(!Status)}}>Status</button>
             <div className={styles.container}>
                 <ChatZone data={filterData} status={Status} socket={props.socket} user={props.user}/>
             </div>
         </div>
     );
 }
+
+
 
 export default Messages;

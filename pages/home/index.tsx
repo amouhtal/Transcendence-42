@@ -23,7 +23,7 @@ const home = () => {
                 localStorage.setItem("accessToken",route.query.token as string);
                 localStorage.setItem("refreshToken",route.query.refreshToken as string);
             }
-            route.push("/home");
+            // route.push("/home");
         }
         if (localStorage.getItem("accessToken") !== "undefined" && localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== '')
         {

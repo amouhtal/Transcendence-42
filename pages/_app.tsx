@@ -47,15 +47,29 @@ function MyApp({ Component, pageProps }: AppProps) {
 			socket = io("10.12.10.4:3300",socketOptions);
 	// 	}
 	// }
-		// axios.get('http://10.12.10.3:3000/users/profile',{
-        //     headers:{
-        //       'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
-        //     }
-        //   }).then((res) =>{
-		// 	  console.log(res)
-		// 	setUserInfo(res);
-        //   })
+	//   if (typeof window !== 'undefined') {
+	//     if (localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== "undefined" && localStorage.getItem("accessToken") !== '')
+	// 	axios.get('http://10.12.10.3:3000/users/profile',{
+    //         headers:{
+    //           'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
+    //         }
+    //       }).then((res) =>{
+	// 		  console.log(res)
+	// 		setUserInfo(res);
+    //       })
+	// 	}
 	},[])
+	useEffect(() => {
+        console.log("im hereerere");
+        if (localStorage.getItem("accessToken") !== "undefined" && localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== '')
+          axios.post('http://10.12.11.3:3000/users/profile',null,{
+              headers:{
+                'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
+              }
+            }).then((res) =>{
+              setUserInfo(res.data.userInfo);
+            })
+      }, [])
 	// useEffect(() => {
 	//   if (typeof window !== 'undefined') {
 	//     if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined" || localStorage.getItem("accessToken") === '')
@@ -74,18 +88,20 @@ function MyApp({ Component, pageProps }: AppProps) {
 	console.log("userInfo = ", userInfo?.data?.userInfo)
 	return (
 	  <>
-			<Provider store={store}>
+	  {
+		  <Provider store={store}>
 			<div className={Style.App}>
-	            <Component {...pageProps} socket={socket} user={userInfo?.data?.userInfo}/>
+	            <Component {...pageProps} socket={socket} user={userInfo}/>
 				{
 					typeof window != "undefined" &&
 					window.location.href.split('/')[3] != "game" ?
-	            		<SideBar setShowSidBar={setShowSidBar} showSidBar={showSidBar} setUpdate={setUpdate} update={update} /> 
+					<SideBar setShowSidBar={setShowSidBar} showSidBar={showSidBar} setUpdate={setUpdate} update={update} /> 
 					:
 					""
 				}
 	        </div>
 			</Provider>
+		}
 	  </>
 	)
 }
