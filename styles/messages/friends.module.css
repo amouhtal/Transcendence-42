@@ -84,6 +84,15 @@
     color: #a9a9a9;
 }
 
+.LastMessage {
+    position: relative;
+    top: 30px;
+    color: rgba(128, 128, 128, 0.671);
+    width: 80%;
+    text-overflow: ellipsis;
+    overflow: hidden !important;
+    white-space: nowrap;
+}
 .child::-webkit-scrollbar {
     width: 12px;
     height: 5%;

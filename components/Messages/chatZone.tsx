@@ -10,56 +10,109 @@ import send from '../../public/images/send-message.png'
 import { useEffect, useState } from 'react';
 import UserInfo from './UserInfo';
 import io from 'socket.io-client';
-import Friends from '../../dataFriend.json'
 import FriendsZone from '../../components/Messages/friendsZone';
 import back from '../../public/images/left.png'
+import axios from 'axios';
+import { Router, useRouter } from 'next/router';
+
 // const socket = io("10.12.10.4:3300",{transports:['websocket']});
 const ChatZone = (props:any) => {
-    console.log(props);
+    // console.log(props);
+    const router = useRouter();
     const checkout:string = process.browser ? localStorage.getItem('color') as string : 'default';
     const [messageValue, setMessage] = useState<string>("Hello how are you?");
-    const [messages, setMessages] = useState<any>([])
+    const [messages, setMessages] = useState<any>([]); useEffect(() => {
+        axios.post("http://10.12.10.4:3300/message/getConnversation",{userName: router.query.id},
+        {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+        ).then((res) => {
+            // console.log("myRefdsfsp =",res);
+            setMessages(res.data)
+        })
+    },[router.query.id])
     const [userInfo, setuserInfo] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
+    const [friends, setFriends] = useState<any>();
     const [color, setColor] = useState<string>(checkout);
+    const [reciverId, setReciverId] = useState<any>();
     const [allMessages, setAllMessages] = useState<any>()
+    let FriendsInformation: any = [];
+    const [ContactInformation, setContatInformation] = useState<any>([]);
+    // props.socket?.emit("message","","zakdim");
+    useEffect (() => {
+        if (messages !== [])
+        {
+            const userName = messages[0]?.senderId === props.user?.useName ? "" : messages[0]?.reciverId;
+            // console.log(userName)
+            axios.post("http://10.12.11.3:3000/users/profile",{userName: router.query.id},
+            {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+            ).then((res) => {
+                setReciverId(res.data?.userInfo);
+                // console.log("myRefdsfsp =",res.data?.userInfo);
+            })
+        }
+        
+    },[messages])
+    const [update, setUpdate] = useState<boolean>(false);
+    useEffect(() => {
+        axios.get("http://10.12.10.4:3300/message/getConntacts",
+        {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+        ).then((res) => {
+            setFriends(res.data);
+            console.log("Infoo =",res.data);
+            for (let i = 0; i < friends?.length;i++)
+            {
+                axios.post("http://10.12.11.3:3000/users/profile",{userName: friends[i].userName},{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                .then((res) => {
+                    FriendsInformation.push(res.data?.userInfo);
+                })
+            }
+        })
+        setContatInformation(FriendsInformation);
+    }, [])
     const handelSubmit = (e:any) => {
         e.preventDefault();
-        console.log(e.target.message.value)
-        e.target.message.value !== '' ? setMessage(e.target.message.value) : messageValue;
-        props.socket?.emit("message",e.target.message.value,"zakdim");
-        e.target.message.value = '';
+        // console.log(e.target.message.value)
+        if (e.target.message.value !== '')
+        {
+            e.target.message.value !== '' ? setMessage(e.target.message.value) : messageValue;
+            props.socket?.emit("message",e.target.message.value,router.query?.id);
+            e.target.message.value = '';
+        }
     }
     if (process.browser)
         localStorage.setItem("color", color as string);
-    // console.log(color);
-    props.socket?.on("message", (data:any) => { console.log("im here"); console.log("mel-hamr:data = " ,data);setMessages(data)})
-    console.log("user = ",props.user)
-    return (
+        props.socket?.on("message", (data:any) => { console.log("mel-hamr:data = " ,data);setMessages(data)})
+        return (
         <>
-        <FriendsZone data={Friends} status={props.status} show={showFriends} setShow={setShowFriends}/>
+        <FriendsZone data={ContactInformation} Info={friends} status={props.status} show={showFriends} setShow={setShowFriends} setUpdate={setUpdate} update={update} socket={props.socket}/>
         <div className={userInfo? styles.chatZone : styles.fullChatZone}>
             <div className={styles.chatHeader}>
             <img src={back.src} className={styles.showFriendsZone} onClick={(e:any) => {e.preventDefault(); setShowFriends(!showFriends)}}/>
                 <div className={styles.imgHeaderContainer}>
-                    <img src={image.src} className={styles.img}/>
-                    <div className={props.status? styles.HeaderStatusOnline : styles.HeaderStatusOffline}></div>
+                    <img src={reciverId?.picture} className={styles.img}/>
+                    <div className={reciverId?.isActive ? styles.HeaderStatusOnline : styles.HeaderStatusOffline}></div>
                 </div>
-                <p className={styles.fullName}>{props.data?.first_name} {props.data?.last_name}</p>
-                <p className={styles.status}>{props.status? "Online" : "Offline . Last seen 3h ago"}</p>
+                <p className={styles.fullName}>{reciverId?.userName}</p>
+                <p className={styles.status}>{reciverId?.isActive? "Online" : "Offline . Last seen 3h ago"}</p>
                 <p className={styles.settings} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
             </div>
             <div className={styles.chatMain}>
                 {messages?.map((e:any) => {
-                {console.log("e == ",e.senderId)}
-                let messageWith = e.message.length * 3;
-                console.log(messageWith);
+                    e.time = e.time.replace('T', " ");e.time = e.time.replace ('Z', "");e.time = e.time.split('.')[0];
+                    const userName = e.senderId === props.user?.userName ? e.reciverId : e.senderId;
                     return (
-                        <div id="container" className={`${styles.messageSenderContainer} ${e.senderId === props.user.userName ? styles.right : styles.left} ${color === 'black' ? styles.messageContainerBlack : 
-                        color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none}`}>
+                        <div className={e.senderId === props.user?.userName ? styles.left : styles.right}>
+                            <img src={e.senderId === props.user?.userName ? props.user?.picture : reciverId?.picture} className={e?.senderId === props.user?.userName ? styles.imgRight: styles.imgLeft} alt="" />
+                        <div id="container" className={`${e.senderId === props.user?.userName ? styles.messageSenderContainer : styles.messageReciverContainer}
+                        ${e.senderId === props.user?.userName ? color === 'black' ? styles.messageContainerBlack : 
+                        color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none
+                        : styles.gray}`}>
                             <p className={`${styles.messageChatMain}`}>{e.message}</p>
+                            <p className={e.senderId === props.user?.userName ? styles.TimeRight : styles.TimeLeft}>{e.time}</p>
                         </div>
+                    </div>
                     )})}
+                    <div id="last"></div>
             </div>
             <div className={styles.messagesZone}>
                 <form className={styles.formMessage} onSubmit={handelSubmit}>

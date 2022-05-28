@@ -8,8 +8,9 @@ import { update_test } from "../../redux/sizes";
 
 const CinFormation2 = (props:any) => {
   const [valid, setValid] = useState<number>(0);
-  const [image, setImage] = useState<string | undefined>();
+  const [image, setImage] = useState<any>();
   const [userName, setUserName] = useState<string>("");
+  const [file, setFile] = useState<any>();
   const [imageName, changeImageName] = useState<string>("");
   const changeStyle = useRef(null);
   const [userInfo, setUserInfo] = useState<any>({});
@@ -61,7 +62,7 @@ const CinFormation2 = (props:any) => {
   let putfile = (e: any) => {
     var reader = new FileReader();
     var file = document.querySelector("input[type=file]") as HTMLInputElement;
-
+    setFile(e.files);
     reader.onloadend = () => {
       checkimage(reader.result).then((res) => {
         if (res == true) {
@@ -85,14 +86,11 @@ const CinFormation2 = (props:any) => {
     }
   };
 
-  const handelSubmit = (e: any) => {
+  const handelSubmit = async (e: any) => {
     e.preventDefault();
     dispatch(update_test());
-    // console.log("image = ",image);
-    const data = { userName : userName};
-    // const data = new FormData();
-
-    // data.append('image', image);
+    const data = new FormData();
+    data.append('image', file[0]);
     axios.post("http://10.12.11.3:3000/upload", data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`,

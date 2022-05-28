@@ -12,12 +12,13 @@ const twofactor = () => {
             responseType: 'blob'
         })
         .then((response) => {
-            console.log(response);
+            console.log("respp =",response);
             const url = window.URL.createObjectURL(new Blob([response.data]));
+            console.log("myUrl =",url);
             const link = document.createElement('img');
             link.src = url;
             link.setAttribute(`style`, `width:250px;heght250px;`); //or any other extension
-            console.log(link);
+            console.log("link =", link);
             document.getElementById("QrcodeContainer")?.appendChild(link);
             link.click();
         });

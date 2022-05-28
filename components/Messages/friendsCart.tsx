@@ -2,24 +2,35 @@ import styles from '../../styles/messages/friends.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
 import image from '../../public/images/profile.jpg'
-import { Dispatch, SetStateAction, FunctionComponent } from 'react';
+import { Dispatch, SetStateAction, FunctionComponent, useState, useEffect } from 'react';
+import axios from 'axios';
 
 const FriendsCart = (props:any) => {
+    console.log(props)
+    const [ContactInformation, setContatInformation] = useState<any>(props.data); useEffect(() => {
+        setContatInformation(props.data)
+    },[props.data])
+    const [userInfo, setUserInfo] = useState<any>();
+    const [alluserInfo, setAlluserInfo] = useState<any>([]);
+    let info : any = [];
     return (
         <>
-        {props.data.map((e: any | any[]) => {
+        {props.data?.map((e: any | any[]) => {
             return  (
                 <Link href={`/messages/${e.userName}`} key={Math.random()}>
                     <div className={styles.userCard} onClick={(e:any) => {props.setShow(false)}} key={Math.random()}>
                         <div className={styles.imgFriendsContainer}>
-                            <Image src={image.src} width={60} height={60} className={styles.profileImage}/>
-                            <div className={props.status? styles.friendsStatusOnline : styles.friendsStatusOffline}></div>
+                            <img src={e.picture} width={60} height={60} className={styles.profileImage}/>
+                            <div className={e.isActive ? styles.friendsStatusOnline : styles.friendsStatusOffline}></div>
                         </div>
                         <div className={styles.userName}>
-                            <p>{e.first_name} {e.last_name}</p>
+                            <p>{e.userName}</p>
                         </div>
                         <div className={styles.status}>
-                            <p>{props.status? "Online" : "Offline"}</p>
+                            <p>{e.isActive ? "Online" : "Offline"}</p>
+                        </div>
+                        <div className={styles.LastMessage}>
+                            <p>This is last message fdsfsddsdsadsaad</p>
                         </div>
                     </div>
                 </Link>

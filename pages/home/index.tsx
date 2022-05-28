@@ -41,7 +41,7 @@ const home = () => {
             <div className={styles.globaleHomeContainer}>
                 < Watch/>
             </div>
-            <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainerBlure}></div>
+            {/* <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainerBlure}></div> */}
             {/* <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainer}> */}
             {/* <UserInfoPopup setUpdate={setUpdate} update={update} isUsername={setUsername}/> */}
             {/* </div> */}
