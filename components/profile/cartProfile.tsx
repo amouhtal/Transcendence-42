@@ -12,7 +12,6 @@ import { useRouter } from "next/router"
 
 function CartProfile (props:any){
     let isConected = false;
-    console.log("test =", props)
     const route = useRouter();
     const CheckIfFriend = (user:any) => {
         let friendstest = false;
@@ -65,10 +64,8 @@ function CartProfile (props:any){
                 {checkFriends = CheckIfFriend(props.data?.userName)}
                 {checkInviteRecive = CheckIfInviteRecive(props.ƒisdata?.userName)}
                 {checkInviteSend = CheckIfInviteSend(props.data?.userName)}
-                {console.log(props.data)}
                 <img src={ajout.src} id={props.data?.userName} className={props.Myprofile ? style.none : checkInviteRecive ? style.none : checkInviteSend ? style.none : checkFriends ? style.none : style.ajoute} onClick={(e:any) => {
                     const data = {recipent_id:`${props.data?.userName}`}
-                    console.log(data);
                     axios.post('http://10.12.11.3:3000/friends/send',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}).then((res) => {props.setUpdate(!props.update);})
 
                     }

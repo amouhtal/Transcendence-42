@@ -14,7 +14,6 @@ const blocked = (props:any) => {
                 'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
             }
         }).then((res) =>{
-            console.log("responsee = ", res.data);
             setUsersData(res.data);
             // console.log("usersData=",usersData)
         })

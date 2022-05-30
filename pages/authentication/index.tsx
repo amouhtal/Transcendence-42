@@ -53,7 +53,6 @@ const authentication = () => {
     let result:any = [];
     let counter = 6;
     const handleClick = (first:any,last:string) => {
-        console.log(first.target.value);
         counter--;
         if (last === "none")
             result.push(first.target.value)
@@ -66,7 +65,6 @@ const authentication = () => {
         if (first.code === "Backspace")
         {
             counter++;
-            console.log(first.target.value)
             if (first?.target.value?.length === 0) {
                 result.pop();
                 const two: any = document.getElementById(last)?.focus();
@@ -89,15 +87,11 @@ const authentication = () => {
                     <input type="text" id="sixth" className={styles.codeInput} onChange={(e:any) => handleClick(e,"none")} onKeyUp={(e:any) => {hendleDelete(e,"fifth")}}/>
                     <h2>{counter}</h2>
                     <input type="submit" value={`   lettere left`} className={styles.submitButton} onClick={(e:any) => {
-                        console.log(result.join(''));
                         const data = {twoFactorAuthenticationCode:result.join('')}
-                        console.log(data)
                     axios.post('http://10.12.11.3:3000/2fa/authenticate',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("refreshToken")}`}}
                     ).then((res) => {
-                        console.log(res)
                         if (res.status === 200)
                         {
-                            console.log(res.data.accessToken);
                             localStorage.setItem("accessToken",res.data.accessToken);
                             localStorage.setItem("refreshToken",res.data.refreshToken);
                             // route.push("/home")

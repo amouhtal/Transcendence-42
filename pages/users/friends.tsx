@@ -14,18 +14,15 @@ const friends = () => {
                     'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
                 }
             }).then((res) =>{
-                console.log("response = ", res.data);
                 setUsersData(res.data);
             })
         }
         catch (res:any)
         {
-            console.log(res);
         }
     },[update])
     return (
         <div>
-            {console.log(usersData)}
             <Friends placeholder="Search..."
             usersData={usersData?.user_friends}
             usersSinvite={usersData?.user_sinvite}

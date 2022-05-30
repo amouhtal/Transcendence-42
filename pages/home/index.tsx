@@ -16,7 +16,6 @@ const home = () => {
     const test:any = useSelector<any>(state=>state);
 
     useEffect(() => {
-        console.log("toke =", route.query.token, "query =", route.query,route.pathname)
         if (typeof window !== "undefined") {
             if (route.query.token && route.query.refreshToken)
             {

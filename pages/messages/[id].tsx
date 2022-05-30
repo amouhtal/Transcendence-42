@@ -15,8 +15,10 @@ const Messages = (props:any) => {
     const [Status ,setStatus] = useState<boolean>(false);
     const router = useRouter();
     const [userInfo ,setUserInfo] = useState<any>();
+    // useEffect(() => {
+    //     router.push(`/messages/${router.query.id}`)
+    // },[])
     var test:boolean = true;
-    console.log("my Props =", props)
 
     const [filterData] = FakeData.filter((value: any) => {
         return (value.userName === router.query.id);

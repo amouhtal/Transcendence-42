@@ -110,7 +110,6 @@ const CinFormation2 = (props:any) => {
           <form className={style.form} onSubmit={(e:any) => {e.preventDefault()}}>
             <div className={style.content}>
               <div className={style.imge}>
-                {console.log(userInfo?.picture)}
                 <img className={style.img} src={image !== undefined ? image : userInfo?.picture}></img>
               </div>
               <div className={style.child}>

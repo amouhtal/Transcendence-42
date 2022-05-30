@@ -8,15 +8,9 @@ import {useEffect, useState} from 'react'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import UsersCart from './UsersCart'
-interface UsersType {
-    placeholder: string;
-    usersData:  any | any[];
-}
 
-const Blocked = (props:UsersType) => {
-    console.log("props.data =", props.usersData);
-    console.log("inBlock =", props.inBlock)
-    const [filterData, setFilterData] = useState<any>(props.usersData);useEffect(() => {setFilterData(props.usersData);},props.userData);
+const Blocked = (props:any) => {
+    const [filterData, setFilterData] = useState<any>(props.usersData);useEffect(() => {setFilterData(props.usersData);},[props.userData]);
     // console.log(filterData);
     const [userStatus, setStatus] = useState<boolean>(false);
     // let userStatus: boolean = true;

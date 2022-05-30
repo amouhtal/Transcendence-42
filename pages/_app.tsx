@@ -60,7 +60,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 	// 	}
 	},[])
 	useEffect(() => {
-        console.log("im hereerere");
         if (localStorage.getItem("accessToken") !== "undefined" && localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== '')
           axios.post('http://10.12.11.3:3000/users/profile',null,{
               headers:{
@@ -84,8 +83,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 	// 	}
 	// }
 	// },[])
-	console.log("socket = ",socket)
-	console.log("userInfo = ", userInfo?.data?.userInfo)
 	return (
 	  <>
 	  {

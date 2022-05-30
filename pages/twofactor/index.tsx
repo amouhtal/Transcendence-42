@@ -12,13 +12,10 @@ const twofactor = () => {
             responseType: 'blob'
         })
         .then((response) => {
-            console.log("respp =",response);
             const url = window.URL.createObjectURL(new Blob([response.data]));
-            console.log("myUrl =",url);
             const link = document.createElement('img');
             link.src = url;
             link.setAttribute(`style`, `width:250px;heght250px;`); //or any other extension
-            console.log("link =", link);
             document.getElementById("QrcodeContainer")?.appendChild(link);
             link.click();
         });
@@ -41,7 +38,6 @@ const twofactor = () => {
     let result:any = [];
     let counter = 6;
     const handleClick = (first:any,last:string) => {
-        console.log(first.target.value);
         counter--;
         if (last === "none")
             result.push(first.target.value)
@@ -54,7 +50,6 @@ const twofactor = () => {
         if (first.code === "Backspace")
         {
             counter++;
-            console.log(first.target.value)
             if (first?.target.value?.length === 0) {
                 const two: any =document.getElementById(last)?.focus();
             }
@@ -76,15 +71,11 @@ const twofactor = () => {
                     <input type="text" id="sixth" className={styles.codeInput} onChange={(e:any) => handleClick(e,"none")} onKeyUp={(e:any) => {hendleDelete(e,"fifth")}}/>
                     <h2>{counter}</h2>
                     <input type="submit" value={`       lettere left`} className={styles.submitButton} onClick={(e:any) => {
-                        console.log(result.join(''));
                         const data = {twoFactorAuthenticationCode:result.join('')}
-                        console.log(data)
                     axios.post('http://10.12.11.3:3000/2fa/turn-on',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
                     ).then((res) => {
-                        console.log(res)
                         if (res.status === 200)
                         {
-                            console.log(res.data.accessToken);
                             localStorage.setItem("accessToken",res.data.accessToken);
                             localStorage.setItem("refreshToken",res.data.refreshToken);
                             // axios.post('http://10.12.11.3:3000/2fa/turn-one',{twoFactorAuthenticationCode:result.join('')},{headers:{'Authorization': `Bearer ${res.data.accessToken}`}})

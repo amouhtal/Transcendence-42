@@ -57,7 +57,6 @@ const UsersCart = (props:any) => {
                       'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
                     }
                   }).then((res) =>{
-                        console.log("myResponse =", res.data);
                         setStatus(res.data.isActive);
                   })
                 }

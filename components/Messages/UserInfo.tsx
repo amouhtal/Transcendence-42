@@ -8,6 +8,7 @@ import block from '../../public/images/block.png'
 import Link from 'next/link';
 import back from '../../public/images/left.png'
 import { useEffect, useState } from 'react';
+import messages from '../../pages/messages';
 
 const UserInfo = (props: any) => {
 	const [search, setSearch] = useState<boolean>(false);
@@ -19,24 +20,30 @@ const UserInfo = (props: any) => {
 	// dasdasdfds
 	// let i = 0;
 	// console.log(`props.diplay: ${props.display}`);
+	const handleChange = (e:any) => {
+		const filterdData = props.allMessages.filter((element:any) => {
+			return (element.message.includes(e.target?.value) ? element.message : null);
+		})
+		props.setMessages(filterdData);
+	}
     return (
 		<>
         	<form action="" className={search ? (props.display ? styles.showSearch : styles.DontShowSearch ): styles.DontShowSearch} onSubmit={(e:any) => {e.preventDefault()}}>
-        		<input type="search" name="" id="messageSearch" placeholder="Search..." className={styles.FindMessage}/>
+        		<input type="search" name="" id="messageSearch" placeholder="Search..." className={styles.FindMessage} onChange={handleChange}/>
         	</form>
         	<div className={(props.display? (search? styles.userInfoContainerBlure : styles.userInfoContainer) : styles.userInfoContainerNone)}>
 			<img src={back.src} className={styles.showFriendsZone} onClick={(e:any) => {e.preventDefault(); props.setDisplay(!props.display)}}/>
 				<div className={search? styles.searchBox : styles.non} onClick={(e:any) => {setSearch(!search)}}>
 				</div>
         	    <div className={styles.imgContainer}>
-        	        <img src={image.src} alt="" className={styles.userInfoImg}/>
+        	        <img src={props.data?.picture} alt="" className={styles.userInfoImg}/>
         	        <div className={props.status? styles.UserInfoZoneOnline : styles.UserInfoZoneOffline}></div>
         	    </div>
         	    <div className={styles.userInfoName}>
-        	        <p>{props.data?.first_name} {props.data?.last_name}</p>
+        	        <p>{props.data?.userName}</p>
         	    </div>
         	    <div className={styles.profileIconContainer}>
-        	        <Link href={`/users/${props?.data?.first_name}`}>
+        	        <Link href={`/users/${props?.data?.userName}`}>
         	            <img src={profileIcon.src} alt="" className={styles.profileIcon}/>
         	        </Link>
         	        <p>Profile</p>

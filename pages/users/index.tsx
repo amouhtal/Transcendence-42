@@ -15,7 +15,6 @@ function users() {
                 'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
             }
         }).then((res) =>{
-            console.log("responseII = ", res.data);
             setUsersData(res.data);
             // console.log("usersData=",usersData)
         })

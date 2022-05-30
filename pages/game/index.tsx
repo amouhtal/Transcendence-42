@@ -51,7 +51,6 @@ const HomeGame = (props: any) => {
       }
     });
   }, []);
-  console.log(players);
   return (
     <>
       <div className={style.Container}>

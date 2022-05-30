@@ -3,8 +3,6 @@ import { useEffect } from "react";
 
 function Home (){
     const route = useRouter();
-    console.log(route.query.token)
-    console.log(route.query.refreshToken)
     useEffect(() => {
         if (typeof window !== "undefined") {
             if (route.query.token !== "undefined" && route.query.refreshToken !== "undefined")

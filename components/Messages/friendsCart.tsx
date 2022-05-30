@@ -6,16 +6,10 @@ import { Dispatch, SetStateAction, FunctionComponent, useState, useEffect } from
 import axios from 'axios';
 
 const FriendsCart = (props:any) => {
-    console.log(props)
-    const [ContactInformation, setContatInformation] = useState<any>(props.data); useEffect(() => {
-        setContatInformation(props.data)
-    },[props.data])
-    const [userInfo, setUserInfo] = useState<any>();
-    const [alluserInfo, setAlluserInfo] = useState<any>([]);
     let info : any = [];
     return (
         <>
-        {props.data?.map((e: any | any[]) => {
+        {props.data?.map((e: any) => {
             return  (
                 <Link href={`/messages/${e.userName}`} key={Math.random()}>
                     <div className={styles.userCard} onClick={(e:any) => {props.setShow(false)}} key={Math.random()}>

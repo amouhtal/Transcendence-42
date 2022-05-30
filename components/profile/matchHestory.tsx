@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { useState } from "react"
 
 function MatchHestory (props:any) {
+    console.log(props.gameHistory)
     const [History, setHistory] = useState<any>(props.gameHistory)
     return(
         <div className={style.Container}>
@@ -21,23 +22,23 @@ function MatchHestory (props:any) {
                         </div>
                         <div className={style.content}>
                             <div className={style.child2}>
-                                <div className={style.myimg}><img src={use.winner.picture} className={style.img1} width={70} height={70}/></div>
-                                <p className={style.EndMatch}>{use.winner.userName}</p>
+                                <div className={style.myimg}><img src={use.winner?.picture} className={style.img1} width={70} height={70}/></div>
+                                <p className={style.EndMatch}>{use.winner?.userName}</p>
                                 <div className={style.winIcon}>
                                     <p className={style.EndMatch}>Win</p>
                                     <img src={image.src} className={style.imgicon}></img>
                                 </div>
-                                <p className={style.EndMatch1}>{use.winner.score}</p>
+                                <p className={style.EndMatch1}>{use.winner?.score}</p>
                             </div>
                             <p className={style.VS}>VS</p>
                             <div className={style.child3}>
-                                <div className={style.vsimg}><img src={use.loser.picture} className={style.img2} width={70} height={70}/></div>
-                                <p className={style.EndMatch}>{use.loser.userName}</p>
+                                <div className={style.vsimg}><img src={use.loser?.picture} className={style.img2} width={70} height={70}/></div>
+                                <p className={style.EndMatch}>{use.loser?.userName}</p>
                                 <div className={style.winIcon}>
                                     <p className={style.EndMatch}>{use.oppenonet?.end}</p>
                                     <img src={crry.src} className={style.imgicon}></img>
                                 </div>
-                                <p className={style.EndMatch1}>{use.loser.score}</p>
+                                <p className={style.EndMatch1}>{use.loser?.score}</p>
                             </div>
                         </div>
                     </div>

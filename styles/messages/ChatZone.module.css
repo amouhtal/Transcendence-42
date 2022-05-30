@@ -129,12 +129,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 80%;
-    border-radius: 5px 5px 0px 5px;
+    max-width: 70%;
+    border-radius: 10px 10px 0px 10px;
     position: relative;
     right: 60px;
     padding: 0 40px;
-    margin-bottom: 20px;
+    margin: 20px 0;
 
 }
 .gray {
@@ -142,14 +142,14 @@
 }
 .messageReciverContainer {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
-    max-width: 100%;
-    border-radius: 5px 5px 5px 0px;
+    max-width: 80%;
+    border-radius: 10px 10px 10px 0px;
     position: relative;
     left: 60px;
     padding: 0 40px;
-    margin-bottom: 25px;
+    margin: 20px 0;
 }
 
 .messageChatMain {
@@ -191,14 +191,15 @@
     height: 50px;
     border-radius: 50%;
     position: absolute;
-    margin-right: 5px;
+    margin: 20px 5px;
 }
 .imgLeft {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     position: absolute;
-    margin-left: 5px;
+    margin: 20px 5px;
+
 }
 .messageContainerBlack {
     background: black;
@@ -211,6 +212,9 @@
 }
 .none {
     background: #44d7b6;
+}
+.displaynone {
+    display: none;
 }
 
 /************************messagesZone********************/
@@ -303,6 +307,14 @@
     /* opacity: 0.5; */
 }
 
+.isTyping {
+    width: 100px;
+    height: 60px;
+    position: relative;
+    left: 10px;
+    bottom: 0;
+    font-size: 20px;
+}
 @media only screen and (max-width: 1440px){
     .chatZone {
         background-color: brown;
@@ -433,12 +445,12 @@
     .message::placeholder {
         font-size: 14px;
     }
-    .messageSenderContainer {
+    /* .messageSenderContainer {
         font-size: 15px;
         letter-spacing: 0.5px;
         padding: 0 20px;
         right: 5%;
-    }
+    } */
     .messageStyle {
         width: 10px;
         height: 17px;
