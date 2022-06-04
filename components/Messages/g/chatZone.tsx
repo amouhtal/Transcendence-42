@@ -1,20 +1,20 @@
-import styles from '../../styles/messages/ChatZone.module.css'
+import styles from '../../../styles/messages/ChatZone.module.css'
 import Image from 'next/image';
-import image from '../../public/images/profile.jpg'
+import image from '../../../public/images/profile.jpg'
 import {BsThreeDots} from "react-icons/bs";
 import {GrSend} from "react-icons/gr";
 import {MdUploadFile} from "react-icons/md";
-import img from '../../public/images/send.png'
-import clip from '../../public/images/paperclip.png'
-import send from '../../public/images/send-message.png'
+import img from '../../../public/images/send.png'
+import clip from '../../../public/images/paperclip.png'
+import send from '../../../public/images/send-message.png'
 import { useEffect, useRef, useState } from 'react';
-import UserInfo from './UserInfo';
+import GroupsInfo from './GroupsInfo';
 import io from 'socket.io-client';
-import FriendsZone from '../../components/Messages/friendsZone';
-import back from '../../public/images/left.png'
+import GroupsZone from './GroupsZone';
+import back from '../../../public/images/left.png'
 import axios from 'axios';
 import { Router, useRouter } from 'next/router';
-import typing from '../../public/images/typing.gif'
+import typing from '../../../public/images/typing.gif'
 const ChatZone = (props:any) => {
     const router = useRouter();
     const checkout:string = process.browser ? localStorage.getItem('color') as string : 'default';
@@ -23,14 +23,14 @@ const ChatZone = (props:any) => {
     const [AllMessages, setAllMessages] = useState<any>([])
     const [isTyping, setIsTyping] = useState<boolean>(false);
     const [messages, setMessages] = useState<any>([]); useEffect(() => {
-        axios.post("http://10.12.10.4:3300/message/getConnversation",{userName: router.query.id},
-        {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
-        ).then((res) => {
-            setMessages(res.data)
-            setAllMessages(res.data);
-        })
-        dummy.current.scrollIntoView();
-    },[router.query.id])
+    //     axios.post("http://10.12.10.4:3300/message/getConnversation",{userName: router.query.id},
+    //     {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+    //     ).then((res) => {
+    //         setMessages(res.data)
+    //         setAllMessages(res.data);
+    //     })
+    //     dummy.current.scrollIntoView();
+    // },[router.query.id])
     const [userInfo, setuserInfo] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
     const [friends, setFriends] = useState<any>();
@@ -38,33 +38,33 @@ const ChatZone = (props:any) => {
     const [reciverId, setReciverId] = useState<any>();
     const dummy:any = useRef<any>();
     const dummy2:any = useRef<any>();
-    useEffect (() => {
-        // dummy.current.scrollIntoView();
-        if (messages !== []){
-            const userName = messages[0]?.senderId === props.user?.useName ? "" : messages[0]?.reciverId;
-            axios.post("http://10.12.10.2:3000/users/profile",{userName: router.query.id},
-            {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
-            ).then((res) => {
-                setReciverId(res.data?.userInfo);
-            })
-        }
-        dummy.current.scrollIntoView({behavior: 'smooth'});
-    },[messages,isTyping])
-    useEffect(() => {
-        axios.get("http://10.12.10.4:3300/message/getConntacts",
-        {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
-        ).then((res) => {
-            setFriends(res.data);
-        })
-    }, [])
-    const handelSubmit = (e:any) => {
-        e.preventDefault();
-        if (e.target.message.value !== '') {
-            e.target.message.value !== '' ? setMessage(e.target.message.value) : messageValue;
-            props.socket?.emit("message",e.target.message.value,router.query?.id);
-            e.target.message.value = '';
-        }
-    }
+    // useEffect (() => {
+    //     // dummy.current.scrollIntoView();
+    //     if (messages !== []){
+    //         const userName = messages[0]?.senderId === props.user?.useName ? "" : messages[0]?.reciverId;
+    //         axios.post("http://10.12.10.2:3000/users/profile",{userName: router.query.id},
+    //         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+    //         ).then((res) => {
+    //             setReciverId(res.data?.userInfo);
+    //         })
+    //     }
+    //     dummy.current.scrollIntoView({behavior: 'smooth'});
+    // },[messages,isTyping])
+    // useEffect(() => {
+    //     axios.get("http://10.12.10.4:3300/message/getConntacts",
+    //     {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+    //     ).then((res) => {
+    //         setFriends(res.data);
+    //     })
+    // }, [])
+    // const handelSubmit = (e:any) => {
+    //     e.preventDefault();
+    //     if (e.target.message.value !== '') {
+    //         e.target.message.value !== '' ? setMessage(e.target.message.value) : messageValue;
+    //         props.socket?.emit("message",e.target.message.value,router.query?.id);
+    //         e.target.message.value = '';
+    //     }
+    // }
     const handleChange = (e:any) => {
         e.preventDefault();
         console.log(e.target.value)
@@ -78,7 +78,7 @@ const ChatZone = (props:any) => {
     // console.log("isTyping =",isTyping)
         return (
         <>
-        <FriendsZone data={friends} status={props.status} show={showFriends} setShow={setShowFriends} socket={props.socket}/>
+        <GroupsZone data={friends} status={props.status} show={showFriends} setShow={setShowFriends} socket={props.socket}/>
         <div className={userInfo? styles.chatZone : styles.fullChatZone}>
             <div className={styles.chatHeader}>
             <img src={back.src} className={styles.showFriendsZone} onClick={(e:any) => {e.preventDefault(); setShowFriends(!showFriends)}}/>
@@ -120,7 +120,7 @@ const ChatZone = (props:any) => {
                 </form>
              </div>
          </div>
-         <UserInfo data={reciverId} status={reciverId?.isActive} allMessages={AllMessages} setMessages={setMessages} messages={messages} display={userInfo} color={setColor} setDisplay={setuserInfo} update={update} setUpdate={setUpdate} />
+         <GroupsZone data={reciverId} status={reciverId?.isActive} allMessages={AllMessages} setMessages={setMessages} messages={messages} display={userInfo} color={setColor} setDisplay={setuserInfo} update={update} setUpdate={setUpdate} />
         </>
     );
 }

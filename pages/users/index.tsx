@@ -10,7 +10,7 @@ function users() {
     const [count, setCount] = useState(0);
     const [update, setUpdateVar] = useState<boolean>(false);
     useEffect(() => {
-        axios.get('http://10.12.11.3:3000/friends/all', {
+        axios.get('http://10.12.10.2:3000/friends/all', {
             headers:{
                 'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
             }

@@ -17,7 +17,7 @@ function Profile (){
         const data = {userName: router.query.id}
         // if (typeof window !== 'undefined') {
         //     if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined" || localStorage.getItem("accessToken") === '')
-        axios.post('http://10.12.11.3:3000/users/profile',data, {
+        axios.post('http://10.12.10.2:3000/users/profile',data, {
             headers:{
                 'Authorization': `Bearer ${localStorage.getItem("accessToken")}`
             }

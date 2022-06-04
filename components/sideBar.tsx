@@ -69,7 +69,7 @@ function SidePar(props:any){
                         const data = {
                             'refreshToken': `${localStorage.getItem("refreshToken")}`
                         }
-                        axios.delete('http://10.12.11.3:3000/auth/42/logout',{headers,data})
+                        axios.delete('http://10.12.10.2:3000/auth/42/logout',{headers,data})
                         .then(() => {
                                     localStorage.removeItem("accessToken")
                                     localStorage.removeItem("refreshToken")

@@ -33,7 +33,7 @@ const HomeGame = (props: any) => {
         changeOpp("Found");
         axios
           .post(
-            "http://10.12.11.3:3000/users/getPicture",
+            "http://10.12.10.2:3000/users/getPicture",
             { userName1: data[0], userName2: data[1] },
             {
               headers: {

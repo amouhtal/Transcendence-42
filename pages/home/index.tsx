@@ -26,13 +26,26 @@ const home = () => {
         }
         if (localStorage.getItem("accessToken") !== "undefined" && localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== '')
         {
-            axios.get('http://10.12.11.3:3000/users/CheckUserName',{
-                headers:{
-                    'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
+                const resp :any = axios.get('http://10.12.10.2:3000/users/CheckUserName',{
+                    headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`}
                 }
-            }) .then((res) => {
-                setUsername(res.data.exist);
-            });
+                ) .then((res) => {
+                    setUsername(res.data.exist);
+                }).catch((error:any) =>
+                {
+                    console.log("err =",error.response.status)
+                    if (error.response.status === 401 && localStorage.getItem("accessToken") !== '' && localStorage.getItem("accessToken") !== "undefined" && localStorage.getItem("accessToken") !== null)
+                    {
+                        console.log("hererere=",localStorage.getItem("refreshToken") as string);
+                        axios.get('http://10.12.10.2:3000/auth/42/refresh',{
+                        data:{
+                            "refreshToken":localStorage.getItem("refreshToken")
+                        }
+                        }).then((res:any) => {
+                                console.log("resp =", res)
+                        })
+                    }
+                })
         }
     },[route.query.token])
     return (
