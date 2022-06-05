@@ -51,6 +51,12 @@ function SidePar(props:any){
                     </div>
                     <div className={Style.child}>
                         <Link href='/messages'><img src={message.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img></Link>
+                        <div className={Style.userInterface}>
+                            <ul className={Style.usersInterfaceUl} >
+                                <Link href={`/messages`}><li onClick={(e:any) => {setNavBar(!isNavBar)}}>Users</li></Link>
+                                <Link href={`/messages/g`}><li onClick={(e:any) => {setNavBar(!isNavBar)}}>Groups</li></Link>
+                            </ul>
+                        </div>  
                     </div>
                     <div className={Style.child}>
                         <Link href='/notification'><img src={Notification.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img></Link>
@@ -69,7 +75,7 @@ function SidePar(props:any){
                         const data = {
                             'refreshToken': `${localStorage.getItem("refreshToken")}`
                         }
-                        axios.delete('http://10.12.10.2:3000/auth/42/logout',{headers,data})
+                        axios.delete('http://10.12.10.5:3000/auth/42/logout',{headers,data})
                         .then(() => {
                                     localStorage.removeItem("accessToken")
                                     localStorage.removeItem("refreshToken")

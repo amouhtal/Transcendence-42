@@ -26,7 +26,7 @@ const home = () => {
         }
         if (localStorage.getItem("accessToken") !== "undefined" && localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== '')
         {
-                const resp :any = axios.get('http://10.12.10.2:3000/users/CheckUserName',{
+                const resp :any = axios.get('http://10.12.10.5:3000/users/CheckUserName',{
                     headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`}
                 }
                 ) .then((res) => {
@@ -37,7 +37,7 @@ const home = () => {
                     if (error.response.status === 401 && localStorage.getItem("accessToken") !== '' && localStorage.getItem("accessToken") !== "undefined" && localStorage.getItem("accessToken") !== null)
                     {
                         console.log("hererere=",localStorage.getItem("refreshToken") as string);
-                        axios.get('http://10.12.10.2:3000/auth/42/refresh',{
+                        axios.get('http://10.12.10.5:3000/auth/42/refresh',{
                         data:{
                             "refreshToken":localStorage.getItem("refreshToken")
                         }

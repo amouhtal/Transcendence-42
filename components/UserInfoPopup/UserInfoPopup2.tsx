@@ -19,7 +19,7 @@ const CinFormation2 = (props:any) => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
 	    if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined"|| localStorage.getItem("accessToken") === '')
-    axios.post('http://10.12.10.2:3000/users/profile',null,{
+    axios.post('http://10.12.10.5:3000/users/profile',null,{
       headers:{
         'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
       }
@@ -91,7 +91,7 @@ const CinFormation2 = (props:any) => {
     dispatch(update_test());
     const data = new FormData();
     data.append('image', file[0]);
-    axios.post("http://10.12.10.2:3000/upload", data, {
+    axios.post("http://10.12.10.5:3000/upload", data, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`,
         }

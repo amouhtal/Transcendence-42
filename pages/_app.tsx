@@ -40,13 +40,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 					Authorization: `${localStorage.getItem("accessToken") as string}`
 				}
 			};
-			socket = io("10.12.10.4:3300",socketOptions);
-			socket.emit("startChannels");
+			// socket = io("10.12.10.4:3300",socketOptions);
+			// socket.emit("startChannels");
 	},[])
 	useEffect(() => {
 		console.log(router.pathname)
 			console.log("im here");
-				const response:any= axios.post('http://10.12.10.2:3000/users/profile',null,{
+				const response:any= axios.post('http://10.12.10.5:3000/users/profile',null,{
 					headers:{
 						'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
 					}

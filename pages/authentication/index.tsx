@@ -6,7 +6,7 @@ const authentication = () => {
     // useEffect(() => {
     //     let data;
         // axios({
-        //     url: "http://10.12.10.2:3000/2fa/generate",
+        //     url: "http://10.12.10.5:3000/2fa/generate",
         //     data:data,
         //     headers: {Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`},
         //     method:'POST',
@@ -24,7 +24,7 @@ const authentication = () => {
         // });
     // })
         // axios({
-        //     url: 'http://10.12.10.2/2fa/generate',
+        //     url: 'http://10.12.10.5/2fa/generate',
         //     headers:{ 'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`},
         //     method: 'POST',
         //     responseType: 'blob', // important
@@ -88,7 +88,7 @@ const authentication = () => {
                     <h2>{counter}</h2>
                     <input type="submit" value={`   lettere left`} className={styles.submitButton} onClick={(e:any) => {
                         const data = {twoFactorAuthenticationCode:result.join('')}
-                    axios.post('http://10.12.10.2:3000/2fa/authenticate',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("refreshToken")}`}}
+                    axios.post('http://10.12.10.5:3000/2fa/authenticate',data,{headers:{'Authorization': `Bearer ${localStorage.getItem("refreshToken")}`}}
                     ).then((res) => {
                         if (res.status === 200)
                         {

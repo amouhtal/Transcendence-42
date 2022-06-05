@@ -42,7 +42,7 @@ const ChatZone = (props:any) => {
     //     // dummy.current.scrollIntoView();
     //     if (messages !== []){
     //         const userName = messages[0]?.senderId === props.user?.useName ? "" : messages[0]?.reciverId;
-    //         axios.post("http://10.12.10.2:3000/users/profile",{userName: router.query.id},
+    //         axios.post("http://10.12.10.5:3000/users/profile",{userName: router.query.id},
     //         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
     //         ).then((res) => {
     //             setReciverId(res.data?.userInfo);

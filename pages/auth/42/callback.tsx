@@ -7,7 +7,7 @@ async function fetchData(url:string) {
 
 const callback = () => {
     const router = useRouter();
-    router.query.code ? fetchData(`http://10.12.10.2:3000/auth/42/callback?code=${router.query.code}`) : undefined;
+    router.query.code ? fetchData(`http://10.12.10.5:3000/auth/42/callback?code=${router.query.code}`) : undefined;
     return (
         <div>
         </div>

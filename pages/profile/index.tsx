@@ -17,7 +17,7 @@ function Profile (){
     const [showContent, setShowContent] = useState<boolean>(false);
     useEffect(() => {
       if (localStorage.getItem("accessToken") !== "undefined" && localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== '')
-        axios.post('http://10.12.10.2:3000/users/profile',null,{
+        axios.post('http://10.12.10.5:3000/users/profile',null,{
             headers:{
               'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
             }
