@@ -48,7 +48,7 @@
     transform-origin: 0 0;
     background: linear-gradient(black, transparent);
     animation: spin 1s infinite linear;
-    animation-delay: 2s;
+    /* animation-delay: 0.5s; */
     
 }
 @keyframes spin {
@@ -77,15 +77,16 @@
   line-height: 250px;
   font-family: monospace;
   animation: count 7s infinite steps(5, start);
-  animation-delay: 2s;
+  /* animation-delay: 0.5s; */
 
 }
 @keyframes count {
-    20%{ content: '5'; }
-    100% { content: '1'; }
-    80% { content: '2'; }
-    60% { content: '3'; }
-    40% { content: '4'; }
+    0%{ content: '5'; }
+    100% { content: '0'; }
+    80% { content: '1'; }
+    60% { content: '2'; }
+    40% { content: '3'; }
+    20% { content: '4'; }
 }
   
   

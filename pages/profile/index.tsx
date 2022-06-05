@@ -40,8 +40,8 @@ function Profile (){
             </div>
               <MatchHestory userData={userInfo} gameHistory={MatchHistory}/>
           </div>
-          // {test.sizes_.zak_test && <UserInfoPopup2 />}
       }
+      {test.sizes_.zak_test && <UserInfoPopup2 />}
       </>
     )
 }

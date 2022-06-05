@@ -3,7 +3,7 @@ import UserInfoPopup from '../../components/UserInfoPopup/UserInfoPopup'
 import UserInfoPopup2 from '../../components/UserInfoPopup/UserInfoPopup2'
 import SidePar from '../../components/sideBar'
 import { useState } from 'react'
-import Watch from '../../components/livematch'
+import Watch from '../../components/LiveMatch'
 import { useEffect } from 'react'
 import Router, { useRouter } from 'next/router'
 import axios from "axios"

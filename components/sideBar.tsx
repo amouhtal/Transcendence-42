@@ -53,7 +53,7 @@ function SidePar(props:any){
                         <Link href='/messages'><img src={message.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img></Link>
                     </div>
                     <div className={Style.child}>
-                        <img src={Notification.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img>
+                        <Link href='/notification'><img src={Notification.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img></Link>
                     </div>
                     <div className={Style.child}>
                         <Link href='/game'><img src={iconGame.src} className={Style.iconimg} onClick={(e:any) => {setNavBar(!isNavBar)}}></img></Link>

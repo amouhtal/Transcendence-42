@@ -7,14 +7,12 @@
     flex-direction:column;
     width: 100px;
     height: 100%;
-    background-color: rgba(128, 128, 128, 0.2);
-    /* border-top-right-radius: 40px; */
-    /* border-bottom-right-radius: 40px; */
+    background-color: rgba(0, 168, 229, 0.3);
     align-items: center;
     min-width: 70px;
     z-index: 1;
     backdrop-filter: blur(2px);
-    box-shadow: 2px 0px  10px 1px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 0px  25px 1px rgba(0, 0, 0, 0.25);
 
 }
 
@@ -26,13 +24,11 @@
     flex-direction:column;
     width: 100px;
     height: 100%;
-    background-color: rgba(128, 128, 128, 0.2);
-    /* border-top-right-radius: 40px;
-    border-bottom-right-radius: 40px; */
+    background-color: rgba(0, 168, 229, 0.3);
     align-items: center;
     min-width: 70px;
     backdrop-filter: blur(2px);
-    box-shadow: 2px 0px  10px 1px rgba(0, 0, 0, 0.4);
+    box-shadow: 2px 0px  25px 1px rgba(0, 0, 0, 0.25);
 
 }
 
@@ -96,13 +92,21 @@
     display: flex;
     justify-content:center;
     align-items: center;
-    height: 46px;
+    height: 50px;
     margin-bottom: 10%;
     margin-bottom: 40px;
-    width: 60px;
+    width: 50px;
     /* background-color: red; */
+    border-radius: 50%;
     cursor: pointer;
+    transition: 0.3s;
 }
+
+.child:hover{
+    /* background-color: rgba(0, 0, 0, 0.1); */
+    box-shadow: 0px 0px 40px white;
+}
+
 .child>.userInterface {
     display: none;
 }
@@ -225,9 +229,14 @@
     justify-content:center;
     align-items: center;
     bottom: 20px;
-    height: 46px;
+    height: 34px;
+    width: 34px;
+    background-color: red;
+    border-radius: 50%;
 }
-
+.Logout:hover{
+    box-shadow: 0px 0px 40px red;
+}
 .btnOn {
     display: none;
 }
