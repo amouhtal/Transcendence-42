@@ -40,7 +40,7 @@ const UsersCart = (props:any) => {
             friends = props.usersChoosen;
             friends.push({userName:e.target.id.split('%')[0],picture:e.target.id.split('%')[1]});
             props.setChoosenUsers(friends);
-            props.setUpdate(!props.update)
+            props.setUpdate(!props.update);
         }
         else
         {

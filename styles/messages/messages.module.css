@@ -196,11 +196,35 @@
     position: absolute;
     top: 20px;
     right: 25px;
+    cursor: pointer;
+    border: 1px solid black;
+    background-color: black;
+    color: white;
+    width: 65px;
+    height: 30px;
+    border-radius: 10px;
+    outline: none;
+}
+.btn_create:hover {
+    background-color: white;
+    color: black;
 }
 .btn_cancel {
     position: absolute;
     top: 20px;
     left: 25px;
+    cursor: pointer;
+    border: 1px solid black;
+    background-color: black;
+    color: white;
+    width: 65px;
+    height: 30px;
+    border-radius: 10px;
+    outline: none;
+}
+.btn_cancel:hover {
+    background-color: white;
+    color: black;
 }
 .NewGrpP {
     position: absolute;
@@ -238,17 +262,18 @@
 /*********Switch*******/
 .container {
   margin: 0 auto;
-  height: 35px;
-  width: 60px ;
+  height: 25px;
+  width: 50px ;
   position: absolute;
   top: 5.2%;
-  right: 10px;
+  right: 40px;
+  background-color: red;
 }
 .switch {
   display: inline-block;
-  height: 35px;
+  height: 25px;
   position: relative;
-  width: 60px;
+  width: 50px;
 }
 
 .switch input {
@@ -268,14 +293,14 @@
 }
 
 .slider:before {
-content: url('../../public/images/Vine.jpg');
+    content: "";
   background-color: white;
   bottom: 4px;
-  height: 26px;
+  height: 16px;
   left: 4px;
   position: absolute;
   transition: .4s;
-  width: 26px;
+  width: 16px;
   z-index: 500000;
 }
 input:checked + .slider:before {
@@ -288,7 +313,7 @@ input:checked + .slider {
 
 
 .slider.round {
-  border-radius: 34px;
+  border-radius: 34 px;
 }
 
 .slider.round:before {
@@ -378,6 +403,13 @@ input:checked + .slider {
 }
 .addUsersimg {
     border-radius: 50%;
+}
+.private {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 15px;
+    top: 5.2%;
 }
 @media only screen and (max-width: 1440px){
     .globaleContainer {

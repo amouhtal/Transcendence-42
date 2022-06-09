@@ -12,7 +12,7 @@ import stylesfriends from '../../../styles/messages/friends.module.css'
 import axios from "axios";
 import UsersCart from './UsersgrpCart'
 import FakeData from '../../../data.json'
-
+import padlock from '../../../public/images/padlock.png'
 
 const FriendsZone = (props:any) => {
     const [ContactInformation, setContatInformation] = useState<any>([]);
@@ -59,6 +59,7 @@ const FriendsZone = (props:any) => {
                     <div className={`${styles.slider} ${styles.round}`}></div>
                     </label>
                 </div>
+                <img src={padlock.src} alt="private" className={styles.private} />
                 <input type="text" placeholder="Password..." className={Private ? styles.Password : styles.none} />
                 <input type="text" placeholder="Search..." className={styles.creatGroupsearch}/>
                 <div className={styles.usersAdd}>
