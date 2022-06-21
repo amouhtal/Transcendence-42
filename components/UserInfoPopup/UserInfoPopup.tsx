@@ -2,11 +2,13 @@ import style from "../../styles/addUser.module.css";
 import { useState, useRef, useEffect } from "react";
 import imagee from "../../public/images/profile.jpg";
 import axios from "axios";
-import Router, { withRouter } from "next/router";
+import  {useRouter,  withRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { update_test } from "../../redux/sizes";
+import ErrorType from "../AllError/ErrorType";
 
-const CinFormation = (props:any) => {
+const CinFormation = (props: any) => {
+  const router = useRouter()
   const [valid, setValid] = useState<number>(0);
   const [image, setImage] = useState<string | undefined>();
   const [userName, setUserName] = useState<string>("");
@@ -16,20 +18,37 @@ const CinFormation = (props:any) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-	    if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined"|| localStorage.getItem("accessToken") === '')
-        axios.post('http://10.12.10.5:3000/users/profile',null,{
-          headers:{
-            'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
-          }
-          }).then((res) =>{
+    if (typeof window !== "undefined") {
+      if (
+        localStorage.getItem("accessToken") === null ||
+        localStorage.getItem("accessToken") === "undefined" ||
+        localStorage.getItem("accessToken") === ""
+      )
+        axios
+          .post(
+            `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/profile`,
+            null,
+            {
+              headers: {
+                Authorization: `Bearer ${
+                  localStorage.getItem("accessToken") as string
+                }`,
+              },
+            }
+          )
+          .then((res) => {
             setUserInfo(res.data.userInfo);
           })
-        }
-  }, [])
+          .catch(function (error) {
+            if (error.response) {
+              router.push({pathname :`/errorPage/${error.response.status}`})
+            }
+          });
+    }
+  }, []);
   const handelChange = (e: any) => {
     let lent: string = e.target.value;
-    if (lent.length >= 6 && lent.length <= 9) {
+    if (lent.length >= 6 && lent.length <= 15) {
       setValid(1);
       setUserName(e.target.value);
     } else setValid(2);
@@ -88,16 +107,32 @@ const CinFormation = (props:any) => {
     e.preventDefault();
     dispatch(update_test());
     const data = { userName, imageName };
-    axios.post("http://10.12.10.5:3000/users/complet", data, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`,
+    axios
+      .post(
+        `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/complet`,
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              localStorage.getItem("accessToken") as string
+            }`,
+          },
         }
-      })
+      )
       .then((res) => {
-        props.setUpdate(!props.update)
-        if(res.data.message && (res.data.message == "valid username" ||
-            res.data.message == "Already have a username")){props.setUpdate(!props.update)}
-        else if (res.data.message) alert(res.data.message);
+        props.setUpdate(!props.update);
+        if (
+          res.data.message &&
+          (res.data.message == "valid username" ||
+            res.data.message == "Already have a username")
+        ) {
+          props.setUpdate(!props.update);
+        } else if (res.data.message) alert(res.data.message);
+      })
+      .catch(function (error) {
+        if (error.response) {
+          router.push({pathname :`/errorPage/${error.response.status}`})
+        }
       });
   };
   return (
@@ -110,10 +145,20 @@ const CinFormation = (props:any) => {
               upload an avatar.
             </p>
           </div>
-          <form className={style.form} onSubmit={(e:any) => {e.preventDefault()}}>
+          <form
+            className={style.form}
+            onSubmit={(e: any) => {
+              e.preventDefault();
+            }}
+          >
             <div className={style.content}>
               <div className={style.imge}>
-                <img className={style.img} src={userInfo?.picture === undefined ? image : userInfo?.picture}></img>
+                <img
+                  className={style.img}
+                  src={
+                    userInfo?.picture === undefined ? image : userInfo?.picture
+                  }
+                ></img>
               </div>
               <div className={style.child}>
                 <p className={style.text2}>
@@ -158,7 +203,11 @@ const CinFormation = (props:any) => {
                 )}
               </div>
             </div>
-            {valid == 1 && <button className={style.subm} onClick={handelSubmit}>Register</button>}
+            {valid == 1 && (
+              <button className={style.subm} onClick={handelSubmit}>
+                Register
+              </button>
+            )}
           </form>
         </div>
       </div>

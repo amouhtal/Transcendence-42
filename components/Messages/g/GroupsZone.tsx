@@ -4,7 +4,8 @@ import GroupsCart from './groupsCart';
 import styles from '../../../styles/messages/messages.module.css'
 import img from '../../../public/images/writing.png'
 import { BsPlus } from "react-icons/bs";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState} from "react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 import Image from "next/image";
 import image from '../../../public/images/profile.jpg'
@@ -13,22 +14,33 @@ import axios from "axios";
 import UsersCart from './UsersgrpCart'
 import FakeData from '../../../data.json'
 import padlock from '../../../public/images/padlock.png'
+import show from '../../../public/images/show.png'
+import hidden from '../../../public/images/hidden.png'
 
+/*
+    -Private UseState : sheck If the room is Private or public : show or not show the room;
+    -Protected UseStae: check if the room have a password on None;
+*/
 const FriendsZone = (props:any) => {
     const [ContactInformation, setContatInformation] = useState<any>([]);
     let FriendsInformation: any = [];
+    const router = useRouter();
     const [CreatNewGrp, setCreatNewGrp] = useState<boolean>(false);
-    const [Public, setPublic] = useState<boolean>(true);
     const [Private, setPrivate] = useState<boolean>(false);
     const [usersChoosen, setChoosenUsers] = useState<any>([])
     const [update,setUpdate] = useState<boolean>(false);
+    const [Protected, setProtected] = useState<boolean>(false);
     const handleSubmit = (e:any) => {
         e.preventDefault();
         console.log(e.target.Password.value);
-        axios.post("http://10.12.10.4:3300/chatRoom/create",{name: e.target.groupeName.value, type: Public ? "public" : Private ? "private" : "error", password: e.target.Password.value},
+        axios.post("http://localhost:3001/chatRoom/create",{name: e.target.groupeName.value, type: Public ? "public" : Private ? "private" : "error", password: e.target.Password.value},
         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
         .then((res: any) => {
                 console.log("res =",res);
+        }).catch(function (error){
+            if (error.response){
+                router.push({pathname :`/errorPage/${error.response.status}`})
+            }
         })
     }
     useEffect(() => {
@@ -48,19 +60,21 @@ const FriendsZone = (props:any) => {
             </div>
             <div className={CreatNewGrp ? styles.creatGoupContainerOn : styles.creatGoupContainerOff}>
                 <p className={styles.NewGrpP}>New Group</p>
-                <button className={styles.btn_create} onClick={(e:any) => {setCreatNewGrp(!CreatNewGrp);setPrivate(false);setChoosenUsers([])}}>Create</button>
+                <button className={styles.btn_create} onClick={(e:any) => {setCreatNewGrp(!CreatNewGrp);setProtected(false);setChoosenUsers([])}}>Create</button>
                 <button className={styles.btn_cancel} onClick={(e:any) => {e.preventDefault();setCreatNewGrp(!CreatNewGrp);setChoosenUsers([])}}>Cancel</button>
                 <form action="" className={styles.groupForm}>
                     <input type="text" placeholder="Group name" className={styles.groupName}/>
                 </form>
                 <div className={styles.container}>
                     <label className={styles.switch}>
-                    <input type="checkbox" onChange={(e:any) => {setPrivate(!Private)}}/>
+                    <input type="checkbox" onChange={(e:any) => {setProtected(!Protected)}}/>
                     <div className={`${styles.slider} ${styles.round}`}></div>
                     </label>
                 </div>
-                <img src={padlock.src} alt="private" className={styles.private} />
-                <input type="text" placeholder="Password..." className={Private ? styles.Password : styles.none} />
+                <img src={padlock.src} alt="Protected" className={styles.private} />
+                <img src={show.src} alt="show" className={Private ? styles.none: styles.showIcon} onClick={(e:any) => {setPrivate(true)}}/>
+                <img src={hidden.src} alt="show" className={Private ? styles.showIcon : styles.none} onClick={(e:any) => {setPrivate(false)}}/>
+                <input type="text" placeholder="Password..." className={Protected ? styles.Password : styles.none} />
                 <input type="text" placeholder="Search..." className={styles.creatGroupsearch}/>
                 <div className={styles.usersAdd}>
                     {

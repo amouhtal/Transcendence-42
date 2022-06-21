@@ -1,5 +1,5 @@
 import style from '../../styles/watchMatch/livematch.module.css'
-import LiveListMatch from '../ListeLiveMatch'
+import LiveListMatch from './ListeLiveMatch'
 import data from '../../achievement.json'
 function Watch () {
     return (

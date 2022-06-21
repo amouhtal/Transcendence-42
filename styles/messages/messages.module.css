@@ -10,7 +10,7 @@
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.container {
+.bcontainer {
     background-color: rgb(244, 244, 244);
     height: 95%;
     width: 95%;
@@ -244,6 +244,7 @@
     justify-content: center;
     position: absolute;
     top: 5%;
+    left: 10%;
 }
 .groupName {
     width: 90%;
@@ -253,6 +254,7 @@
     background-color: transparent;
     font-size: 16px;
     color: rgb(163, 163, 163);
+    
     /* border-bottom: 1px solid rgba(128, 128, 128, 0.1); */
 }
 
@@ -268,6 +270,7 @@
   top: 5.2%;
   right: 40px;
   background-color: red;
+  border-radius: 10px;
 }
 .switch {
   display: inline-block;
@@ -289,6 +292,7 @@
   right: 0;
   top: 0;
   transition: .4s;
+  border-radius: 10px;
   /* background-image: url('../../public/images/Vine.jpg'); */
 }
 
@@ -425,13 +429,21 @@ input:checked + .slider {
         position: absolute;
         z-index: 2;
     }
-    .container {
+    .bcontainer {
         height: 100%;
         width: 100%;
                                                                                                                                                                                                     border-radius: 5px;
     }
 }
 
+.showIcon {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top: 5.6%;
+    left: 5%;
+    cursor: pointer;
+}
 @media only screen and (max-height: 1050px) {
     .friendscard {
         top: 100px;
@@ -454,7 +466,7 @@ input:checked + .slider {
 }
 
 @media only screen and (max-width: 768px){
-    .container {
+    .bcontainer {
         border-radius: 5px;
     }
 }

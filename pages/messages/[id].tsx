@@ -18,10 +18,10 @@ const Messages = (props:any) => {
     //     router.push(`/messages/${router.query.id}`)
     // },[])
     var test:boolean = true;
-
+    console.log("USERinfo =", props.user)
     return (
         <div className={styles.globaleContainer}>
-            <div className={styles.container}>
+            <div className={styles.bcontainer}>
                 <ChatZone status={Status} socket={props.socket} user={props.user}/>
             </div>
         </div>
@@ -31,3 +31,8 @@ const Messages = (props:any) => {
 
 
 export default Messages;
+
+/*
+    Routes i Need from mel-hamr:
+        -m7tal ldindimak route bash njib ga3 les room les deja tceaw kola room b name dyalha o id dyalha 3la l2a9al,
+*/

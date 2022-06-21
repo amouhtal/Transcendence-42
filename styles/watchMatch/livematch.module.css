@@ -22,14 +22,19 @@
     width: 160px;
     height: 50px;
     border: none;
-    border-radius: 10px;
+    border-radius: 15px;
     letter-spacing: 2px;
     font-size: 17px;
     font-weight: bolder;
     background: inherit;
     cursor: pointer;
-    box-shadow: rgb(0, 98, 115) 0px 3px 15px;
+    /* box-shadow: rgb(0, 98, 115) 0px 0.5px 10px; */
+    border: 2px solid rgba(0, 98, 115, 0.426);
     color: rgb(87, 87, 87);
+}
+.Btn:hover{
+    color: rgb(0, 187, 255);
+    background-color: rgb(87, 87, 87);
 }
 .childSclor{
     position: relative;

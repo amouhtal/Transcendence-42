@@ -58,7 +58,7 @@ const UsersCart = (props:any) => {
                 // if (typeof window !== 'undefined') {
                 //     if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined" || localStorage.getItem("accessToken") === '')
                 //     {
-                //         axios.post('http://10.12.10.5:3000/users/profile',{userName : e.userName},{
+                //         axios.post('http:///users/profile',{userName : e.userName},{
                 //             headers:{
                 //                 'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
                 //             }

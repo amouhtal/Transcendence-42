@@ -7,7 +7,7 @@
     align-items: center;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: rgb(0, 98, 115) 0px 3px 15px;
+    box-shadow: rgb(0, 98, 115) 0px 1px 10px;
 }
 .player1{
     display: flex;
@@ -40,12 +40,9 @@
 .img{
     border-radius: 50%;
     object-fit: cover;
-}
-.imagediv{
+    width: 80px;
+    height: 80px;
     border: 4px solid rgb(0, 98, 115);
-    border-radius: 50%;
-    width: 84px;
-    height: 84px;
 }
 .watch{
     width: 70px;
@@ -62,6 +59,17 @@
     margin-right: 10px;
     box-shadow: rgb(0, 98, 115) 0px 0px 10px;
 }
+.watch:hover{
+    background-color: rgb(87, 87, 87);
+    color: rgb(0, 187, 255);
+}
+@media screen  and (max-width: 1216px){
+    .img{
+        width: 70px;
+        height: 70px;
+    }
+}
+
 @media screen and (max-width: 768px)
 {
     .imagediv{
@@ -99,8 +107,12 @@
         right: 5%;
         text-transform: uppercase;
         text-indent: 0;
-        letter-spacing: 2.7px;
-
+        letter-spacing: 3px;
+        box-shadow: rgb(0, 98, 115) 0px 1px 7px;
+        border: 2px solid rgba(0, 98, 115, 0.752);
+    }
+    .listeMtch{
+        box-shadow: rgb(0, 98, 115) 0px 1px 7px;
     }
     .player1 .userName{
         position: absolute;
@@ -124,5 +136,19 @@
 @media screen and (max-width: 411px){
     .watch{
         right: 4%;
+    }
+}
+@media screen and (max-width: 323px){
+    .player1 .userName{
+        position: absolute;
+        left: 11%;
+        letter-spacing: 1px;
+        font-size: 15px;
+    }
+    .player2 .userName{
+        position: absolute;
+        right: 22%;
+        letter-spacing: 1px;
+        font-size: 15px;
     }
 }
