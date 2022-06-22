@@ -79,9 +79,9 @@ const UsersCart = (props:any) => {
                         <div className={styles.userName}>
                             <p>{e.userName}</p>
                         </div>
-                        <div className={styles.icons}>
+                        {/* <div className={styles.icons}>
                             <input type="radio" checked={Checked ? true : false}/>                    
-                        </div>
+                        </div> */}
                     </div>
             );
         })}

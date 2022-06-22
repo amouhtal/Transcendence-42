@@ -30,22 +30,32 @@ const FriendsZone = (props:any) => {
     const [usersChoosen, setChoosenUsers] = useState<any>([])
     const [update,setUpdate] = useState<boolean>(false);
     const [Protected, setProtected] = useState<boolean>(false);
-    const handleSubmit = (e:any) => {
-        e.preventDefault();
-        console.log(e.target.Password.value);
-        axios.post("http://localhost:3001/chatRoom/create",{name: e.target.groupeName.value, type: Public ? "public" : Private ? "private" : "error", password: e.target.Password.value},
-        {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
-        .then((res: any) => {
-                console.log("res =",res);
-        }).catch(function (error){
-            if (error.response){
-                router.push({pathname :`/errorPage/${error.response.status}`})
-            }
-        })
-    }
+    const [GroupName, setGroupName] = useState<string>("");
+    const [GourpPassword, setGroupPassword] = useState<string>("");
+    // const handleSubmit = (e:any) => {
+    //     e.preventDefault();
+    //     console.log(e.target.Password.value);
+    //     axios.post("http://localhost:3001/chatRoom/create",{name: e.target.groupeName.value, type: Public ? "public" : Private ? "private" : "error", password: e.target.Password.value},
+    //     {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+    //     .then((res: any) => {
+    //             console.log("res =",res);
+    //     }).catch(function (error){
+    //         if (error.response){
+    //             router.push({pathname :`/errorPage/${error.response.status}`})
+    //         }
+    //     })
+    // }
     useEffect(() => {
-        console.log("chossen Users =",usersChoosen)
-    },[update])
+        axios.get("http://localhost:3001/chatRoom/getAllRooms",
+        {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+        ).then((res) => {
+            console.log("response=",res);
+        })
+    },[])
+    const handelNameCange = (e:any) => {
+        e.preventDefault();
+        setGroupName(e.target.value);
+    }
     return (
         <div className={props.show ? styles.friendListshow : styles.friendListDontshow}>
             <div className={styles.searchBar}>
@@ -60,10 +70,14 @@ const FriendsZone = (props:any) => {
             </div>
             <div className={CreatNewGrp ? styles.creatGoupContainerOn : styles.creatGoupContainerOff}>
                 <p className={styles.NewGrpP}>New Group</p>
-                <button className={styles.btn_create} onClick={(e:any) => {setCreatNewGrp(!CreatNewGrp);setProtected(false);setChoosenUsers([])}}>Create</button>
+                <button className={styles.btn_create} onClick={(e:any) => {
+                    setCreatNewGrp(!CreatNewGrp);setProtected(false);setChoosenUsers([]);
+                    console.log("Hellloo im heeererererer");    
+                    props.socket?.emit("creatChannel",{name:GroupName, type:Private ? "private" : "public", protected:Protected ? true : false,password: Protected ? GourpPassword : null,users: usersChoosen})
+                    }}>Create</button>
                 <button className={styles.btn_cancel} onClick={(e:any) => {e.preventDefault();setCreatNewGrp(!CreatNewGrp);setChoosenUsers([])}}>Cancel</button>
                 <form action="" className={styles.groupForm}>
-                    <input type="text" placeholder="Group name" className={styles.groupName}/>
+                    <input type="text" placeholder="Group name" className={styles.groupName} onChange={handelNameCange}/>
                 </form>
                 <div className={styles.container}>
                     <label className={styles.switch}>
@@ -74,7 +88,7 @@ const FriendsZone = (props:any) => {
                 <img src={padlock.src} alt="Protected" className={styles.private} />
                 <img src={show.src} alt="show" className={Private ? styles.none: styles.showIcon} onClick={(e:any) => {setPrivate(true)}}/>
                 <img src={hidden.src} alt="show" className={Private ? styles.showIcon : styles.none} onClick={(e:any) => {setPrivate(false)}}/>
-                <input type="text" placeholder="Password..." className={Protected ? styles.Password : styles.none} />
+                <input type="text" placeholder="Password..." className={Protected ? styles.Password : styles.none} onChange={(e:any) => {setGroupPassword(e.target.value)}}/>
                 <input type="text" placeholder="Search..." className={styles.creatGroupsearch}/>
                 <div className={styles.usersAdd}>
                     {
