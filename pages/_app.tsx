@@ -43,7 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       socketOptions
     );
     socket.emit("startChannels");
-  }, []);
+  });
   useEffect(() => {
     console.log(router.pathname);
     console.log("im here");

@@ -15,41 +15,56 @@ import back from '../../../public/images/left.png'
 import axios from 'axios';
 import { Router, useRouter } from 'next/router';
 import typing from '../../../public/images/typing.gif'
-const ChatZone = (props:any) => {
+const GroupChatZone = (props:any) => {
     const router = useRouter();
+    const dummy:any = useRef<any>();
     const checkout:string = process.browser ? localStorage.getItem('color') as string : 'default';
     const [messageValue, setMessage] = useState<string>("Hello how are you?");
     const [update, setUpdate] = useState<boolean>(true);
     const [AllMessages, setAllMessages] = useState<any>([])
     const [isTyping, setIsTyping] = useState<boolean>(false);
-    const [messages, setMessages] = useState<any>([]); useEffect(() => {
-    //     axios.post("http://10.12.10.4:3300/message/getConnversation",{userName: router.query.id},
-    //     {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
-    //     ).then((res) => {
-    //         setMessages(res.data)
-    //         setAllMessages(res.data);
-    //     })
-    //     dummy.current.scrollIntoView();
-    // },[router.query.id])
+    const [messages, setMessages] = useState<any>([]);
+    useEffect(() => {
+        axios.post("http://localhost:3001/roomMessage/getConnversation",{roomId: router.query.id},
+        {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+        ).then((res) => {
+            setMessages(res.data)
+            setAllMessages(res.data);
+            console.log("messages=",res.data);
+        })
+        axios.post("http://localhost:3001/roomMessage/getRoomMemebers",{roomId: router.query.id},
+        {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+        ).then((res) => {
+            setMessages(res.data)
+            setAllMessages(res.data);
+            console.log("messages=",res.data);
+        })
+        // dummy.current.scrollIntoView();
+    },[router.query.id])
     const [userInfo, setuserInfo] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
     const [friends, setFriends] = useState<any>();
     const [color, setColor] = useState<string>(checkout);
     const [reciverId, setReciverId] = useState<any>();
-    const dummy:any = useRef<any>();
-    const dummy2:any = useRef<any>();
-    // useEffect (() => {
-    //     // dummy.current.scrollIntoView();
-    //     if (messages !== []){
-    //         const userName = messages[0]?.senderId === props.user?.useName ? "" : messages[0]?.reciverId;
-    //         axios.post("http:///users/profile",{userName: router.query.id},
-    //         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
-    //         ).then((res) => {
-    //             setReciverId(res.data?.userInfo);
-    //         })
-    //     }
-    //     dummy.current.scrollIntoView({behavior: 'smooth'});
-    // },[messages,isTyping])
+    useEffect (() => {
+        // dummy.current.scrollIntoView();
+        if (messages !== []){
+            const userName = messages[0]?.senderId === props.user?.useName ? "" : messages[0]?.reciverId;
+            axios.post("http:///localhost:3001/users/profile",{userName: router.query.id},
+            {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+            ).then((res) => {
+                setReciverId(res.data?.userInfo);
+            })
+        }
+        // dummy.current.scrollIntoView({behavior: 'smooth'});
+    },[messages,isTyping])
+    const getUsersInfo = (_userName:string) => {
+        axios.post("http:///localhost:3001/users/profile",{userName: _userName},
+            {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+            ).then((res) => {
+                setReciverId(res.data?.userInfo);
+            })
+    }
     // useEffect(() => {
     //     axios.get("http://10.12.10.4:3300/message/getConntacts",
     //     {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
@@ -57,14 +72,15 @@ const ChatZone = (props:any) => {
     //         setFriends(res.data);
     //     })
     // }, [])
-    // const handelSubmit = (e:any) => {
-    //     e.preventDefault();
-    //     if (e.target.message.value !== '') {
-    //         e.target.message.value !== '' ? setMessage(e.target.message.value) : messageValue;
-    //         props.socket?.emit("message",e.target.message.value,router.query?.id);
-    //         e.target.message.value = '';
-    //     }
-    // }
+    const handelSubmit = (e:any) => {
+        e.preventDefault();
+        if (e.target.message.value !== '') {
+            e.target.message.value !== '' ? setMessage(e.target.message.value) : messageValue;
+            console.log("message:",e.target.message.value, "roomId:", router.query?.id);
+            props.socket?.emit("roomMessage",{message: e.target.message.value,roomId: router.query?.id});
+            e.target.message.value = '';
+        }
+    }
     const handleChange = (e:any) => {
         e.preventDefault();
         console.log(e.target.value)
@@ -72,10 +88,8 @@ const ChatZone = (props:any) => {
         // props.socket?.on("typing", (data:any) => {console.log("Mydata =",data);data !== true ? setIsTyping(false) : setIsTyping(true)})
     }
     if (process.browser)
-    localStorage.setItem("color", color as string);
-    props.socket?.on("message", (data:any) => {setMessages(data);console.log("mel-hamr:",data)})
-    // props.socket?.on("typing", (data:any) => {console.log("Mydata =",data);data !== true ? setIsTyping(false) : setIsTyping(true)})
-    // console.log("isTyping =",isTyping)
+        localStorage.setItem("color", color as string);
+    props.socket?.on("messageRoom", (data:any) => {setMessages(data);console.log("mel-hamrRoom:",data)})
         return (
         <>
         <GroupsZone data={friends} status={props.status} show={showFriends} setShow={setShowFriends} socket={props.socket}/>
@@ -94,6 +108,7 @@ const ChatZone = (props:any) => {
                 {messages?.map((e:any) => {
                     e.time = e.time.replace('T', " ");e.time = e.time.replace ('Z', "");e.time = e.time.split('.')[0];
                     const userName = e.senderId === props.user?.userName ? e.reciverId : e.senderId;
+                    // getUsersInfo(e.senderId);
                     return (
                         <div className={e.senderId === props.user?.userName ? styles.left : styles.right} id="lastMessage">
                             <img src={e.senderId === props.user?.userName ? props.user?.picture : reciverId?.picture} className={e?.senderId === props.user?.userName ? styles.imgRight: styles.imgLeft} alt="" />
@@ -106,7 +121,7 @@ const ChatZone = (props:any) => {
                         </div>
                     </div>
                     )})}                    
-                    <img src={typing.src} alt="Typing..." className ={isTyping ? styles.isTyping: styles.displaynone}/>
+                    {/* <img src={typing.src} alt="Typing..." className ={isTyping ? styles.isTyping: styles.displaynone}/> */}
                     <div ref={dummy}></div>
             </div>
             <div className={styles.messagesZone}>
@@ -120,8 +135,9 @@ const ChatZone = (props:any) => {
                 </form>
              </div>
          </div>
-         <GroupsZone data={reciverId} status={reciverId?.isActive} allMessages={AllMessages} setMessages={setMessages} messages={messages} display={userInfo} color={setColor} setDisplay={setuserInfo} update={update} setUpdate={setUpdate} />
+         <GroupsInfo data={reciverId} status={reciverId?.isActive} allMessages={AllMessages} setMessages={setMessages} messages={messages} display={userInfo} color={setColor} setDisplay={setuserInfo} update={update} setUpdate={setUpdate} socket={props.socket} />
         </>
     );
 }
-export default ChatZone;
+
+export default GroupChatZone;

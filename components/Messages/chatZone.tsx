@@ -25,29 +25,29 @@ const ChatZone = (props: any) => {
   const [AllMessages, setAllMessages] = useState<any>([]);
   const [isTyping, setIsTyping] = useState<boolean>(false);
   const [messages, setMessages] = useState<any>([]);
-  useEffect(() => {
-    axios
-      .post(
-        "http://localhost:3001/message/getConnversation",
-        { userName: router.query.id },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-          },
-        }
-      )
-      .then((res) => {
-        setMessages(res.data);
-        setAllMessages(res.data);
-      })
-      .catch(function (error) {
-        if (error.response) {
-          router.push({ pathname: `/errorPage/${error.response.status}` });
-        }
-      });
+  // useEffect(() => {
+  //   axios
+  //     .post(
+  //       "http://localhost:3001/message/getConnversation",
+  //       { userName: router.query.id },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+  //         },
+  //       }
+  //     )
+  //     .then((res) => {
+  //       setMessages(res.data);
+  //       setAllMessages(res.data);
+  //     })
+  //     .catch(function (error) {
+  //       if (error.response) {
+  //         router.push({ pathname: `/errorPage/${error.response.status}` });
+  //       }
+  //     });
 
-    dummy.current.scrollIntoView();
-  }, [router.query.id]);
+  //   dummy.current.scrollIntoView();
+  // }, [router.query.id]);
   const [userInfo, setuserInfo] = useState<boolean>(false);
   const [showFriends, setShowFriends] = useState<boolean>(true);
   const [friends, setFriends] = useState<any>();
@@ -56,49 +56,49 @@ const ChatZone = (props: any) => {
   const dummy: any = useRef<any>();
   const dummy2: any = useRef<any>();
   console.log("url=",router.query.id)
-  useEffect(() => {
-    // dummy.current.scrollIntoView();
-    if (messages !== []) {
-      console.log("userUserName=",props.user?.userName)
-      const userName = messages[0]?.senderId === props.user?.userName ? "" : messages[0]?.reciverId;
-      axios
-        .post(
-          "http://localhost:3001/users/profile",
-          { userName: router.query.id },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-            },
-          }
-        )
-        .then((res) => {
-          setReciverId(res.data?.userInfo);
-          console.log("ReciverId =", res.data?.userInfo);
-        })
-        .catch(function (error) {
-          if (error.response) {
-            router.push({ pathname: `/errorPage/${error.response.status}` });
-          }
-        });
-    }
-    dummy.current.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/message/getConntacts", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-        },
-      })
-      .then((res) => {
-        setFriends(res.data);
-      })
-      .catch(function (error) {
-        if (error.response) {
-          router.push({ pathname: `/errorPage/${error.response.status}` });
-        }
-      });
-  }, []);
+  // useEffect(() => {
+  //   // dummy.current.scrollIntoView();
+  //   if (messages !== []) {
+  //     console.log("userUserName=",props.user?.userName)
+  //     const userName = messages[0]?.senderId === props.user?.userName ? "" : messages[0]?.reciverId;
+  //     axios
+  //       .post(
+  //         "http://localhost:3001/users/profile",
+  //         { userName: router.query.id },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+  //           },
+  //         }
+  //       )
+  //       .then((res) => {
+  //         setReciverId(res.data?.userInfo);
+  //         console.log("ReciverId =", res.data?.userInfo);
+  //       })
+  //       .catch(function (error) {
+  //         if (error.response) {
+  //           router.push({ pathname: `/errorPage/${error.response.status}` });
+  //         }
+  //       });
+  //   }
+  //   dummy.current.scrollIntoView({ behavior: "smooth" });
+  // }, [messages]);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:3001/message/getConntacts", {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setFriends(res.data);
+  //     })
+  //     .catch(function (error) {
+  //       if (error.response) {
+  //         router.push({ pathname: `/errorPage/${error.response.status}` });
+  //       }
+  //     });
+  // }, []);
   const handelSubmit = (e: any) => {
     e.preventDefault();
     if (e.target.message.value !== "") {

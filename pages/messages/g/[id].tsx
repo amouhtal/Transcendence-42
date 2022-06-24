@@ -7,7 +7,7 @@ import Image from 'next/image';
 import image from '../../public/images/profile.jpg'
 import UserInfo from '../../../components/Messages/UserInfo';
 // const socket = io("10.12.11.5:3000",{transports:['websocket']});
-import ChatZone from '../../../components/Messages/chatZone';
+import GroupChatZone from '../../../components/Messages/g/chatZone';
 import FakeData from '../../../data.json'
 import axios from 'axios';
 const Messages = (props:any) => {
@@ -24,8 +24,8 @@ const Messages = (props:any) => {
     });
     return (
         <div className={styles.globaleContainer}>
-            <div className={styles.container}>
-                <ChatZone data={filterData} status={Status} socket={props.socket} user={props.user}/>
+            <div className={styles.bcontainer}>
+                <GroupChatZone data={filterData} status={Status} socket={props.socket} user={props.user}/>
             </div>
         </div>
     );

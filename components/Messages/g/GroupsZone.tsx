@@ -32,6 +32,9 @@ const FriendsZone = (props:any) => {
     const [Protected, setProtected] = useState<boolean>(false);
     const [GroupName, setGroupName] = useState<string>("");
     const [GourpPassword, setGroupPassword] = useState<string>("");
+    const [usersData, setUsersData] = useState<any>(FakeData);
+    const [PublicGroupsInfo, setPublicGroupsInfo] = useState<any>();
+    const [PrivateGroupsInfo, setPrivateGroupsInfo] = useState<any>();
     // const handleSubmit = (e:any) => {
     //     e.preventDefault();
     //     console.log(e.target.Password.value);
@@ -49,9 +52,23 @@ const FriendsZone = (props:any) => {
         axios.get("http://localhost:3001/chatRoom/getAllRooms",
         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
         ).then((res) => {
-            console.log("response=",res);
+            console.log("response=",res.data);
+            setPublicGroupsInfo(res.data.public);
+            setPrivateGroupsInfo(res.data.private);
         })
     },[])
+    useEffect(() => {
+		axios
+		  .get(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/all`, {
+			headers: {
+			  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+			},
+		  })
+		  .then((res) => {
+			setUsersData(res.data.all_users);
+			console.log("AllUsers=",res.data.all_users);
+		  });
+	  }, []);
     const handelNameCange = (e:any) => {
         e.preventDefault();
         setGroupName(e.target.value);
@@ -103,11 +120,11 @@ const FriendsZone = (props:any) => {
                 </div>
                 <p className={styles.Suggested}>SUGGESTED</p>
                 <div className={CreatNewGrp ? styles.usersContainer : styles.none}>
-                    <UsersCart data={FakeData} setChoosenUsers={setChoosenUsers} usersChoosen={usersChoosen} update={update} setUpdate={setUpdate}/>
+                    <UsersCart data={usersData} setChoosenUsers={setChoosenUsers} usersChoosen={usersChoosen} update={update} setUpdate={setUpdate}/>
                 </div>
             </div>
             <div className={styles.friendscard}>
-                <GroupsCart data={props.data} status={props.status} setShow={props.setShow}/>
+                <GroupsCart data={PublicGroupsInfo} status={props.status} setShow={props.setShow}/>
             </div>
         </div>
     );
