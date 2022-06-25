@@ -10,33 +10,62 @@ import UserInfo from '../../../components/Messages/UserInfo';
 import GroupChatZone from '../../../components/Messages/g/chatZone';
 import FakeData from '../../../data.json'
 import axios from 'axios';
+import { curryGetDefaultMiddleware } from '@reduxjs/toolkit/dist/getDefaultMiddleware';
 const Messages = (props:any) => {
     const [Status ,setStatus] = useState<boolean>(false);
     const router = useRouter();
     const [userInfo ,setUserInfo] = useState<any>();
     const [roomOwner, setRoomOwner] = useState<string>("")
     const [update, setUpdate] = useState<boolean>(false);
-    
+    const [groupMembers, setGroupMembers] = useState<any>([]);
+    const _roomId : number = typeof window != "undefined" ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5].indexOf("?")) : 0;
     useEffect(() => {
         console.log("update =", update);
-        const _roomId : number = typeof window != "undefined" ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5].indexOf("?")) : 0;
         axios.post("http://localhost:3001/chatRoom/getOwner", {roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
         .then ((res) => {
             setRoomOwner(res.data);
             console.log("RoomOwner =",res.data);
         })
     },[roomOwner])
+    useEffect(() => {
+        axios.post("http://localhost:3001/chatRoom/getRoomMemebers",{roomId: _roomId},
+        {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+        ).then((res) => {
+            setGroupMembers(res.data);
+            // console.log("RoomMembers=",res.data);
+        })
+    },[])
     var test:boolean = true;
 
     const [filterData] = FakeData.filter((value: any) => {
         return (value.userName === router.query.id);
     });
+    const checkIfMemver = (e:string) => {
+        let isGroupMember = false;
+        console.log("userName in CHeck = ", e, groupMembers);
+        groupMembers.map((curr:any) => {
+            console.log(curr.userName)
+            if (curr.userName === e)
+            {
+                console.log("here")
+                isGroupMember = true;
+            }
+        })
+        console.log("isInGroup", isGroupMember);
+        return isGroupMember;
+    }
     return (
         <div className={styles.globaleContainer}>
-            <div className={styles.bcontainer}>
-                <GroupChatZone data={filterData} status={Status} socket={props.socket} user={props.user} roomOwner={roomOwner} setRoomOwner={setRoomOwner}
-                update={update} setUpdate={setUpdate}/>
-            </div>
+            {/* {
+                checkIfMemver(props.user?.userName) ? */}
+                <div className={styles.bcontainer}>
+                    <GroupChatZone data={filterData} status={Status} socket={props.socket} user={props.user} roomOwner={roomOwner} setRoomOwner={setRoomOwner}
+                    update={update} setUpdate={setUpdate} ShowJoin={false}/>
+                </div>
+                {/* :
+                <div>
+                </div>
+            } */}
         </div>
     );
 }

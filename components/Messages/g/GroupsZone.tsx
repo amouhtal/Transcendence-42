@@ -16,6 +16,7 @@ import FakeData from '../../../data.json'
 import padlock from '../../../public/images/padlock.png'
 import show from '../../../public/images/show.png'
 import hidden from '../../../public/images/hidden.png'
+import networking from '../../../public/images/teamwork.png'
 
 /*
     -Private UseState : sheck If the room is Private or public : show or not show the room;
@@ -119,9 +120,9 @@ const FriendsZone = (props:any) => {
                     }
                 </div>
                 <p className={styles.Suggested}>SUGGESTED</p>
-                {/* <div className={CreatNewGrp ? styles.usersContainer : styles.none}>
+                <div className={CreatNewGrp ? styles.usersContainer : styles.none}>
                     <UsersCart data={usersData} setChoosenUsers={setChoosenUsers} usersChoosen={usersChoosen} update={update} setUpdate={setUpdate}/>
-                </div> */}
+                </div>
             </div>
             <div className={styles.friendscard}>
                 <GroupsCart data={PublicGroupsInfo} status={props.status} setShow={props.setShow} setRoomOwnerUsername={props.setRoomOwnerUsername}/>

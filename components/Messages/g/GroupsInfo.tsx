@@ -17,6 +17,7 @@ import { Socket } from 'socket.io-client';
 import axios from 'axios';
 import { Router, useRouter } from 'next/router';
 import ownerIMG from '../../../public/images/user.png'
+import networking from '../../../public/images/teamwork.png'
 
 const UserInfo = (props: any) => {
 	const [search, setSearch] = useState<boolean>(false);
@@ -73,7 +74,7 @@ const UserInfo = (props: any) => {
 				<div className={search? styles.searchBox : styles.non} onClick={(e:any) => {setSearch(!search)}}>
 				</div>
         	    <div className={styles.imgContainer}>
-        	        <img src={group.src} alt="" className={styles.userInfoImg}/>
+        	        <img src={networking.src} alt="" className={styles.userInfoImg}/>
         	        <div className={props.status? styles.UserInfoZoneOnline : styles.UserInfoZoneOffline}></div>
         	    </div>
         	    <div className={styles.userInfoName}>
@@ -145,7 +146,7 @@ const UserInfo = (props: any) => {
             	    	</div>
             	    	<p className={styles.Suggested}>SUGGESTED</p>
             	    	<div className={styles.usersContainer}>
-            	        	<UsersCart data={usersData} setChoosenUsers={setChoosenUsers} usersChoosen={usersChoosen} update={update} setUpdate={setUpdate} changeRoomOwner={changeRoomOwner} user={props.user}/>
+            	        	<UsersCart data={usersData} setChoosenUsers={setChoosenUsers} usersChoosen={usersChoosen} update={update} setUpdate={setUpdate} changeRoomOwner={changeRoomOwner} user={props.user} roomOwner={props.roomOwner}/>
             	    	</div>
             	</div>
             		{/* <div className={styles.friendscard}>

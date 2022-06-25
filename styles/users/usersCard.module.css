@@ -111,6 +111,13 @@
     display: none;
 }
 
+.admin {
+    position: absolute;
+    right: 20px;
+    color: #161616;
+    top: -30px;
+    opacity: .7;
+}
 @media screen and (max-width: 550px)
 {
     .addUserIcon {

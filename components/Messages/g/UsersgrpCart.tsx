@@ -81,6 +81,9 @@ const UsersCart = (props:any) => {
                         <div className={styles.userName}>
                             <p>{e.userName}</p>
                         </div>
+                        <div className={props.roomOwner === e.userName ? styles.admin : styles.none}>
+                            <p>Owner</p>
+                        </div>
                         {/* <div className={styles.icons}>
 
                         </div> */}

@@ -16,6 +16,7 @@ import axios from 'axios';
 import { Router, useRouter } from 'next/router';
 import typing from '../../../public/images/typing.gif'
 import group from '../../../public/images/group.png'
+import networking from '../../../public/images/teamwork.png'
 
 const GroupChatZone = (props:any) => {
     const router = useRouter();
@@ -107,18 +108,18 @@ const GroupChatZone = (props:any) => {
         return (
         <>
         <GroupsZone data={friends} status={props.status} show={showFriends} setShow={setShowFriends} socket={props.socket} setRoomOwnerUsername={setRoomOwnerUsername}/>
-        <div className={userInfo? styles.chatZone : styles.fullChatZone}>
+            <div className={userInfo? styles.chatZone : styles.fullChatZone}>
             <div className={styles.chatHeader}>
-            <img src={back.src} className={styles.showFriendsZone} onClick={(e:any) => {e.preventDefault(); setShowFriends(!showFriends)}}/>
+                <img src={back.src} className={styles.showFriendsZone} onClick={(e:any) => {e.preventDefault(); setShowFriends(!showFriends)}}/>
                 <div className={styles.imgHeaderContainer}>
-                    <img src={props.user?.picture} className={styles.img}/>
-                    <div className={reciverId?.isActive ? styles.HeaderStatusOnline : styles.HeaderStatusOffline}></div>
+                    <img src={networking.src} className={styles.img}/>
+                        <div className={reciverId?.isActive ? styles.HeaderStatusOnline : styles.HeaderStatusOffline}></div>
                 </div>
                 <p className={styles.fullName}>{router.query.name}</p>
                 {/* <p className={styles.status}>{reciverId?.isActive? "Online" : "Offline . Last seen 3h ago"}</p> */}
                 <p className={styles.settings} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
-            </div>
-            <div className={styles.chatMain}>
+            </div>  
+                <div className={styles.chatMain}>
                 {messages?.map((e:any) => {
                     e.time = e.time.replace('T', " ");e.time = e.time.replace ('Z', "");e.time = e.time.split('.')[0];
                     const [userInfo] :any = getUserInfo(e.senderId);
@@ -138,17 +139,17 @@ const GroupChatZone = (props:any) => {
                     )})}                    
                     {/* <img src={typing.src} alt="Typing..." className ={isTyping ? styles.isTyping: styles.displaynone}/> */}
                     <div ref={dummy}></div>
-            </div>
-            <div className={styles.messagesZone}>
-                <form className={styles.formMessage} onSubmit={handelSubmit}>
-                    <input type="text" name="" id="message" placeholder="Type a message here..." className={styles.message} onChange={handleChange} />
-                    <button type="submit" className={styles.btn} onSubmit={(e:any) => {e.preventDefault();e.target.value = ""}}><img src={send.src} className={styles.btnIcon}/></button>
-                    <div className={styles.fileupload}>
-                        <img src={clip.src} alt="" />
-                        <input type="file" name="" id="" />
-                    </div>
-                </form>
-             </div>
+                </div>
+                <div className={styles.messagesZone}>
+                    <form className={styles.formMessage} onSubmit={handelSubmit}>
+                        <input type="text" name="" id="message" placeholder="Type a message here..." className={styles.message} onChange={handleChange} />
+                        <button type="submit" className={styles.btn} onSubmit={(e:any) => {e.preventDefault();e.target.value = ""}}><img src={send.src} className={styles.btnIcon}/></button>
+                        <div className={styles.fileupload}>
+                            <img src={clip.src} alt="" />
+                            <input type="file" name="" id="" />
+                        </div>
+                    </form>
+                </div>
          </div>
          <GroupsInfo data={reciverId} status={reciverId?.isActive} allMessages={AllMessages} setMessages={setMessages} messages={messages} display={userInfo} color={setColor} setDisplay={setuserInfo} update={update} setUpdate={setUpdate} socket={props.socket}
          setUpdateRoomMambets={setUpdateRoomMambets} updateRoomMembers={updateRoomMembers} user={props.user} roomOwner={props.roomOwner} setRoomOwner={props.setRoomOwner}
