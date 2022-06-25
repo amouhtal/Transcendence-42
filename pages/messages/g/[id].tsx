@@ -14,9 +14,18 @@ const Messages = (props:any) => {
     const [Status ,setStatus] = useState<boolean>(false);
     const router = useRouter();
     const [userInfo ,setUserInfo] = useState<any>();
-    // useEffect(() => {
-    //     router.push(`/messages/${router.query.id}`)
-    // },[])
+    const [roomOwner, setRoomOwner] = useState<string>("")
+    const [update, setUpdate] = useState<boolean>(false);
+    
+    useEffect(() => {
+        console.log("update =", update);
+        const _roomId : number = typeof window != "undefined" ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5].indexOf("?")) : 0;
+        axios.post("http://localhost:3001/chatRoom/getOwner", {roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+        .then ((res) => {
+            setRoomOwner(res.data);
+            console.log("RoomOwner =",res.data);
+        })
+    },[roomOwner])
     var test:boolean = true;
 
     const [filterData] = FakeData.filter((value: any) => {
@@ -25,7 +34,8 @@ const Messages = (props:any) => {
     return (
         <div className={styles.globaleContainer}>
             <div className={styles.bcontainer}>
-                <GroupChatZone data={filterData} status={Status} socket={props.socket} user={props.user}/>
+                <GroupChatZone data={filterData} status={Status} socket={props.socket} user={props.user} roomOwner={roomOwner} setRoomOwner={setRoomOwner}
+                update={update} setUpdate={setUpdate}/>
             </div>
         </div>
     );

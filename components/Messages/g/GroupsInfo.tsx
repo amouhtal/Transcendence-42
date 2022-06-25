@@ -10,20 +10,25 @@ import back from '../../../public/images/left.png'
 import { useEffect, useState } from 'react';
 import messages from '../../../pages/messages';
 import addUsers from '../../../public/images/add-user.png'
+import group from '../../../public/images/group.png'
 import FakeData from '../../../data.json'
 import UsersCart from './UsersgrpCart'
 import { Socket } from 'socket.io-client';
 import axios from 'axios';
 import { Router, useRouter } from 'next/router';
+import ownerIMG from '../../../public/images/user.png'
 
 const UserInfo = (props: any) => {
 	const [search, setSearch] = useState<boolean>(false);
 	const [theme, setTheme] = useState<boolean>(false);
     const [usersChoosen, setChoosenUsers] = useState<any>([]);
-    const [update,setUpdate] = useState<boolean>(false);
 	const [addUsersZone, setAddUserZone] = useState<boolean>(false);
 	const [usersData, setUsersData] = useState<any>(FakeData);
+	const [showRoomMembers, setShowRoomMembers] = useState<boolean>(false);
+	const [changeRoomOwner, setChangeRoomOwner] = useState<boolean>(false);
+	const [update, setUpdate] = useState<boolean>(false)
 	const router = useRouter();
+	const _roomId : number = typeof window != "undefined" ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5].indexOf("?")) : 0;
 	// const [display, setDisplay] = useState<boolean>();
 	// useEffect(() => {
 	// 	setDisplay(props.display);
@@ -39,7 +44,7 @@ const UserInfo = (props: any) => {
 		  })
 		  .then((res) => {
 			setUsersData(res.data.all_users);
-			console.log("AllUsers=",res.data.all_users);
+			// console.log("AllUsers=",res.data.all_users);
 		  });
 	  }, []);
 	const handleChange = (e:any) => {
@@ -51,10 +56,10 @@ const UserInfo = (props: any) => {
 	const handelSearch = (e:any) => {
 		e.preventDefault();
 		const filtredData = FakeData.filter((crr:any) => {
-			console.log("hello")
+			// console.log("hello")
 			return (crr.userName.includes(e.target.value))
 		})
-		console.log(filtredData)
+		// console.log(filtredData)
 		// setChoosenUsers(filtredData);
 		setUsersData(filtredData);
 	}
@@ -68,7 +73,7 @@ const UserInfo = (props: any) => {
 				<div className={search? styles.searchBox : styles.non} onClick={(e:any) => {setSearch(!search)}}>
 				</div>
         	    <div className={styles.imgContainer}>
-        	        <img src={props.data?.picture} alt="" className={styles.userInfoImg}/>
+        	        <img src={group.src} alt="" className={styles.userInfoImg}/>
         	        <div className={props.status? styles.UserInfoZoneOnline : styles.UserInfoZoneOffline}></div>
         	    </div>
         	    <div className={styles.userInfoName}>
@@ -92,20 +97,42 @@ const UserInfo = (props: any) => {
         	            <p>Search in conversation</p>
         	        </div>
         	    </div>
-        	    <div className={styles.BlockContainer} onClick={(e:any) => {setAddUserZone(!addUsersZone)}}>
+        	    <div className={props.user?.userName === props.roomOwner ? styles.BlockContainer : styles.none} onClick={(e:any) => {setAddUserZone(!addUsersZone)}}>
         	        <div className={styles.block}>
         	            <img src={addUsers.src} alt="" className={styles.blockImage}/>
         	            <p>Add users</p>
         	        </div>
         	    </div>
-				<div className={addUsersZone ? styles.add_user_on : styles.add_user_off}>
-					<button className={styles.add_btn} onClick={(e:any) => {
+        	    <div className={props.user?.userName === props.roomOwner ? styles.groupMembersDown : styles.BlockContainer} onClick={(e:any) => {setShowRoomMembers(!showRoomMembers)}}>
+        	        <div className={styles.block}>
+        	            <img src={group.src} alt="" className={styles.blockImage}/>
+        	            <p>Group Members</p>
+        	        </div>
+        	    </div>
+        	    <div className={props.user?.userName === props.roomOwner ? styles.NewOwner : styles.none} onClick={(e:any) => {setChangeRoomOwner(!changeRoomOwner)}}>
+        	        <div className={styles.block}>
+        	            <img src={ownerIMG.src} alt="" className={styles.blockImage}/>
+        	            <p>Group Owner</p>
+        	        </div>
+        	    </div>
+				<div className={(addUsersZone || showRoomMembers || changeRoomOwner ? styles.add_user_on : styles.add_user_off)}>
+					<button className={showRoomMembers || changeRoomOwner ? styles.none : styles.add_btn} onClick={(e:any) => {
 						setAddUserZone(!addUsersZone); setChoosenUsers([]);
-						props.socket?.emit("addUserToChannel",{users: usersChoosen, roomId: router.query?.id})
+						props.socket?.emit("addUserToChannel",{users: usersChoosen, roomId: router.query?.id});
+						props.setUpdateRoomMambets(!props.updateRoomMembers);
 						}}>add</button>
-					<button className={styles.cancel_btn} onClick={(e:any) => {setAddUserZone(!addUsersZone); setChoosenUsers([])}}>cancel</button>
+					<button className={styles.cancel_btn} onClick={(e:any) => {showRoomMembers ? setShowRoomMembers(false) : changeRoomOwner ? setChangeRoomOwner(false) : setAddUserZone(!addUsersZone)}}>cancel</button>
+					<button className={changeRoomOwner ? styles.add_btn : styles.none} onClick={(e:any) => {
+						axios.post("http://localhost:3001/chatRoom/changeOwner",{roomId: _roomId,newOwner: usersChoosen[0].userName},
+						{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+						setChangeRoomOwner(false);
+						props.setRoomOwner(usersChoosen[0].userName);
+						props.setRoomOwnerUpdate(!props.RoomOwnerupdate);
+						console.log("newOwner =", usersChoosen[0].userName)
+						setChoosenUsers([]);
+						}}>apply</button>
             	    	<input type="text" placeholder="Search..." className={styles.creatGroupsearch} onChange={handelSearch}/>
-            	    	<div className={styles.usersAdd}>
+            	    	<div className={showRoomMembers ? styles.none : styles.usersAdd}>
             	        	{
             	            	usersChoosen.map((e:any) => {
             	                	return (
@@ -118,9 +145,9 @@ const UserInfo = (props: any) => {
             	    	</div>
             	    	<p className={styles.Suggested}>SUGGESTED</p>
             	    	<div className={styles.usersContainer}>
-            	        	<UsersCart data={usersData} setChoosenUsers={setChoosenUsers} usersChoosen={usersChoosen} update={update} setUpdate={setUpdate}/>
+            	        	<UsersCart data={usersData} setChoosenUsers={setChoosenUsers} usersChoosen={usersChoosen} update={update} setUpdate={setUpdate} changeRoomOwner={changeRoomOwner} user={props.user}/>
             	    	</div>
-            		</div>
+            	</div>
             		{/* <div className={styles.friendscard}>
             	    	<GroupsCart data={props.data} status={props.status} setShow={props.setShow}/>
             		</div> */}

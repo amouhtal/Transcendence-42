@@ -33,7 +33,7 @@ const UsersCart = (props:any) => {
         return isExist;
     }
     const handelClick = (e:any) => {
-        console.log("userNameNN =",e.target.id);
+        // console.log("userNameNN =",e.target.id);
         const isHere: boolean = CheckIfUserExist(e.target.id.split('%')[0]);
         if (isHere === false)
         {
@@ -51,6 +51,8 @@ const UsersCart = (props:any) => {
             props.setChoosenUsers(friends);
             props.setUpdate(!props.update)
         }
+        if (props.changeRoomOwner)
+            props.setChoosenUsers([props.usersChoosen[props.usersChoosen.length - 1]]);
     }
     return (
         <>
@@ -80,7 +82,7 @@ const UsersCart = (props:any) => {
                             <p>{e.userName}</p>
                         </div>
                         {/* <div className={styles.icons}>
-                            <input type="radio" checked={Checked ? true : false}/>                    
+
                         </div> */}
                     </div>
             );

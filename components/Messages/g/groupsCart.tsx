@@ -10,8 +10,9 @@ const FriendsCart = (props:any) => {
     return (
         <>
         {props.data?.map((e: any) => {
+            // console.log(e);
             return  (
-                <Link href={`/messages/g/${e.id}`} key={Math.random()}>
+                <Link href={`/messages/g/${e.id}?name=${e.name}`} key={Math.random()}>
                     <div className={styles.userCard} onClick={(e:any) => {props.setShow(false)}} key={Math.random()}>
                         <div className={styles.imgFriendsContainer}>
                             <img src={img.src} width={60} height={60} className={styles.profileImage}/>

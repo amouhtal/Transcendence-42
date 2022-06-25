@@ -52,7 +52,7 @@ const FriendsZone = (props:any) => {
         axios.get("http://localhost:3001/chatRoom/getAllRooms",
         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
         ).then((res) => {
-            console.log("response=",res.data);
+            // console.log("response=",res.data);
             setPublicGroupsInfo(res.data.public);
             setPrivateGroupsInfo(res.data.private);
         })
@@ -66,7 +66,7 @@ const FriendsZone = (props:any) => {
 		  })
 		  .then((res) => {
 			setUsersData(res.data.all_users);
-			console.log("AllUsers=",res.data.all_users);
+			// console.log("AllUsers=",res.data.all_users);
 		  });
 	  }, []);
     const handelNameCange = (e:any) => {
@@ -89,7 +89,7 @@ const FriendsZone = (props:any) => {
                 <p className={styles.NewGrpP}>New Group</p>
                 <button className={styles.btn_create} onClick={(e:any) => {
                     setCreatNewGrp(!CreatNewGrp);setProtected(false);setChoosenUsers([]);
-                    console.log("Hellloo im heeererererer");    
+                    // console.log("Hellloo im heeererererer");    
                     props.socket?.emit("creatChannel",{name:GroupName, type:Private ? "private" : "public", protected:Protected ? true : false,password: Protected ? GourpPassword : null,users: usersChoosen})
                     }}>Create</button>
                 <button className={styles.btn_cancel} onClick={(e:any) => {e.preventDefault();setCreatNewGrp(!CreatNewGrp);setChoosenUsers([])}}>Cancel</button>
@@ -119,12 +119,12 @@ const FriendsZone = (props:any) => {
                     }
                 </div>
                 <p className={styles.Suggested}>SUGGESTED</p>
-                <div className={CreatNewGrp ? styles.usersContainer : styles.none}>
+                {/* <div className={CreatNewGrp ? styles.usersContainer : styles.none}>
                     <UsersCart data={usersData} setChoosenUsers={setChoosenUsers} usersChoosen={usersChoosen} update={update} setUpdate={setUpdate}/>
-                </div>
+                </div> */}
             </div>
             <div className={styles.friendscard}>
-                <GroupsCart data={PublicGroupsInfo} status={props.status} setShow={props.setShow}/>
+                <GroupsCart data={PublicGroupsInfo} status={props.status} setShow={props.setShow} setRoomOwnerUsername={props.setRoomOwnerUsername}/>
             </div>
         </div>
     );
