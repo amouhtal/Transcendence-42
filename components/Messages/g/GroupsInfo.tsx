@@ -18,7 +18,8 @@ import axios from 'axios';
 import { Router, useRouter } from 'next/router';
 import ownerIMG from '../../../public/images/user.png'
 import networking from '../../../public/images/teamwork.png'
-
+import bruch from '../../../public/images/brush.png'
+import leaveIMG from '../../../public/images/logout.png'
 const UserInfo = (props: any) => {
 	const [search, setSearch] = useState<boolean>(false);
 	const [theme, setTheme] = useState<boolean>(false);
@@ -30,6 +31,7 @@ const UserInfo = (props: any) => {
 	const [update, setUpdate] = useState<boolean>(false)
 	const router = useRouter();
 	const _roomId : number = typeof window != "undefined" ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5].indexOf("?")) : 0;
+	const [roomMembers, setRoomMembers] = useState<any>([])
 	// const [display, setDisplay] = useState<boolean>();
 	// useEffect(() => {
 	// 	setDisplay(props.display);
@@ -45,7 +47,6 @@ const UserInfo = (props: any) => {
 		  })
 		  .then((res) => {
 			setUsersData(res.data.all_users);
-			// console.log("AllUsers=",res.data.all_users);
 		  });
 	  }, []);
 	const handleChange = (e:any) => {
@@ -57,11 +58,9 @@ const UserInfo = (props: any) => {
 	const handelSearch = (e:any) => {
 		e.preventDefault();
 		const filtredData = FakeData.filter((crr:any) => {
-			// console.log("hello")
+
 			return (crr.userName.includes(e.target.value))
 		})
-		// console.log(filtredData)
-		// setChoosenUsers(filtredData);
 		setUsersData(filtredData);
 	}
     return (
@@ -78,43 +77,51 @@ const UserInfo = (props: any) => {
         	        <div className={props.status? styles.UserInfoZoneOnline : styles.UserInfoZoneOffline}></div>
         	    </div>
         	    <div className={styles.userInfoName}>
-        	        <p>{props.data?.userName}</p>
+        	        <p>{router.query.name}</p>
         	    </div>
-        	    <div className={styles.CostumizationContainer}>
-        	        <div className={theme ? styles.showThemes : styles.ChangeTheme} onClick={(e:any)=> {setTheme(!theme)}}>
-						<div className={theme ? styles.showThemesColors : styles.none}>
+        	    <div className={styles.CostumizationContainer} onClick={(e:any)=> {setTheme(!theme)}}>
+        	        {/* <div className={theme ? styles.showThemes : styles.ChangeTheme} onClick={(e:any)=> {setTheme(!theme)}}>*/}
+						{/* <div className={styles.showThemesColors} >
 							<p className={styles.blackColor} onClick={(e:any) => {props.color("black")}}></p>
 							<p className={styles.pinkColor} onClick={(e:any) => {props.color("pink")}}></p>
 							<p className={styles.greenColor} onClick={(e:any) => {props.color("green")}}></p>
 							<p className={styles.blueColor} onClick={(e:any) => {props.color("blue")}}></p>
-						</div>
-        	            <img src={themeIcon.src} alt="" className={styles.themeIcon}/>
+						</div>  */}
+        	            <img src={bruch.src} alt="" className={styles.blockImage}/>
         	            <p>Theme</p>
-        	        </div>
+        	        {/* </div> */}
         	    </div>
-        	    <div className={styles.SearchInMessages}>
-        	        <div className={styles.search} onClick={(e:any) => {setSearch(!search)}}>
+        	    <div className={styles.SearchInMessages} onClick={(e:any) => {setSearch(!search)}}>
+        	        {/* <div className={styles.search} onClick={(e:any) => {setSearch(!search)}}> */}
         	            <FiSearch className={styles.SearchIcon}/>
         	            <p>Search in conversation</p>
-        	        </div>
+        	        {/* </div> */}
         	    </div>
         	    <div className={props.user?.userName === props.roomOwner ? styles.BlockContainer : styles.none} onClick={(e:any) => {setAddUserZone(!addUsersZone)}}>
-        	        <div className={styles.block}>
+        	        {/* <div className={styles.block}> */}
         	            <img src={addUsers.src} alt="" className={styles.blockImage}/>
         	            <p>Add users</p>
-        	        </div>
+        	        {/* </div> */}
         	    </div>
         	    <div className={props.user?.userName === props.roomOwner ? styles.groupMembersDown : styles.BlockContainer} onClick={(e:any) => {setShowRoomMembers(!showRoomMembers)}}>
-        	        <div className={styles.block}>
+        	        {/* <div className={styles.block}> */}
         	            <img src={group.src} alt="" className={styles.blockImage}/>
         	            <p>Group Members</p>
-        	        </div>
+        	        {/* </div> */}
         	    </div>
         	    <div className={props.user?.userName === props.roomOwner ? styles.NewOwner : styles.none} onClick={(e:any) => {setChangeRoomOwner(!changeRoomOwner)}}>
-        	        <div className={styles.block}>
+        	        {/* <div className={styles.block}> */}
         	            <img src={ownerIMG.src} alt="" className={styles.blockImage}/>
         	            <p>Group Owner</p>
-        	        </div>
+        	        {/* </div> */}
+        	    </div>
+        	    <div className={props.user?.userName === props.roomOwner ? styles.LeaveChatDown : styles.LeaveChatUp} onClick={(e:any) => {
+					axios.post("http://localhost:3001/chatRoom/deleteUser",{roomId: _roomId, user: props.user.userName}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+				}}>
+        	        {/* <div className={styles.block}> */}
+        	            <img src={leaveIMG.src} alt="" className={styles.blockImage}/>
+        	            <p>Leave Chat</p>
+        	        {/* </div> */}
         	    </div>
 				<div className={(addUsersZone || showRoomMembers || changeRoomOwner ? styles.add_user_on : styles.add_user_off)}>
 					<button className={showRoomMembers || changeRoomOwner ? styles.none : styles.add_btn} onClick={(e:any) => {
@@ -129,7 +136,7 @@ const UserInfo = (props: any) => {
 						setChangeRoomOwner(false);
 						props.setRoomOwner(usersChoosen[0].userName);
 						props.setRoomOwnerUpdate(!props.RoomOwnerupdate);
-						console.log("newOwner =", usersChoosen[0].userName)
+						// console.log("newOwner =", usersChoosen[0].userName)
 						setChoosenUsers([]);
 						}}>apply</button>
             	    	<input type="text" placeholder="Search..." className={styles.creatGroupsearch} onChange={handelSearch}/>
@@ -146,7 +153,7 @@ const UserInfo = (props: any) => {
             	    	</div>
             	    	<p className={styles.Suggested}>SUGGESTED</p>
             	    	<div className={styles.usersContainer}>
-            	        	<UsersCart data={usersData} setChoosenUsers={setChoosenUsers} usersChoosen={usersChoosen} update={update} setUpdate={setUpdate} changeRoomOwner={changeRoomOwner} user={props.user} roomOwner={props.roomOwner}/>
+            	        	<UsersCart data={addUsersZone ? usersData : props.roomMembers} showBanBtn={(addUsersZone || changeRoomOwner) || (!addUsersZone && !changeRoomOwner && !showRoomMembers) ? false : true} setChoosenUsers={setChoosenUsers} usersChoosen={usersChoosen} update={update} setUpdate={setUpdate} changeRoomOwner={changeRoomOwner} user={props.user} roomOwner={props.roomOwner}/>
             	    	</div>
             	</div>
             		{/* <div className={styles.friendscard}>

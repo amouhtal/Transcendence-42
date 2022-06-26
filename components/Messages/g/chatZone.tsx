@@ -17,7 +17,8 @@ import { Router, useRouter } from 'next/router';
 import typing from '../../../public/images/typing.gif'
 import group from '../../../public/images/group.png'
 import networking from '../../../public/images/teamwork.png'
-
+import authorizedIMG from '../../../public/images/banned-sign.png'
+import { StyledProgress } from '@nextui-org/react';
 const GroupChatZone = (props:any) => {
     const router = useRouter();
     const dummy:any = useRef<any>();
@@ -97,13 +98,22 @@ const GroupChatZone = (props:any) => {
     }
     if (process.browser)
         localStorage.setItem("color", color as string);
-    props.socket?.on("messageRoom", (data:any) => {setMessages(data);console.log("mel-hamrRoom:",data)});
+    props.socket?.on("messageRoom", (data:any) => {setMessages(data)});
     const getUserInfo = (e:any) => {
         // console.log("element =", e)
         const userInfo :any = groupMembers.filter((curr:any) => {
             return (e === curr.userName);
         });
         return userInfo
+    }
+    const inGroupMembers = (e:string) => {
+        let on = false;
+        // console.log("roomOwner=",props.roomOwner);
+        groupMembers.map((curr:any) => {
+            if (curr.userName === e)
+                on = true;
+        })
+        return on;
     }
         return (
         <>
@@ -117,9 +127,13 @@ const GroupChatZone = (props:any) => {
                 </div>
                 <p className={styles.fullName}>{router.query.name}</p>
                 {/* <p className={styles.status}>{reciverId?.isActive? "Online" : "Offline . Last seen 3h ago"}</p> */}
-                <p className={styles.settings} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
+                <p className={inGroupMembers(props.user?.userName) ? styles.settings : styles.displaynone} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
+                <button className={inGroupMembers(props.user?.userName) ? styles.displaynone : styles.joinBtn} onClick={(e:any) => {
+						props.socket?.emit("addUserToChannel",{users: [{userName: props.user?.userName}], roomId: _roomId});
+                }}>Join {router.query.name}</button>
             </div>  
-                <div className={styles.chatMain}>
+                <div className={inGroupMembers(props.user?.userName) ? styles.chatMain : styles.chatMainBlured}>
+                    <div className={inGroupMembers(props.user?.userName) ? styles.displaynone : styles.blackLayer}></div>
                 {messages?.map((e:any) => {
                     e.time = e.time.replace('T', " ");e.time = e.time.replace ('Z', "");e.time = e.time.split('.')[0];
                     const [userInfo] :any = getUserInfo(e.senderId);
@@ -140,8 +154,8 @@ const GroupChatZone = (props:any) => {
                     {/* <img src={typing.src} alt="Typing..." className ={isTyping ? styles.isTyping: styles.displaynone}/> */}
                     <div ref={dummy}></div>
                 </div>
-                <div className={styles.messagesZone}>
-                    <form className={styles.formMessage} onSubmit={handelSubmit}>
+                    <div className={styles.messagesZone}>
+                    <form className={inGroupMembers(props.user?.userName) ? styles.formMessage : styles.displaynone} onSubmit={handelSubmit}>
                         <input type="text" name="" id="message" placeholder="Type a message here..." className={styles.message} onChange={handleChange} />
                         <button type="submit" className={styles.btn} onSubmit={(e:any) => {e.preventDefault();e.target.value = ""}}><img src={send.src} className={styles.btnIcon}/></button>
                         <div className={styles.fileupload}>
@@ -149,11 +163,12 @@ const GroupChatZone = (props:any) => {
                             <input type="file" name="" id="" />
                         </div>
                     </form>
+                    <img src={authorizedIMG.src} className={inGroupMembers(props.user?.userName) ? styles.displaynone : styles.NotAuthorizedimg} />
                 </div>
          </div>
          <GroupsInfo data={reciverId} status={reciverId?.isActive} allMessages={AllMessages} setMessages={setMessages} messages={messages} display={userInfo} color={setColor} setDisplay={setuserInfo} update={update} setUpdate={setUpdate} socket={props.socket}
          setUpdateRoomMambets={setUpdateRoomMambets} updateRoomMembers={updateRoomMembers} user={props.user} roomOwner={props.roomOwner} setRoomOwner={props.setRoomOwner}
-         setRoomOwnerUpdate={props.setUpdate} RoomOwnerupdate={props.update}/>
+         setRoomOwnerUpdate={props.setUpdate} RoomOwnerupdate={props.update} roomMembers={groupMembers}/>
         </>
     );
 }

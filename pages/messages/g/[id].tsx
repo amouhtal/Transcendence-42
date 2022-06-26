@@ -26,7 +26,7 @@ const Messages = (props:any) => {
             setRoomOwner(res.data);
             console.log("RoomOwner =",res.data);
         })
-    },[roomOwner])
+    },[roomOwner, _roomId])
     useEffect(() => {
         axios.post("http://localhost:3001/chatRoom/getRoomMemebers",{roomId: _roomId},
         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}

@@ -118,6 +118,14 @@
     top: -30px;
     opacity: .7;
 }
+.ban {
+    position: absolute;
+    right: 10px;
+}
+.ban>img {
+    width: 25px;
+    height: 25px;
+}
 @media screen and (max-width: 550px)
 {
     .addUserIcon {

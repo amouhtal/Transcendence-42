@@ -12,7 +12,7 @@ import blockUser from '../../../public/images/usersImages/block-user.png'
 import accept from '../../../public/images/usersImages/accept.png'
 import reject from '../../../public/images/usersImages/reject.png'
 import users from '../../../pages/users'
-
+import ban from '../../../public/images/ban.png'
 const UsersCart = (props:any) => {
     const [myData, setData] = useState<any>(props.data);
     const router = useRouter();
@@ -84,9 +84,10 @@ const UsersCart = (props:any) => {
                         <div className={props.roomOwner === e.userName ? styles.admin : styles.none}>
                             <p>Owner</p>
                         </div>
-                        {/* <div className={styles.icons}>
-
-                        </div> */}
+                        <div className={props.roomOwner !== e.userName ? props.showBanBtn ? styles.ban : styles.none : styles.none} id={e.userName}
+                        onClick={(e:any) => {}}>
+                            <img src={ban.src} alt="ban" onClick={(e:any) => {}}/>
+                        </div>
                     </div>
             );
         })}
