@@ -49,6 +49,7 @@ const GroupChatZone = (props:any) => {
             // console.log("RoomMembers=",res.data);
         })
         // dummy.current.scrollIntoView();
+        setuserInfo(false);
     },[router.query.id, updateRoomMembers])
     const [userInfo, setuserInfo] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
@@ -101,15 +102,16 @@ const GroupChatZone = (props:any) => {
     props.socket?.on("messageRoom", (data:any) => {setMessages(data)});
     const getUserInfo = (e:any) => {
         // console.log("element =", e)
-        const userInfo :any = groupMembers.filter((curr:any) => {
+        const userInfo :any = props.usersData.filter((curr:any) => {
             return (e === curr.userName);
         });
         return userInfo
     }
     const inGroupMembers = (e:string) => {
         let on = false;
-        // console.log("roomOwner=",props.roomOwner);
-        groupMembers.map((curr:any) => {
+        // console.log("roomOwner=",props.roomOwner)
+        console.log(props.usersData, e);
+        groupMembers?.map((curr:any) => {
             if (curr.userName === e)
                 on = true;
         })
@@ -130,12 +132,14 @@ const GroupChatZone = (props:any) => {
                 <p className={inGroupMembers(props.user?.userName) ? styles.settings : styles.displaynone} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
                 <button className={inGroupMembers(props.user?.userName) ? styles.displaynone : styles.joinBtn} onClick={(e:any) => {
 						props.socket?.emit("addUserToChannel",{users: [{userName: props.user?.userName}], roomId: _roomId});
+                        setUpdateRoomMambets(!updateRoomMembers);
                 }}>Join {router.query.name}</button>
             </div>  
                 <div className={inGroupMembers(props.user?.userName) ? styles.chatMain : styles.chatMainBlured}>
                     <div className={inGroupMembers(props.user?.userName) ? styles.displaynone : styles.blackLayer}></div>
                 {messages?.map((e:any) => {
                     e.time = e.time.replace('T', " ");e.time = e.time.replace ('Z', "");e.time = e.time.split('.')[0];
+                    console.log("messages=",e)
                     const [userInfo] :any = getUserInfo(e.senderId);
                     // console.log("userInfo =", userInfo);
                     // getUsersInfo(e.senderId);
@@ -166,7 +170,7 @@ const GroupChatZone = (props:any) => {
                     <img src={authorizedIMG.src} className={inGroupMembers(props.user?.userName) ? styles.displaynone : styles.NotAuthorizedimg} />
                 </div>
          </div>
-         <GroupsInfo data={reciverId} status={reciverId?.isActive} allMessages={AllMessages} setMessages={setMessages} messages={messages} display={userInfo} color={setColor} setDisplay={setuserInfo} update={update} setUpdate={setUpdate} socket={props.socket}
+         <GroupsInfo data={reciverId} status={reciverId?.isActive} allMessages={AllMessages} setMessages={setMessages} messages={messages} display={userInfo} setDisplay={setuserInfo} color={setColor} update={update} setUpdate={setUpdate} socket={props.socket}
          setUpdateRoomMambets={setUpdateRoomMambets} updateRoomMembers={updateRoomMembers} user={props.user} roomOwner={props.roomOwner} setRoomOwner={props.setRoomOwner}
          setRoomOwnerUpdate={props.setUpdate} RoomOwnerupdate={props.update} roomMembers={groupMembers}/>
         </>

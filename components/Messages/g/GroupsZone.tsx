@@ -36,19 +36,7 @@ const FriendsZone = (props:any) => {
     const [usersData, setUsersData] = useState<any>(FakeData);
     const [PublicGroupsInfo, setPublicGroupsInfo] = useState<any>();
     const [PrivateGroupsInfo, setPrivateGroupsInfo] = useState<any>();
-    // const handleSubmit = (e:any) => {
-    //     e.preventDefault();
-    //     console.log(e.target.Password.value);
-    //     axios.post("http://localhost:3001/chatRoom/create",{name: e.target.groupeName.value, type: Public ? "public" : Private ? "private" : "error", password: e.target.Password.value},
-    //     {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
-    //     .then((res: any) => {
-    //             console.log("res =",res);
-    //     }).catch(function (error){
-    //         if (error.response){
-    //             router.push({pathname :`/errorPage/${error.response.status}`})
-    //         }
-    //     })
-    // }
+    const [getRoomsUpdate, setGetRoomsUpdate] = useState<boolean>(false);
     useEffect(() => {
         axios.get("http://localhost:3001/chatRoom/getAllRooms",
         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
@@ -56,8 +44,9 @@ const FriendsZone = (props:any) => {
             // console.log("response=",res.data);
             setPublicGroupsInfo(res.data.public);
             setPrivateGroupsInfo(res.data.private);
+            console.log(res.data)
         })
-    },[])
+    },[router.query.id,getRoomsUpdate])
     useEffect(() => {
 		axios
 		  .get(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/all`, {
@@ -89,9 +78,11 @@ const FriendsZone = (props:any) => {
             <div className={CreatNewGrp ? styles.creatGoupContainerOn : styles.creatGoupContainerOff}>
                 <p className={styles.NewGrpP}>New Group</p>
                 <button className={styles.btn_create} onClick={(e:any) => {
-                    setCreatNewGrp(!CreatNewGrp);setProtected(false);setChoosenUsers([]);
-                    // console.log("Hellloo im heeererererer");    
-                    props.socket?.emit("creatChannel",{name:GroupName, type:Private ? "private" : "public", protected:Protected ? true : false,password: Protected ? GourpPassword : null,users: usersChoosen})
+                    props.socket?.emit("creatChannel",{name:GroupName, type:Private ? "private" : "public", protected:Protected ? true : false,password: Protected ? GourpPassword : null,users: usersChoosen});
+                    setCreatNewGrp(!CreatNewGrp);
+                    setProtected(false);
+                    setChoosenUsers([]);
+                    setGetRoomsUpdate(!getRoomsUpdate);
                     }}>Create</button>
                 <button className={styles.btn_cancel} onClick={(e:any) => {e.preventDefault();setCreatNewGrp(!CreatNewGrp);setChoosenUsers([])}}>Cancel</button>
                 <form action="" className={styles.groupForm}>

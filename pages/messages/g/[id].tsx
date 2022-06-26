@@ -18,6 +18,7 @@ const Messages = (props:any) => {
     const [roomOwner, setRoomOwner] = useState<string>("")
     const [update, setUpdate] = useState<boolean>(false);
     const [groupMembers, setGroupMembers] = useState<any>([]);
+    const [usersData, setUsersData] = useState<any>([]);
     const _roomId : number = typeof window != "undefined" ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5].indexOf("?")) : 0;
     useEffect(() => {
         console.log("update =", update);
@@ -34,6 +35,16 @@ const Messages = (props:any) => {
             setGroupMembers(res.data);
             // console.log("RoomMembers=",res.data);
         })
+            axios
+              .get(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/all`, {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                },
+              })
+              .then((res) => {
+                setUsersData(res.data.all_users);
+                // console.log("AllUsers=",res.data.all_users);
+              });
     },[])
     var test:boolean = true;
 
@@ -60,7 +71,7 @@ const Messages = (props:any) => {
                 checkIfMemver(props.user?.userName) ? */}
                 <div className={styles.bcontainer}>
                     <GroupChatZone data={filterData} status={Status} socket={props.socket} user={props.user} roomOwner={roomOwner} setRoomOwner={setRoomOwner}
-                    update={update} setUpdate={setUpdate} ShowJoin={false}/>
+                    update={update} setUpdate={setUpdate} ShowJoin={false} usersData={usersData}/>
                 </div>
                 {/* :
                 <div>

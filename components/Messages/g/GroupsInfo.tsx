@@ -116,7 +116,9 @@ const UserInfo = (props: any) => {
         	        {/* </div> */}
         	    </div>
         	    <div className={props.user?.userName === props.roomOwner ? styles.LeaveChatDown : styles.LeaveChatUp} onClick={(e:any) => {
-					axios.post("http://localhost:3001/chatRoom/deleteUser",{roomId: _roomId, user: props.user.userName}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+					axios.post("http://localhost:3001/chatRoom/deleteUser",{roomId: _roomId, user: props.user.userName}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}});
+					props.setUpdateRoomMambets(!props.updateRoomMembers);
+					props.setDisplay(!props.display)
 				}}>
         	        {/* <div className={styles.block}> */}
         	            <img src={leaveIMG.src} alt="" className={styles.blockImage}/>
