@@ -51,6 +51,19 @@ const GroupChatZone = (props:any) => {
         // dummy.current.scrollIntoView();
         setuserInfo(false);
     },[router.query.id, updateRoomMembers])
+    useEffect (() => {
+        console.log("realTime=",new Date())
+        axios.post("http://localhost:3001/roomBannedUsers/getBannedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+        .then((res) => {
+            console.log("bannedusers=",res.data);
+            res.data.map((e:any) => {
+                let newtest : any = new Date(res.data[0].unBanTime);
+                console.log("date=",newtest.getTime())
+                // if (e.unBanTime?.getTime() >= new Date().getTime())
+                //     console.log("we need to Unbanne", e.userName)
+            })
+        })
+    },[new Date().getTime()])
     const [userInfo, setuserInfo] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
     const [friends, setFriends] = useState<any>();
@@ -110,7 +123,7 @@ const GroupChatZone = (props:any) => {
     const inGroupMembers = (e:string) => {
         let on = false;
         // console.log("roomOwner=",props.roomOwner)
-        console.log(props.usersData, e);
+        // console.log(props.usersData, e);
         groupMembers?.map((curr:any) => {
             if (curr.userName === e)
                 on = true;

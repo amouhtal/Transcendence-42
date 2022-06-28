@@ -19,6 +19,13 @@ const UsersCart = (props:any) => {
     const [status, setStatus] = useState<boolean>(false);
     const [Checked, setChecked] = useState<boolean>(false);
     const [choosen, setChoosen] = useState<any>([]);
+    const [showBanPannel, setShowBanPannel] = useState<boolean>(false);
+    const [userBanned, setUserBanned] = useState<string>("");
+    const [BanChoice, setBanChoice] = useState<boolean>(false);
+    const [MuteChoice, setMuteChoice] = useState<boolean>(false);
+    const [BanMuteTime, setBanMuteTime] = useState<string>("");
+	const _roomId : number = typeof window != "undefined" ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5].indexOf("?")) : 0;
+
     useEffect(() => {
         setData(props.data)
     })
@@ -86,7 +93,25 @@ const UsersCart = (props:any) => {
                         </div>
                         <div className={props.roomOwner !== e.userName ? props.showBanBtn ? styles.ban : styles.none : styles.none} id={e.userName}
                         onClick={(e:any) => {}}>
-                            <img src={ban.src} alt="ban" onClick={(e:any) => {}}/>
+                            <img src={ban.src} alt="ban" id={e.userName} onClick={(curr:any) => {setShowBanPannel(!showBanPannel);setUserBanned(curr.target.id); setMuteChoice(true)}}/>
+                        </div>
+                        <div className={showBanPannel && userBanned === e.userName ? styles.BanPopup : styles.none}>
+                            <p className={`${styles.BanZone} ${!MuteChoice && BanChoice ? styles.chose: styles.none}`} onClick={(e:any) => {setBanChoice(true);setMuteChoice(false)}}>Ban</p>
+                            <p className={`${styles.MuteZone}  ${MuteChoice && !BanChoice ? styles.chose : styles.none}`} onClick={(e:any) => {setBanChoice(false);setMuteChoice(true)}}>Mute</p>
+                            <div className={styles.Time}>
+                                <p className={`${BanMuteTime === "1" ? styles.CheckClaas : styles.lol}`} onClick={(e:any) => {setBanMuteTime("1")}}>1min</p>
+                                <p className={`${BanMuteTime === "5" ? styles.CheckClaas : styles.lol}`} onClick={(e:any) => {setBanMuteTime("5")}}>5min</p>
+                                <p className={`${BanMuteTime === "15" ? styles.CheckClaas : styles.lol}`} onClick={(e:any) => {setBanMuteTime("15")}}>15min</p>
+                                <p className={`${BanMuteTime === "60" ? styles.CheckClaas : styles.lol}`} onClick={(e:any) => {setBanMuteTime("60")}}>60min</p>
+                            </div>
+                            <button className={styles.cancel_btn} onClick={(e:any) => {setBanChoice(false); setMuteChoice(true);setBanMuteTime("")}}>cancel</button>
+                            <button id={e.userName} className={styles.apply_btn} onClick={(e:any) => {
+                                axios.post("http://localhost:3001/roomBannedUsers/muteUser",{userName:e.target.id, roomId:_roomId, periode: +BanMuteTime},
+                                {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                                .then ((res) => {
+                                    console.log("res");
+                                })
+                            }}>apply</button>
                         </div>
                     </div>
             );
