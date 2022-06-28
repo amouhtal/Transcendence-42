@@ -58,10 +58,11 @@ const GroupChatZone = (props:any) => {
     useEffect (() => {
         console.log("realTime=",new Date())
 
-        setInterval(() => {
-            axios.post("http://localhost:3001/roomBannedUsers/getBannedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
-            .then((res) => {
-                console.log("bannedusers=",res.data);
+        axios.post("http://localhost:3001/roomBannedUsers/getBannedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+        .then((res) => {
+            console.log("bannedusers=",res.data);
+            setInterval(() => {
+                setBannedUsers(res.data);
                 res.data.map((e:any) => {
                     let newtest : any = new Date(res.data[0].unBanTime);
                     console.log("date=",newtest.getTime(),"banTime=",new Date().getTime());
@@ -78,10 +79,9 @@ const GroupChatZone = (props:any) => {
                     console.log("difference=", difference, "   timeLeft=",timeLeft);
                     if (newtest.getTime() - new Date().getTime() <= 0)
                         axios.post("http://localhost:3001/roomBannedUsers/unbanUser",{userName: e.bannedUserName, roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
-                    setBannedUsers(res.data);
                 })
+            }, 60000);
             })
-        }, 60000);
     },[bannedUserUpdate])
     const [userInfo, setuserInfo] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
@@ -153,7 +153,10 @@ const GroupChatZone = (props:any) => {
         let on = false;
         bannedUsers.map((curr:any) => {
             if (curr.bannedUserName === e)
-                on = true;
+            {
+                if (curr.roomId === _roomId)
+                    on = true;
+            }
         })
         return on;
     }
