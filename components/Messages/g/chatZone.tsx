@@ -19,6 +19,8 @@ import group from '../../../public/images/group.png'
 import networking from '../../../public/images/teamwork.png'
 import authorizedIMG from '../../../public/images/banned-sign.png'
 import { StyledProgress } from '@nextui-org/react';
+import { defaultConfig } from 'next/dist/server/config-shared';
+import { time } from 'console';
 const GroupChatZone = (props:any) => {
     const router = useRouter();
     const dummy:any = useRef<any>();
@@ -31,7 +33,9 @@ const GroupChatZone = (props:any) => {
     const [groupMembers, setGroupMembers] = useState<any>([]);
     const [updateRoomMembers, setUpdateRoomMambets] = useState<boolean>(false);
     const [RoomOwnerUsername, setRoomOwnerUsername] = useState<string>("")
-
+    const [bannedUserUpdate, setBannedUserUpdate] = useState<boolean>(false);
+    const [bannedUsers, setBannedUsers] = useState<any>([]);
+    const [timeLeftForBan, setTimeLeftForBan] = useState<any>({});
 
 	const _roomId : number = typeof window != "undefined" ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5].indexOf("?")) : 0;
     // console.log("totot=",typeof window != "undefined" ? window.location.href.split("/")[5] : "")
@@ -53,17 +57,32 @@ const GroupChatZone = (props:any) => {
     },[router.query.id, updateRoomMembers])
     useEffect (() => {
         console.log("realTime=",new Date())
-        axios.post("http://localhost:3001/roomBannedUsers/getBannedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
-        .then((res) => {
-            console.log("bannedusers=",res.data);
-            res.data.map((e:any) => {
-                let newtest : any = new Date(res.data[0].unBanTime);
-                console.log("date=",newtest.getTime())
-                // if (e.unBanTime?.getTime() >= new Date().getTime())
-                //     console.log("we need to Unbanne", e.userName)
+
+        setInterval(() => {
+            axios.post("http://localhost:3001/roomBannedUsers/getBannedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+            .then((res) => {
+                console.log("bannedusers=",res.data);
+                res.data.map((e:any) => {
+                    let newtest : any = new Date(res.data[0].unBanTime);
+                    console.log("date=",newtest.getTime(),"banTime=",new Date().getTime());
+
+                    let difference: any = newtest.getMinutes() - +new Date().getMinutes();
+                    let timeLeft  = {};
+                    if (difference > 0) {
+                        timeLeft = {
+                            minutes: newtest.getMinutes() - +new Date().getMinutes(),
+                            seconds: +new Date().getSeconds() - newtest.getSeconds()
+                        }
+                        setTimeLeftForBan(timeLeft);
+                    }
+                    console.log("difference=", difference, "   timeLeft=",timeLeft);
+                    if (newtest.getTime() - new Date().getTime() <= 0)
+                        axios.post("http://localhost:3001/roomBannedUsers/unbanUser",{userName: e.bannedUserName, roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                    setBannedUsers(res.data);
+                })
             })
-        })
-    },[new Date().getTime()])
+        }, 60000);
+    },[bannedUserUpdate])
     const [userInfo, setuserInfo] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
     const [friends, setFriends] = useState<any>();
@@ -130,6 +149,14 @@ const GroupChatZone = (props:any) => {
         })
         return on;
     }
+    const isBanned = (e:string) => {
+        let on = false;
+        bannedUsers.map((curr:any) => {
+            if (curr.bannedUserName === e)
+                on = true;
+        })
+        return on;
+    }
         return (
         <>
         <GroupsZone data={friends} status={props.status} show={showFriends} setShow={setShowFriends} socket={props.socket} setRoomOwnerUsername={setRoomOwnerUsername}/>
@@ -142,14 +169,14 @@ const GroupChatZone = (props:any) => {
                 </div>
                 <p className={styles.fullName}>{router.query.name}</p>
                 {/* <p className={styles.status}>{reciverId?.isActive? "Online" : "Offline . Last seen 3h ago"}</p> */}
-                <p className={inGroupMembers(props.user?.userName) ? styles.settings : styles.displaynone} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
+                <p className={inGroupMembers(props.user?.userName) ? !isBanned(props.user?.userName) ? styles.settings : styles.displaynone : styles.displaynone} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
                 <button className={inGroupMembers(props.user?.userName) ? styles.displaynone : styles.joinBtn} onClick={(e:any) => {
 						props.socket?.emit("addUserToChannel",{users: [{userName: props.user?.userName}], roomId: _roomId});
                         setUpdateRoomMambets(!updateRoomMembers);
                 }}>Join {router.query.name}</button>
             </div>  
                 <div className={inGroupMembers(props.user?.userName) ? styles.chatMain : styles.chatMainBlured}>
-                    <div className={inGroupMembers(props.user?.userName) ? styles.displaynone : styles.blackLayer}></div>
+                    <div className={inGroupMembers(props.user?.userName) ?  styles.displaynone : styles.blackLayer}></div>
                 {messages?.map((e:any) => {
                     e.time = e.time.replace('T', " ");e.time = e.time.replace ('Z', "");e.time = e.time.split('.')[0];
                     console.log("messages=",e)
@@ -172,7 +199,7 @@ const GroupChatZone = (props:any) => {
                     <div ref={dummy}></div>
                 </div>
                     <div className={styles.messagesZone}>
-                    <form className={inGroupMembers(props.user?.userName) ? styles.formMessage : styles.displaynone} onSubmit={handelSubmit}>
+                    <form className={inGroupMembers(props.user?.userName) ? !isBanned(props.user?.userName) ? styles.formMessage : styles.displaynone : styles.displaynone} onSubmit={handelSubmit}>
                         <input type="text" name="" id="message" placeholder="Type a message here..." className={styles.message} onChange={handleChange} />
                         <button type="submit" className={styles.btn} onSubmit={(e:any) => {e.preventDefault();e.target.value = ""}}><img src={send.src} className={styles.btnIcon}/></button>
                         <div className={styles.fileupload}>
@@ -180,12 +207,13 @@ const GroupChatZone = (props:any) => {
                             <input type="file" name="" id="" />
                         </div>
                     </form>
-                    <img src={authorizedIMG.src} className={inGroupMembers(props.user?.userName) ? styles.displaynone : styles.NotAuthorizedimg} />
+                    <img src={authorizedIMG.src} className={inGroupMembers(props.user?.userName) ? !isBanned(props.user?.userName)? styles.displaynone : styles.NotAuthorizedimg : styles.NotAuthorizedimg} />
+                    <p className={isBanned(props.user?.userName) ? styles.TimeLeftP : styles.displaynone} >muted For <b>{timeLeftForBan.minutes} min</b></p>
                 </div>
          </div>
          <GroupsInfo data={reciverId} status={reciverId?.isActive} allMessages={AllMessages} setMessages={setMessages} messages={messages} display={userInfo} setDisplay={setuserInfo} color={setColor} update={update} setUpdate={setUpdate} socket={props.socket}
          setUpdateRoomMambets={setUpdateRoomMambets} updateRoomMembers={updateRoomMembers} user={props.user} roomOwner={props.roomOwner} setRoomOwner={props.setRoomOwner}
-         setRoomOwnerUpdate={props.setUpdate} RoomOwnerupdate={props.update} roomMembers={groupMembers}/>
+         setRoomOwnerUpdate={props.setUpdate} RoomOwnerupdate={props.update} roomMembers={groupMembers} setBannedUserUpdate={setBannedUserUpdate} bannedUserUpdate={bannedUserUpdate}/>
         </>
     );
 }

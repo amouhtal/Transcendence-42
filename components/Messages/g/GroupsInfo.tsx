@@ -140,6 +140,7 @@ const UserInfo = (props: any) => {
 						props.setRoomOwnerUpdate(!props.RoomOwnerupdate);
 						// console.log("newOwner =", usersChoosen[0].userName)
 						setChoosenUsers([]);
+						props.setBannedUserUpdate(!props.bannedUserUpdate)
 						}}>apply</button>
             	    	<input type="text" placeholder="Search..." className={styles.creatGroupsearch} onChange={handelSearch}/>
             	    	<div className={showRoomMembers ? styles.none : styles.usersAdd}>
