@@ -41,10 +41,9 @@ const FriendsZone = (props:any) => {
         axios.get("http://localhost:3001/chatRoom/getAllRooms",
         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
         ).then((res) => {
-            // console.log("response=",res.data);
             setPublicGroupsInfo(res.data.public);
             setPrivateGroupsInfo(res.data.private);
-            console.log(res.data)
+            
         })
     },[router.query.id,getRoomsUpdate])
     useEffect(() => {
@@ -116,7 +115,7 @@ const FriendsZone = (props:any) => {
                 </div>
             </div>
             <div className={styles.friendscard}>
-                <GroupsCart data={PublicGroupsInfo} status={props.status} setShow={props.setShow} setRoomOwnerUsername={props.setRoomOwnerUsername}/>
+                <GroupsCart data={PublicGroupsInfo} PrivateData={PrivateGroupsInfo} status={props.status} setShow={props.setShow} setRoomOwnerUsername={props.setRoomOwnerUsername}/>
             </div>
         </div>
     );

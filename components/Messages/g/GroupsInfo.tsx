@@ -112,7 +112,7 @@ const UserInfo = (props: any) => {
         	    <div className={props.user?.userName === props.roomOwner ? styles.NewOwner : styles.none} onClick={(e:any) => {setChangeRoomOwner(!changeRoomOwner)}}>
         	        {/* <div className={styles.block}> */}
         	            <img src={ownerIMG.src} alt="" className={styles.blockImage}/>
-        	            <p>Group Owner</p>
+        	            <p>Group Administrators</p>
         	        {/* </div> */}
         	    </div>
         	    <div className={props.user?.userName === props.roomOwner ? styles.LeaveChatDown : styles.LeaveChatUp} onClick={(e:any) => {
@@ -133,14 +133,13 @@ const UserInfo = (props: any) => {
 						}}>add</button>
 					<button className={styles.cancel_btn} onClick={(e:any) => {showRoomMembers ? setShowRoomMembers(false) : changeRoomOwner ? setChangeRoomOwner(false) : setAddUserZone(!addUsersZone)}}>cancel</button>
 					<button className={changeRoomOwner ? styles.add_btn : styles.none} onClick={(e:any) => {
-						axios.post("http://localhost:3001/chatRoom/changeOwner",{roomId: _roomId,newOwner: usersChoosen[0].userName},
+						axios.post("http://localhost:3001/chatRoom/addAdministrator",{roomId: _roomId,userName: usersChoosen[0].userName},
 						{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
 						setChangeRoomOwner(false);
 						props.setRoomOwner(usersChoosen[0].userName);
 						props.setRoomOwnerUpdate(!props.RoomOwnerupdate);
 						// console.log("newOwner =", usersChoosen[0].userName)
 						setChoosenUsers([]);
-						props.setBannedUserUpdate(!props.bannedUserUpdate)
 						}}>apply</button>
             	    	<input type="text" placeholder="Search..." className={styles.creatGroupsearch} onChange={handelSearch}/>
             	    	<div className={showRoomMembers ? styles.none : styles.usersAdd}>
@@ -156,7 +155,8 @@ const UserInfo = (props: any) => {
             	    	</div>
             	    	<p className={styles.Suggested}>SUGGESTED</p>
             	    	<div className={styles.usersContainer}>
-            	        	<UsersCart data={addUsersZone ? usersData : props.roomMembers} showBanBtn={(addUsersZone || changeRoomOwner) || (!addUsersZone && !changeRoomOwner && !showRoomMembers) ? false : true} setChoosenUsers={setChoosenUsers} usersChoosen={usersChoosen} update={update} setUpdate={setUpdate} changeRoomOwner={changeRoomOwner} user={props.user} roomOwner={props.roomOwner}/>
+            	        	<UsersCart data={addUsersZone ? usersData : props.roomMembers} showBanBtn={(addUsersZone || changeRoomOwner) || (!addUsersZone && !changeRoomOwner && !showRoomMembers) ? false : true} setChoosenUsers={setChoosenUsers} usersChoosen={usersChoosen} update={update} setUpdate={setUpdate} changeRoomOwner={changeRoomOwner} user={props.user} roomOwner={props.roomOwner}
+							setBannedUserUpdate={props.setBannedUserUpdate} bannedUserUpdate={props.bannedUserUpdate} socket={props.socket} administrators={props.administrators} />
             	    	</div>
             	</div>
             		{/* <div className={styles.friendscard}>

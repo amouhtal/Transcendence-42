@@ -19,15 +19,32 @@ const Messages = (props:any) => {
     const [update, setUpdate] = useState<boolean>(false);
     const [groupMembers, setGroupMembers] = useState<any>([]);
     const [usersData, setUsersData] = useState<any>([]);
+    const [administrators, setAdministrators] = useState<any>([]);
     const _roomId : number = typeof window != "undefined" ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5].indexOf("?")) : 0;
     useEffect(() => {
-        console.log("update =", update);
         axios.post("http://localhost:3001/chatRoom/getOwner", {roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
         .then ((res) => {
             setRoomOwner(res.data);
             console.log("RoomOwner =",res.data);
         })
+        .catch(function (error){
+            if (error.response){
+                router.push({pathname :`/errorPage/${error.response.status}`})
+            }
+        });
+
     },[roomOwner, _roomId])
+    useEffect(() => {
+        axios.post("http://localhost:3001/chatRoom/getRoomAdministrators", {roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+        .then ((res) => {
+            setAdministrators(res.data);
+        })
+        .catch(function (error){
+            if (error.response){
+                router.push({pathname :`/errorPage/${error.response.status}`})
+            }
+        });
+    },[])
     useEffect(() => {
         axios.post("http://localhost:3001/chatRoom/getRoomMemebers",{roomId: _roomId},
         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
@@ -44,8 +61,37 @@ const Messages = (props:any) => {
               .then((res) => {
                 setUsersData(res.data.all_users);
                 // console.log("AllUsers=",res.data.all_users);
-              });
+              })
+              .catch(function (error){
+                if (error.response){
+                    router.push({pathname :`/errorPage/${error.response.status}`})
+                }
+            });
     },[])
+    useEffect(() => {
+        const response: any = axios
+          .post(
+            `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/profile`,
+            null,
+            {
+              headers: {
+                Authorization: `Bearer ${
+                  localStorage.getItem("accessToken") as string
+                }`,
+              },
+            }
+          )
+          .then((res) => {
+            // console.log("im in then of the response")
+            setUserInfo(res.data.userInfo);
+            // setShowContent(true);
+          })
+          .catch(function (error){
+            if (error.response){
+                router.push({pathname :`/errorPage/${error.response.status}`})
+            }
+        })
+      }, []);
     var test:boolean = true;
 
     const [filterData] = FakeData.filter((value: any) => {
@@ -65,18 +111,13 @@ const Messages = (props:any) => {
         console.log("isInGroup", isGroupMember);
         return isGroupMember;
     }
+    console.log("MMMMMOOOOKK=",administrators);
     return (
         <div className={styles.globaleContainer}>
-            {/* {
-                checkIfMemver(props.user?.userName) ? */}
                 <div className={styles.bcontainer}>
-                    <GroupChatZone data={filterData} status={Status} socket={props.socket} user={props.user} roomOwner={roomOwner} setRoomOwner={setRoomOwner}
+                    <GroupChatZone data={filterData} status={Status} socket={props.socket} user={userInfo} roomOwner={roomOwner} administrators={administrators} setRoomOwner={setRoomOwner}
                     update={update} setUpdate={setUpdate} ShowJoin={false} usersData={usersData}/>
                 </div>
-                {/* :
-                <div>
-                </div>
-            } */}
         </div>
     );
 }

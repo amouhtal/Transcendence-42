@@ -227,7 +227,13 @@
 .displaynone {
     display: none;
 }
-
+.WrongRoomPassword {
+    color: red;
+    position: absolute;
+    right: 190px;
+    bottom: 25px;
+    font-size: 14px;
+}
 /************************messagesZone********************/
 .messagesZone {
     background-color: white;
@@ -382,6 +388,41 @@
 }
 .joinBtn:hover {
     opacity: 0.95;
+}
+.ChatRoomPass {
+    position: absolute;
+    right: 55px;
+    width: 250px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: red; */
+}
+.roomPassword {
+    width: 100%;
+    height: 65%;
+    background-color: none;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+}
+.submitRoomPassword {
+    position: absolute;
+    right: 5px;
+    /* border-radius: 50%; */
+    outline: none;
+    border: none;
+    width: 50px;
+    height: 35px;
+    background-color: #44d7b6;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
 }
 @media only screen and (max-width: 1440px){
     .chatZone {

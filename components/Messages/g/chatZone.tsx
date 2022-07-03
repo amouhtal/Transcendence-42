@@ -36,7 +36,9 @@ const GroupChatZone = (props:any) => {
     const [bannedUserUpdate, setBannedUserUpdate] = useState<boolean>(false);
     const [bannedUsers, setBannedUsers] = useState<any>([]);
     const [timeLeftForBan, setTimeLeftForBan] = useState<any>({});
-
+    const [thisRoomInfo, setThisRoomInfo] = useState<any>({});
+    const [showEnterPasswordForProtectedRoom, setshowEnterPasswordForProtectedRoom] = useState<boolean>(false);
+    const [showWrongPassword, setshowWrongPassword] = useState<boolean>(false);
 	const _roomId : number = typeof window != "undefined" ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5].indexOf("?")) : 0;
     // console.log("totot=",typeof window != "undefined" ? window.location.href.split("/")[5] : "")
     useEffect(() => {
@@ -55,18 +57,13 @@ const GroupChatZone = (props:any) => {
         // dummy.current.scrollIntoView();
         setuserInfo(false);
     },[router.query.id, updateRoomMembers])
-    useEffect (() => {
-        console.log("realTime=",new Date())
-
-        axios.post("http://localhost:3001/roomBannedUsers/getBannedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+    useEffect(() => {
+        axios.post("http://localhost:3001/roomBannedUsers/getMutedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
         .then((res) => {
-            console.log("bannedusers=",res.data);
-            setInterval(() => {
+            // console.log("bannedusers=",res.data);
                 setBannedUsers(res.data);
                 res.data.map((e:any) => {
                     let newtest : any = new Date(res.data[0].unBanTime);
-                    console.log("date=",newtest.getTime(),"banTime=",new Date().getTime());
-
                     let difference: any = newtest.getMinutes() - +new Date().getMinutes();
                     let timeLeft  = {};
                     if (difference > 0) {
@@ -76,30 +73,60 @@ const GroupChatZone = (props:any) => {
                         }
                         setTimeLeftForBan(timeLeft);
                     }
-                    console.log("difference=", difference, "   timeLeft=",timeLeft);
                     if (newtest.getTime() - new Date().getTime() <= 0)
                         axios.post("http://localhost:3001/roomBannedUsers/unbanUser",{userName: e.bannedUserName, roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
-                })
-            }, 60000);
+            });
             })
     },[bannedUserUpdate])
+    useEffect (() => {
+        setInterval(() => {
+            console.log("im In intervale=",props.user?.UserName);
+            axios.post("http://localhost:3001/roomBannedUsers/getMutedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+            .then((res) => {
+                // console.log("bannedusers=",res.data);
+                setBannedUsers(res.data);
+                res.data?.map((e:any) => {
+                    console.log("map=",e)
+                    if (e.bannedUserName === props.user?.userName)
+                    {
+                        console.log("BannedUserData=",e);
+                        let newtest : any = new Date(res.data[0].unBanTime);
+                        let difference: any = newtest.getMinutes() - +new Date().getMinutes();
+                        console.log("difference=",difference? difference : "");
+                        let timeLeft  = {};
+                        if (difference > 0) {
+                            timeLeft = {
+                                minutes: newtest.getMinutes() - +new Date().getMinutes(),
+                                seconds: +new Date().getSeconds() - newtest.getSeconds()
+                            }
+                            setTimeLeftForBan(timeLeft);
+                        }
+                        // console.log("difference=", difference, "   timeLeft=",timeLeft);
+                        if (newtest.getTime() - new Date().getTime() <= 0)
+                        {
+                            axios.post("http://localhost:3001/roomBannedUsers/unbanUser",{userName: e.bannedUserName, roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                            axios.post("http://localhost:3001/roomBannedUsers/getMutedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                            .then((res) => {
+                                setBannedUsers(res.data);
+                            })
+                        }
+                    }
+                })
+            })
+        }, 20000);
+    },[])
+    useEffect(() => {
+        axios.post("http://localhost:3001/chatRoom/getRoomById", {roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+        .then((res) => {
+            setThisRoomInfo(res.data);
+            console.log("This Room Info=", res.data);
+        })
+    },[])
     const [userInfo, setuserInfo] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
     const [friends, setFriends] = useState<any>();
     const [color, setColor] = useState<string>(checkout);
     const [reciverId, setReciverId] = useState<any>();
-    // useEffect (() => {
-    //     // dummy.current.scrollIntoView();
-    //     if (messages !== []){
-    //         const userName = messages[0]?.senderId === props.user?.useName ? "" : messages[0]?.reciverId;
-    //         axios.post("http:///localhost:3001/users/profile",{userName: window.location.href.split("/")[5] },
-    //         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
-    //         ).then((res) => {
-    //             setReciverId(res.data?.userInfo);
-    //         })
-    //     }
-    //     // dummy.current.scrollIntoView({behavior: 'smooth'});
-    // },[messages,isTyping])
     const getUsersInfo = (_userName:string) => {
         axios.post("http:///localhost:3001/users/profile",{userName: _userName},
             {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
@@ -107,13 +134,6 @@ const GroupChatZone = (props:any) => {
                 setReciverId(res.data?.userInfo);
             })
     }
-    // useEffect(() => {
-    //     axios.get("http://10.12.10.4:3300/message/getConntacts",
-    //     {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
-    //     ).then((res) => {
-    //         setFriends(res.data);
-    //     })
-    // }, [])
     const handelSubmit = (e:any) => {
         e.preventDefault();
         if (e.target.message.value !== '') {
@@ -132,6 +152,21 @@ const GroupChatZone = (props:any) => {
     if (process.browser)
         localStorage.setItem("color", color as string);
     props.socket?.on("messageRoom", (data:any) => {setMessages(data)});
+    props.socket?.on("mutedUser", (res:any) => {
+        setBannedUsers([res]);
+        let newtest : any = new Date(res.unBanTime);
+        let difference: any = newtest.getMinutes() - +new Date().getMinutes();
+        let timeLeft  = {};
+        if (difference > 0) {
+            timeLeft = {
+                minutes: newtest.getMinutes() - +new Date().getMinutes(),
+                seconds: +new Date().getSeconds() - newtest.getSeconds()
+            }
+            setTimeLeftForBan(timeLeft);
+        }
+        console.log("oooooonn")
+    })
+    props.socket?.on("getBannedUserByRoomId", (res:any) => {console.log("IsBannedPermanantly=",res)});
     const getUserInfo = (e:any) => {
         // console.log("element =", e)
         const userInfo :any = props.usersData.filter((curr:any) => {
@@ -143,6 +178,7 @@ const GroupChatZone = (props:any) => {
         let on = false;
         // console.log("roomOwner=",props.roomOwner)
         // console.log(props.usersData, e);
+        if (groupMembers)
         groupMembers?.map((curr:any) => {
             if (curr.userName === e)
                 on = true;
@@ -152,7 +188,7 @@ const GroupChatZone = (props:any) => {
     const isBanned = (e:string) => {
         let on = false;
         bannedUsers.map((curr:any) => {
-            if (curr.bannedUserName === e)
+            if (curr?.bannedUserName === e)
             {
                 if (curr.roomId === _roomId)
                     on = true;
@@ -160,9 +196,23 @@ const GroupChatZone = (props:any) => {
         })
         return on;
     }
+    const CheckProtectedRoom = (e:any) => {
+        e.preventDefault();
+        console.log("RoomPassword=",e.target.RoomPassword.value);
+        if (e.target.RoomPassword.value === thisRoomInfo.password && thisRoomInfo.protected)
+        {
+            props.socket?.emit("addUserToChannel",{users: [{userName: props.user?.userName}], roomId: _roomId});
+            setUpdateRoomMambets(!updateRoomMembers);
+            setshowEnterPasswordForProtectedRoom(false);
+            e.target.RoomPassword.value = '';
+            setshowWrongPassword(false);
+        }
+        else
+            setshowWrongPassword(true);
+    }
         return (
         <>
-        <GroupsZone data={friends} status={props.status} show={showFriends} setShow={setShowFriends} socket={props.socket} setRoomOwnerUsername={setRoomOwnerUsername}/>
+        <GroupsZone data={friends} status={props.status} show={showFriends} setShow={setShowFriends} socket={props.socket} setRoomOwnerUsername={setRoomOwnerUsername} user={props.user}/>
             <div className={userInfo? styles.chatZone : styles.fullChatZone}>
             <div className={styles.chatHeader}>
                 <img src={back.src} className={styles.showFriendsZone} onClick={(e:any) => {e.preventDefault(); setShowFriends(!showFriends)}}/>
@@ -174,15 +224,25 @@ const GroupChatZone = (props:any) => {
                 {/* <p className={styles.status}>{reciverId?.isActive? "Online" : "Offline . Last seen 3h ago"}</p> */}
                 <p className={inGroupMembers(props.user?.userName) ? !isBanned(props.user?.userName) ? styles.settings : styles.displaynone : styles.displaynone} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
                 <button className={inGroupMembers(props.user?.userName) ? styles.displaynone : styles.joinBtn} onClick={(e:any) => {
-						props.socket?.emit("addUserToChannel",{users: [{userName: props.user?.userName}], roomId: _roomId});
+                    if (!thisRoomInfo.protected)
+                    {
+                        props.socket?.emit("addUserToChannel",{users: [{userName: props.user?.userName}], roomId: _roomId});
                         setUpdateRoomMambets(!updateRoomMembers);
+                    }
+                    else
+                        setshowEnterPasswordForProtectedRoom(!showEnterPasswordForProtectedRoom);
                 }}>Join {router.query.name}</button>
+                <form action="" className={showEnterPasswordForProtectedRoom ? styles.ChatRoomPass : styles.displaynone} onSubmit={CheckProtectedRoom}>
+                    <input type="password" name="Password" id="RoomPassword" placeholder={"Password..."} className={styles.roomPassword} />
+                    <input type="submit" value={"send"} name="apply" id="apply" className={styles.submitRoomPassword}/>
+                </form>
+                <p className={showEnterPasswordForProtectedRoom ? showWrongPassword ? styles.WrongRoomPassword : styles.displaynone : styles.displaynone}>Wrong Password !!</p>
             </div>  
                 <div className={inGroupMembers(props.user?.userName) ? styles.chatMain : styles.chatMainBlured}>
                     <div className={inGroupMembers(props.user?.userName) ?  styles.displaynone : styles.blackLayer}></div>
                 {messages?.map((e:any) => {
                     e.time = e.time.replace('T', " ");e.time = e.time.replace ('Z', "");e.time = e.time.split('.')[0];
-                    console.log("messages=",e)
+                    // console.log("messages=",e)
                     const [userInfo] :any = getUserInfo(e.senderId);
                     // console.log("userInfo =", userInfo);
                     // getUsersInfo(e.senderId);
@@ -216,7 +276,8 @@ const GroupChatZone = (props:any) => {
          </div>
          <GroupsInfo data={reciverId} status={reciverId?.isActive} allMessages={AllMessages} setMessages={setMessages} messages={messages} display={userInfo} setDisplay={setuserInfo} color={setColor} update={update} setUpdate={setUpdate} socket={props.socket}
          setUpdateRoomMambets={setUpdateRoomMambets} updateRoomMembers={updateRoomMembers} user={props.user} roomOwner={props.roomOwner} setRoomOwner={props.setRoomOwner}
-         setRoomOwnerUpdate={props.setUpdate} RoomOwnerupdate={props.update} roomMembers={groupMembers} setBannedUserUpdate={setBannedUserUpdate} bannedUserUpdate={bannedUserUpdate}/>
+         setRoomOwnerUpdate={props.setUpdate} RoomOwnerupdate={props.update} roomMembers={groupMembers} setBannedUserUpdate={setBannedUserUpdate} bannedUserUpdate={bannedUserUpdate}
+         administrators={props.administrators} />
         </>
     );
 }

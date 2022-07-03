@@ -16,11 +16,6 @@ function Profile() {
   const router = useRouter();
   const [showContent, setShowContent] = useState<boolean>(false);
   useEffect(() => {
-    if (
-      localStorage.getItem("accessToken") !== "undefined" &&
-      localStorage.getItem("accessToken") !== null &&
-      localStorage.getItem("accessToken") !== ""
-    )
       axios
         .post(
           `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/profile`,

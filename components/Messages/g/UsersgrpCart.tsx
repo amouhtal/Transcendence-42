@@ -24,14 +24,11 @@ const UsersCart = (props:any) => {
     const [BanChoice, setBanChoice] = useState<boolean>(false);
     const [MuteChoice, setMuteChoice] = useState<boolean>(false);
     const [BanMuteTime, setBanMuteTime] = useState<string>("");
-
-    console.log("idnexOf=", typeof window != "undefined" ? window.location.href.indexOf("?") : "")
 	const _roomId : number = typeof window != "undefined" ? window.location.href.indexOf("?") !== -1 ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5]?.indexOf("?")) : 0 : 0;
 
     useEffect(() => {
         setData(props.data)
     })
-
     let friends:any= [];
     const CheckIfUserExist =  (e:any):any => {
         let isExist:boolean = false;
@@ -63,25 +60,19 @@ const UsersCart = (props:any) => {
         if (props.changeRoomOwner)
             props.setChoosenUsers([props.usersChoosen[props.usersChoosen.length - 1]]);
     }
+    const isAdministrator = (userName: string) => {
+        let isAdmin: boolean = false;
+        props.administrators?.map((e:any) => {
+                if (e.userName === userName)
+                    isAdmin = true;
+        })
+        return isAdmin;
+    }
     return (
         <>
         {props.data?.map((e: any | any[]) => {
-                // if (typeof window !== 'undefined') {
-                //     if (localStorage.getItem("accessToken") === null || localStorage.getItem("accessToken") === "undefined" || localStorage.getItem("accessToken") === '')
-                //     {
-                //         axios.post('http:///users/profile',{userName : e.userName},{
-                //             headers:{
-                //                 'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`
-                //             }
-                //         }).then((res) =>{
-                //             setStatus(res.data.isActive);
-                //             setChecked(false);
-                //         })
-                //     }
-                // }
                 return  (
                     <div className={styles.userCard} id={`${e.userName}%${e.picture}`} key={Math.random()} onClick={(e:any) => handelClick(e)} >
-                    {/* {console.log(`userNamePP = ${e.userName}%${e.picture})`)} */}
                         <div className={`${styles.imgContainer}`}>
                             <Link href={`/users/${e.userName}`} key={Math.random()}>
                                 <img src={e?.picture} width={80} height={80} className={`${styles.profileImage} ${status ?styles.userStatusOn : styles.userStatusOff}`}/>
@@ -93,7 +84,14 @@ const UsersCart = (props:any) => {
                         <div className={props.roomOwner === e.userName ? styles.admin : styles.none}>
                             <p>Owner</p>
                         </div>
-                        <div className={props.roomOwner !== e.userName ? props.showBanBtn ? styles.ban : styles.none : styles.none} id={e.userName}
+                        <div id={e.userName} className={isAdministrator(e.userName) ? props.roomOwner !== e.userName ? styles.admin : styles.none : styles.none}>
+                            <p>Admin</p>
+                        </div>
+                        {/* <div className={props.showBanBtn ? props.user.userName === props.roomOwner ? styles.ban : styles.none : styles.none : styles.none} id={e.userName}
+                        onClick={(e:any) => {}}>
+                            <img src={ban.src} alt="ban" id={e.userName} onClick={(curr:any) => {setShowBanPannel(!showBanPannel);setUserBanned(curr.target.id); setMuteChoice(true)}}/>
+                        </div> */}
+                        <div className={props.showBanBtn ? props.roomOwner !== e.userName ? !isAdministrator(e.userName) ? styles.ban : styles.none : styles.none : styles.none} id={e.userName}
                         onClick={(e:any) => {}}>
                             <img src={ban.src} alt="ban" id={e.userName} onClick={(curr:any) => {setShowBanPannel(!showBanPannel);setUserBanned(curr.target.id); setMuteChoice(true)}}/>
                         </div>
@@ -108,11 +106,11 @@ const UsersCart = (props:any) => {
                             </div>
                             <button className={styles.cancel_btn} onClick={(e:any) => {setBanChoice(false); setMuteChoice(true);setBanMuteTime("")}}>cancel</button>
                             <button id={e.userName} className={styles.apply_btn} onClick={(e:any) => {
-                                axios.post("http://localhost:3001/roomBannedUsers/muteUser",{userName:e.target.id, roomId:_roomId, periode: +BanMuteTime},
-                                {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
-                                .then ((res) => {
-                                    console.log("res");
-                                })
+                                if (MuteChoice && !BanChoice)
+                                    props.socket?.emit("muteUser", {userName:e.target.id, roomId:_roomId, periode: +BanMuteTime});
+                                else if (!MuteChoice && BanChoice)
+                                    props.socket?.emit("banUser", {userName:e.target.id, roomId:_roomId, periode: +BanMuteTime});
+						        props.setBannedUserUpdate(!props.bannedUserUpdate);
                             }}>apply</button>
                         </div>
                     </div>

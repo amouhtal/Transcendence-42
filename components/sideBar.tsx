@@ -171,8 +171,6 @@ function SidePar(props: any) {
         <div
           className={Style.Logout}
           onClick={(e: any) => {
-            localStorage.removeItem("accessToken");
-            localStorage.removeItem("refreshToken");
             const headers = {
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
             };
@@ -180,23 +178,26 @@ function SidePar(props: any) {
               refreshToken: `${localStorage.getItem("refreshToken")}`,
             };
             axios
-              .delete("http://localhost:3001/auth/42/logout", {
-                headers,
-                data,
-              })
-              .then(() => {
-                localStorage.removeItem("accessToken");
-                localStorage.removeItem("refreshToken");
-                console.log("Delete successful");
-                props.setUpdate(!props.update);
-              })
-              .catch(function (error) {
-                if (error.response) {
-                  router.push({
-                    pathname: `/errorPage/${error.response.status}`,
-                  });
-                }
-              });
+            .delete("http://localhost:3001/auth/42/logout", {
+              headers,
+              data,
+            })
+            .then(() => {
+              localStorage.removeItem("accessToken");
+              localStorage.removeItem("refreshToken");
+              console.log("Delete successful");
+              props.setUpdate(!props.update);
+            })
+            .catch(function (error) {
+              if (error.response) {
+                router.push({
+                  pathname: `/errorPage/${error.response.status}`,
+                });
+              }
+            });
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
+            router.push("/login");
           }}
         >
           <img
