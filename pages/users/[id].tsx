@@ -7,7 +7,7 @@ import MatchHestory from "../../components/profile/matchHestory";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import FakeData from "../../data.json";
-
+import blocked from "../../public/images/banned-sign.png"
 function Profile(props:any) {
   const [userData, setUserData] = useState<any>([]);
   const [usersData, setUsersData] = useState<any>([]);
@@ -120,8 +120,13 @@ function Profile(props:any) {
           {/* userdata={''} gameHistory={} */}
           </div>
           </div>
-          <div className={Style.BlockedUserProfile}>
-            BLoooooooooockkkkkkeeeed
+          <div className={isBlocked(router.query?.id) ? Style.BlockedUserProfile : Style.displaynone}>
+            <img src={blocked.src} alt="" className={Style.blockedImg} />
+            <div className={Style.textContainer}>
+              <p className={Style.blockedUser}>You've blocked this user</p>
+              <p className={Style.blockedUser2}>You won't see any information from this user on Disques of discussions, notifications, and more.</p>
+            </div>
+            <button className={Style.blockedBtn} onClick={(e:any) => {router.push("/users/blocked")}} >Manage blocked users</button>
           </div>
           </>
     );
