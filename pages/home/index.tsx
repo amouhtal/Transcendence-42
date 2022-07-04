@@ -7,13 +7,11 @@ import Watch from "../../components/LiveMatch/Watch";
 import { useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 const home = () => {
   const [update, setUpdate] = useState<boolean>(false);
   const [userName, setUsername] = useState<boolean>(false);
   const route = useRouter();
-  const test: any = useSelector<any>((state) => state);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -31,7 +29,7 @@ const home = () => {
       localStorage.getItem("accessToken") !== null &&
       localStorage.getItem("accessToken") !== ""
     ) {
-      const resp: any = axios
+        const resp: any = axios
         .get(
           `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/CheckUserName`,
           {
@@ -45,32 +43,32 @@ const home = () => {
         .then((res) => {
           setUsername(res.data.exist);
         })
-        // .catch((error: any) => {
-        //   // console.log("err =", error.response.status);
-        //   if (
-        //     error.response.status === 401 &&
-        //     localStorage.getItem("accessToken") !== "" &&
-        //     localStorage.getItem("accessToken") !== "undefined" &&
-        //     localStorage.getItem("accessToken") !== null
-        //   ) {
-        //     console.log(
-        //       "hererere=",
-        //       localStorage.getItem("refreshToken") as string
-        //     );
-        //     axios
-        //       .get(
-        //         `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/auth/42/refresh`,
-        //         {
-        //           data: {
-        //             refreshToken: localStorage.getItem("refreshToken"),
-        //           },
-        //         }
-        //       )
-        //       .then((res: any) => {
-        //         console.log("resp =", res);
-        //       });
-        //   }
-        // });
+        .catch((error: any) => {
+          console.log("err =", error.response.status);
+          if (
+            error.response.status === 401 &&
+            localStorage.getItem("accessToken") !== "" &&
+            localStorage.getItem("accessToken") !== "undefined" &&
+            localStorage.getItem("accessToken") !== null
+          ) {
+            console.log(
+              "hererere=",
+              localStorage.getItem("refreshToken") as string
+            );
+            axios
+              .get(
+                `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/auth/42/refresh`,
+                {
+                  data: {
+                    refreshToken: localStorage.getItem("refreshToken"),
+                  },
+                }
+              )
+              .then((res: any) => {
+                console.log("resp =", res);
+              });
+          }
+        });
     }
   }, [route.query.token]);
   return (
@@ -78,11 +76,10 @@ const home = () => {
       <div className={styles.globaleHomeContainer}>
         <Watch />
       </div>
-      {/* <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainerBlure}></div> */}
-      {/* <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainer}> */}
-      {/* <UserInfoPopup setUpdate={setUpdate} update={update} isUsername={setUsername}/> */}
-      {/* </div> */}
-      {test.sizes_.zak_test && <UserInfoPopup2 />}
+        {/* <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainerBlure}></div>
+        <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainer}>
+        <UserInfoPopup setUpdate={setUpdate} update={update} isUsername={setUsername}/>
+      </div> */}
     </>
   );
 };

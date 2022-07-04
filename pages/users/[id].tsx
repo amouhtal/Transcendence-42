@@ -132,5 +132,5 @@ function Profile(props:any) {
     );
 }
         
-        export default Profile;
+export default Profile;
         

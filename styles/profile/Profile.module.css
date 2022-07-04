@@ -120,6 +120,7 @@
     color: #161616;
     cursor: pointer;
 }
+
 @media screen and (max-width: 1444px){
     .container {
         width: 100%;
