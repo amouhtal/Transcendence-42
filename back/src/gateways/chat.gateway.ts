@@ -360,6 +360,19 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 			}
 		}
 	}
+	@SubscribeMessage('leaving')
+	async leaving(client: Socket, test: any)
+	{
+		let auth_token = await client.handshake.auth.Authorization;
+		if(auth_token !== "null" && auth_token !== "undefined" && auth_token)
+		{
+			const tokenInfo : any = this.jwtService.decode(auth_token);
+			let userInfo = await this.usersRepository.query(`select "userName" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`);
+			if (Object.keys(userInfo).length != 0){
+				opponentLeft(this,userInfo)
+			}
+		}
+	}
 	@SubscribeMessage('playing')
 	async playing(client: Socket, body: moveData)
 	{
