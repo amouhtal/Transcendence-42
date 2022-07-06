@@ -260,7 +260,8 @@ export class FriendsController {
   }
 
   @Post()
-  removeFriend() {
-    // return this.friendService.findAll();
+  removeFriend(@Body() data: frienduser) {
+    await this.userRepo.delete()
+    return this.friendService.findAll();
   }
 }

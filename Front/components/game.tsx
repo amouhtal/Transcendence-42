@@ -1,6 +1,8 @@
+import { styled } from "@nextui-org/react";
 import React, { useState, useEffect, useRef } from "react";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { change } from "../redux/sizes";
+import style from "../styles/game/HomeGame.module.css"
 import {
   drawRect,
   drawBall,
@@ -8,6 +10,7 @@ import {
   switch_,
 } from "../tools/gameTools";
 
+let oneTime:Boolean
 export default function Game(props: any) {
   const canvasRef = useRef(null);
   const {
@@ -28,7 +31,11 @@ export default function Game(props: any) {
     keyUp: false,
     keyDown: false,
   });
-  const ballSpeed = useRef(10);
+  const [Settings,changeSetting] = useState({
+    ballSize:12.5,
+    speed:5,
+    userName:""
+  });
   const [player1, changePlayer1] = useState({
     x: 5,
     y: (canvaHeight / 2) - (rectHeigth / 2),
@@ -76,10 +83,10 @@ export default function Game(props: any) {
     rectMovment: rectMovment,
   };
 
-  useEffect(() => {
-    if (typeof window != "undefined"){
-      window.addEventListener('resize',()=>{
-        var changePerc1 =
+  if (typeof window != "undefined")
+    useEffect(() => {
+          console.log(Settings.ballSize)
+          var changePerc1 =
           (position.current.y2 * 100) / size.current.canvaHeight - 100;
         var changePerc2 =
           (position.current.y1 * 100) / size.current.canvaHeight - 100;
@@ -95,7 +102,7 @@ export default function Game(props: any) {
         if (ballPerc.changePercY < 0) ballPerc.changePercY *= -1;
 
         if (resizeOneTime.current != 6 && window.innerWidth > 279 && window.innerWidth < 320) {
-          dispatch(change(270));
+          dispatch(change({width:270,ballSize:Settings.ballSize}));
           let newPosition1 = 270 / 2 - ((270 / 2) * changePerc1) / 100;
           let newPosition2 = 270 / 2 - ((270 / 2) * changePerc2) / 100;
           let newPosition = {
@@ -113,7 +120,7 @@ export default function Game(props: any) {
         }
 
         else if (resizeOneTime.current != 1 && window.innerWidth > 320 && window.innerWidth < 540) {
-          dispatch(change(320));
+          dispatch(change({width:320,ballSize:Settings.ballSize}));
           let newPosition1 = 320 / 2 - ((320 / 2) * changePerc1) / 100;
           let newPosition2 = 320 / 2 - ((320 / 2) * changePerc2) / 100;
           let newPosition = {
@@ -134,7 +141,7 @@ export default function Game(props: any) {
           window.innerWidth > 878 &&
           window.innerWidth < 1300
         ) {
-          dispatch(change(800));
+          dispatch(change({width:800,ballSize:Settings.ballSize}));
           let newPosition1 = 800 / 2 - ((800 / 2) * changePerc1) / 100;
           let newPosition2 = 800 / 2 - ((800 / 2) * changePerc2) / 100;
           let newPosition = {
@@ -156,7 +163,7 @@ export default function Game(props: any) {
           window.innerWidth > 601 &&
           window.innerWidth < 877
         ) {
-          dispatch(change(600));
+          dispatch(change({width:600,ballSize:Settings.ballSize}));
           let newPosition1 = 600 / 2 - ((600 / 2) * changePerc1) / 100;
           let newPosition2 = 600 / 2 - ((600 / 2) * changePerc2) / 100;
           let newPosition = {
@@ -179,7 +186,7 @@ export default function Game(props: any) {
           window.innerWidth > 540 &&
           window.innerWidth < 600
         ) {
-          dispatch(change(470));
+          dispatch(change({width:470,ballSize:Settings.ballSize}));
           let newPosition1 = 470 / 2 - ((470 / 2) * changePerc1) / 100;
           let newPosition2 = 470 / 2 - ((470 / 2) * changePerc2) / 100;
           let newPosition = {
@@ -198,7 +205,7 @@ export default function Game(props: any) {
         }
 
         else if (resizeOneTime.current != 5 && window.innerWidth > 1300) {
-          dispatch(change(1000));
+          dispatch(change({width:1000,ballSize:Settings.ballSize}));
           let newPosition1 = 1000 / 2 - ((1000 / 2) * changePerc1) / 100;
           let newPosition2 = 1000 / 2 - ((1000 / 2) * changePerc2) / 100;
           let newPosition = {
@@ -214,9 +221,9 @@ export default function Game(props: any) {
           changeBall({ x: newPosition.x, y: newPosition.y });
           resizeOneTime.current = 5;
         }
-      } );
-    }
-    }, []);
+          console.log("test")
+      }, [window.innerWidth]);
+
   useEffect(() => {
     function loop() {
       requestAnimationFrame(loop);
@@ -236,9 +243,11 @@ export default function Game(props: any) {
       changePlayer1(oldvalue =>({...oldvalue, y:newPosition1}))
       changePlayer2(oldvalue =>({...oldvalue, y:newPosition2}))
     })
-  }, []);
+    return () => props.socket?.off("movements")
+  }, [props.socket]);
 
   useEffect(() => {
+    oneTime=false
     window.onkeydown = function (e) {
       switch_(e.keyCode, "onKeyDown", movementPlayer1, movementPlayer2);
     };
@@ -264,17 +273,28 @@ export default function Game(props: any) {
       (1000 /2) / size.current.canvaHeight
       var changePercWidth =
       1000 / size.current.canvaWidth
-    let newPositionX = data.ballStats.ballX / changePercWidth;
-    let newPositionY = data.ballStats.ballY / changePercHeight;
-    changeBall({x:newPositionX,y:newPositionY})
-    console.log(data.playerStat)
-    if (data.playerStat.player1score != props.score.player1 || data.playerStat.player2score != props.score.player2){
-      props.changeScore({player1:data.playerStat.player1score,player2:data.playerStat.player2score})
-    }
+      let newPositionX = data.ballStats.ballX / changePercWidth;
+      let newPositionY = data.ballStats.ballY / changePercHeight;
+      changeBall({x:newPositionX,y:newPositionY})
+      if (data.playerStat.player1score != props.score.player1 || data.playerStat.player2score != props.score.player2){
+        props.changeScore({player1:data.playerStat.player1score,player2:data.playerStat.player2score})
+      }
+      if (oneTime == false){
+        var changePerc =
+        (1000 /2) / size.current.canvaHeight
+        let newPosition1 = data.playerStat.player1Y / changePerc;
+        let newPosition2 = data.playerStat.player2Y / changePerc;
+        changePlayer1(oldvalue =>({...oldvalue, y:newPosition1}))
+        changePlayer2(oldvalue =>({...oldvalue, y:newPosition2}))
+        changeSetting(data.ballStats.Settings)
+        dispatch(change({width:size.current.canvaWidth,ballSize:data.ballStats.Settings.ballSize}));
+        oneTime = true
+      }
     })
-  },[])
+    return () => props.socket?.off("ballMovement")
+  },[props.socket])
   return (
-    <>
+    <div style={{display:"flex",flexFlow:"column",alignItems:"center"}}>
       <canvas
         style={{ border: "1px solid #d3d3d3", borderRadius: "10px" }}
         id="canvas"
@@ -283,6 +303,11 @@ export default function Game(props: any) {
         ref={canvasRef}
         moz-opaque="true"
       ></canvas>
-    </>
+      <div style={{width:"fit-content"}} className={style.ModeGame}>
+        <p className={style.PMode}>Setting -{'>'} <span className={style.spanMode}>{Settings.userName}</span></p>
+        <p className={style.PMode}>Speed -{'>'} <span className={style.spanMode}>{Settings.speed}</span></p>
+        <p className={style.PMode}>BallSize -{'>'} <span className={style.spanMode}>{Settings.ballSize}</span></p>
+      </div>
+    </div>
   );
 }

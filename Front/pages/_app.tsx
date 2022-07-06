@@ -62,7 +62,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Component {...pageProps} socket={socket} user={userInfo} />
             {console.log(",LooooooL",typeof window != "undefined" ?  window.location.pathname.split("/")[1] : "")}
             {typeof window != "undefined" &&
-            (window.location.href.split("/")[3] != "game" && window.location.pathname.split("/")[1] != "errorPage" && window.location.pathname.split("/")[1] != "login")? (
+            (window.location.href.split("/")[3].split("?")[0] != "game" && window.location.pathname.split("/")[1] != "errorPage" && window.location.pathname.split("/")[1] != "login")? (
               <SideBar
                 setShowSidBar={setShowSidBar}
                 showSidBar={showSidBar}
