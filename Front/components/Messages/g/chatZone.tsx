@@ -52,15 +52,14 @@ const GroupChatZone = (props:any) => {
         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
         ).then((res) => {
             setGroupMembers(res.data);
-            // console.log("RoomMembers=",res.data);
         })
         // dummy.current.scrollIntoView();
         setuserInfo(false);
     },[router.query.id, updateRoomMembers])
+
     useEffect(() => {
         axios.post("http://localhost:3001/roomBannedUsers/getMutedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
         .then((res) => {
-            // console.log("bannedusers=",res.data);
                 setBannedUsers(res.data);
                 res.data.map((e:any) => {
                     let newtest : any = new Date(res.data[0].unBanTime);
@@ -80,19 +79,14 @@ const GroupChatZone = (props:any) => {
     },[bannedUserUpdate])
     useEffect (() => {
         setInterval(() => {
-            console.log("im In intervale=",props.user?.UserName);
             axios.post("http://localhost:3001/roomBannedUsers/getMutedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
             .then((res) => {
-                // console.log("bannedusers=",res.data);
                 setBannedUsers(res.data);
                 res.data?.map((e:any) => {
-                    console.log("map=",e)
                     if (e.bannedUserName === props.user?.userName)
                     {
-                        console.log("BannedUserData=",e);
                         let newtest : any = new Date(res.data[0].unBanTime);
                         let difference: any = newtest.getMinutes() - +new Date().getMinutes();
-                        console.log("difference=",difference? difference : "");
                         let timeLeft  = {};
                         if (difference > 0) {
                             timeLeft = {
@@ -101,7 +95,6 @@ const GroupChatZone = (props:any) => {
                             }
                             setTimeLeftForBan(timeLeft);
                         }
-                        // console.log("difference=", difference, "   timeLeft=",timeLeft);
                         if (newtest.getTime() - new Date().getTime() <= 0)
                         {
                             axios.post("http://localhost:3001/roomBannedUsers/unbanUser",{userName: e.bannedUserName, roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
@@ -119,18 +112,6 @@ const GroupChatZone = (props:any) => {
         axios.post("http://localhost:3001/chatRoom/getRoomById", {roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
         .then((res) => {
             setThisRoomInfo(res.data);
-            console.log("resese=",res.data)
-            if (res.data == "")
-            {
-                
-                setNotFound(true);
-            }
-            else
-            {
-
-                setNotFound(false);
-            }
-
         })
     },[])
     const [userInfo, setuserInfo] = useState<boolean>(false);
@@ -149,16 +130,9 @@ const GroupChatZone = (props:any) => {
         e.preventDefault();
         if (e.target.message.value !== '') {
             e.target.message.value !== '' ? setMessage(e.target.message.value) : messageValue;
-            // console.log("message:",e.target.message.value, "roomId:", typeof window != "undefined" ? window.location.href.split("/")[5] : null);
             props.socket?.emit("roomMessage",{message: e.target.message.value,roomId: router.query?.id});
             e.target.message.value = '';
         }
-    }
-    const handleChange = (e:any) => {
-        e.preventDefault();
-        // console.log(e.target.value)
-        // props.socket?.emit("typing",reciverId.userName,e.target?.value);
-        // props.socket?.on("typing", (data:any) => {console.log("Mydata =",data);data !== true ? setIsTyping(false) : setIsTyping(true)})
     }
     if (process.browser)
         localStorage.setItem("color", color as string);
@@ -176,7 +150,7 @@ const GroupChatZone = (props:any) => {
             setTimeLeftForBan(timeLeft);
         }
     })
-    props.socket?.on("getBannedUserByRoomId", (res:any) => {console.log("IsBannedPermanantly=",res)});
+    props.socket?.on("getBannedUserByRoomId", (res:any) => {});
     const getUserInfo = (e:any) => {
         let userInfo :any = props.usersData.filter((curr:any) => {
             return (e === curr.userName);
@@ -282,7 +256,7 @@ const GroupChatZone = (props:any) => {
                 </div>
                     <div className={styles.messagesZone}>
                     <form className={inGroupMembers(props.user?.userName) ? !isBanned(props.user?.userName) ? styles.formMessage : styles.displaynone : styles.displaynone} onSubmit={handelSubmit}>
-                        <input type="text" name="" id="message" placeholder="Type a message here..." className={styles.message} onChange={handleChange} />
+                        <input type="text" name="" id="message" placeholder="Type a message here..." className={styles.message} />
                         <button type="submit" className={styles.btn} onSubmit={(e:any) => {e.preventDefault();e.target.value = ""}}><img src={send.src} className={styles.btnIcon}/></button>
                         <div className={styles.fileupload}>
                             <img src={clip.src} alt="" />

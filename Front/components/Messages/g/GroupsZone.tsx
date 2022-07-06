@@ -56,8 +56,6 @@ const FriendsZone = (props:any) => {
                 setPrivateGroupsInfo(PrivateGroup);
                 on = false;
             })
-            // setPrivateGroupsInfo(PrivateGroup);
-            console.log("PrivateKK=", PrivateGroup)
         })
     },[router.query.id,getRoomsUpdate,router.query.name])
     useEffect(() => {
@@ -69,7 +67,6 @@ const FriendsZone = (props:any) => {
 		  })
 		  .then((res) => {
 			setUsersData(res.data.all_users);
-			// console.log("AllUsers=",res.data.all_users);
 		  });
 	  }, []);
     const handelNameCange = (e:any) => {

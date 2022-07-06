@@ -25,7 +25,7 @@ const UsersCart = (props:any) => {
     const [BanChoice, setBanChoice] = useState<boolean>(false);
     const [MuteChoice, setMuteChoice] = useState<boolean>(false);
     const [BanMuteTime, setBanMuteTime] = useState<string>("");
-	const _roomId : number = typeof window != "undefined" ? window.location.href.indexOf("?") !== -1 ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5]?.indexOf("?")) : 0 : 0;
+	const _roomId : number = typeof window != "undefined" ? window.location.href.indexOf("?") !== -1 ? +window.location.href.split("/")[5]?.substr(0, window.location.href.split("/")[5]?.indexOf("?")) : 0 : 0;
 
     useEffect(() => {
         setData(props.data)

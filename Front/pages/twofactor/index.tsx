@@ -118,7 +118,7 @@ const twofactor = () => {
             {/* <h2>{counter}</h2> */}
             <input
               type="submit"
-              value={`       lettere left`}
+              value={`submit`}
               className={styles.submitButton}
               onClick={(e: any) => {
                 const data = { twoFactorAuthenticationCode: result.join("") };

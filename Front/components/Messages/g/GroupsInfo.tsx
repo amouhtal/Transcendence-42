@@ -71,14 +71,12 @@ const UserInfo = (props: any) => {
 	}
 	const handleChangeRoomPass = (e:any) => {
 		e.preventDefault();
-		console.log("NewPass=",e.target.ChangePass.value);
 		setChangeRoomPass(!changeRoomPass)
 		axios.post("http://localhost:3001/chatRoom/changeRoomPassword", {roomId: _roomId, newPassword: e.target.ChangePass.value},{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
 		e.target.ChangePass.value = '';
 	}
 	const handleChangeRoomName = (e:any) => {
 		e.preventDefault();
-		// console.log("NewPass=",e.target.ChangePass.value);
 		setChangeRoomName(!changeRoomName)
 		axios.post("http://localhost:3001/chatRoom/changeRoomName", {roomId: _roomId, newName: e.target.ChangeName.value},{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
 		.then((res) => {
@@ -189,7 +187,6 @@ const UserInfo = (props: any) => {
 						setChangeRoomOwner(false);
 						props.setRoomOwner(usersChoosen[0].userName);
 						props.setRoomOwnerUpdate(!props.RoomOwnerupdate);
-						// console.log("newOwner =", usersChoosen[0].userName)
 						setChoosenUsers([]);
 						}}>apply</button>
             	    	<input type="text" placeholder="Search..." className={styles.creatGroupsearch} onChange={handelSearch}/>

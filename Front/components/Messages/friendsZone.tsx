@@ -14,7 +14,6 @@ import axios from "axios";
 const FriendsZone = (props:any) => {
     const [ContactInformation, setContatInformation] = useState<any>([]);
     let FriendsInformation: any = [];
-    console.log("props=",props)
     return (
         <div className={props.show ? styles.friendListshow : styles.friendListDontshow}>
             <div className={styles.searchBar}>

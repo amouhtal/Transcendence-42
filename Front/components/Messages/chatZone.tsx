@@ -64,7 +64,6 @@ const ChatZone = (props: any) => {
   useEffect(() => {
     // dummy.current.scrollIntoView();
     if (messages !== []) {
-    //   console.log("userUserName=",props.user?.userName)
       const userName = messages[0]?.senderId === props.user?.userName ? "" : messages[0]?.reciverId;
       axios
         .post(
@@ -78,7 +77,6 @@ const ChatZone = (props: any) => {
         )
         .then((res) => {
           setReciverId(res.data?.userInfo);
-        //   console.log("ReciverId =", res.data?.userInfo);
         })
         .catch(function (error) {
           if (error.response) {
@@ -110,7 +108,6 @@ const ChatZone = (props: any) => {
       })
       .then((res) => {
         setUsersData(res.data.all_users);
-        console.log("AllUsers=",res.data.all_users);
       })
       .catch(function (error){
         if (error.response){
@@ -129,20 +126,13 @@ const ChatZone = (props: any) => {
 	  setUpdateFriendsList(!updateFriendsList)
     }
   };
-  const handleChange = (e: any) => {
-    e.preventDefault();
-    console.log(e.target.value);
-  };
   if (process.browser) localStorage.setItem("color", color as string);
   props.socket?.on("message", (data: any) => {
     setMessages(data);
-    console.log("mel-hamr:", data);
   });
-  console.log(props)
   const isBlocked = (userName: any) => {
     let isBlocked: boolean = false;
     props.blockedusers?.map((e:any) => {
-      console.log(e)
       if (e.userName === userName)
         isBlocked = true;
     })
@@ -150,7 +140,6 @@ const ChatZone = (props: any) => {
   }
   const isNotInUsers = (userName:string) => {
     let isNotValidUser: boolean = true;
-    console.log("UserName==",userName,"PP==", usersData)
     usersData?.map((e:any) => {
         if (e.userName === userName)
           isNotValidUser = false;
@@ -280,7 +269,6 @@ const ChatZone = (props: any) => {
               id="message"
               placeholder="Type a message here..."
               className={styles.message}
-              onChange={handleChange}
             />
             <button
               type="submit"

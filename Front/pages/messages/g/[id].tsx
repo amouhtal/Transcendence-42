@@ -27,7 +27,6 @@ const Messages = (props:any) => {
         axios.post("http://localhost:3001/chatRoom/getOwner", {roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
         .then ((res) => {
             setRoomOwner(res.data);
-            console.log("RoomOwner =",res.data);
         })
         .catch(function (error){
             if (error.response){
@@ -60,7 +59,6 @@ const Messages = (props:any) => {
           })
           .then((res) => {
             setUsersData(res.data.all_users);
-            console.log("AllUsers=",res.data.all_users);
           })
           .catch(function (error){
             if (error.response){
@@ -82,9 +80,7 @@ const Messages = (props:any) => {
             }
           )
           .then((res) => {
-            // console.log("im in then of the response")
             setUserInfo(res.data.userInfo);
-            // setShowContent(true);
           })
           .catch(function (error){
             if (error.response){
@@ -116,16 +112,12 @@ const Messages = (props:any) => {
     });
     const checkIfMemver = (e:string) => {
         let isGroupMember = false;
-        console.log("userName in CHeck = ", e, groupMembers);
         groupMembers.map((curr:any) => {
-            console.log(curr.userName)
             if (curr.userName === e)
             {
-                console.log("here")
                 isGroupMember = true;
             }
         })
-        console.log("isInGroup", isGroupMember);
         return isGroupMember;
     }
     return (
