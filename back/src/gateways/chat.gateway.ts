@@ -50,7 +50,8 @@ var opponentLeft = async (this_:any, sender_id:any) =>{
 		game.winner_user = player2
 		game.loser_user = sender_id[0].userName
 		game.Score = `D.N.F-D.N.F`
-		game.played_at = new Date()
+		game.played_at = new Date();
+		
 		this_.gameServ.InsertGame(game)
 		this_.liveGameServ.deleteGame(sender_id[0].userName)
 		var playerSocket : Socket[] = [];
@@ -117,7 +118,7 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 				relations: ['chatRooms'],
 				where: { userName: sender_id[0].userName }
 				});
-				let rooms : any = test[0].chatRooms;
+				let rooms : any = userRooms[0].chatRooms;
 				if(rooms.length !== 0)
 				{
 					for(let room of rooms)

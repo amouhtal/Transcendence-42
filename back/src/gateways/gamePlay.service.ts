@@ -169,7 +169,7 @@ export default class gamePlayService
         player1 = sockets.get(ballStat.find(element => element.player1 === player || element.player2 === player).player1)
 		player2 = sockets.get(ballStat.find(element => element.player1 === player || element.player2 === player).player2)
         //Game Over
-        if (playerStat.player1score >= 800|| playerStat.player2score >= 800){
+        if (playerStat.player1score >= 8|| playerStat.player2score >= 8){
             let player1_ = playerStat.player1score > playerStat.player2score ? "Winner" : "Loser"
             let player2_ = playerStat.player1score < playerStat.player2score ? "Winner" : "Loser"
             var game : GamesDto = new(GamesDto)
