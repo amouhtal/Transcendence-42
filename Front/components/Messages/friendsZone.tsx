@@ -22,14 +22,6 @@ const FriendsZone = (props:any) => {
                     <FiSearch className={styles.searchIcon}/>
                 </form>
             </div>
-            <div className={styles.creatNewGrp}>
-                <p>Creat New Groupe</p>
-                <img src={img.src} className={styles.creatIcon} onClick={(e:any) => {
-                    props.socket.emit("changeUserName", {userName : "bettachi"})
-                    }
-                }
-                />
-            </div>
             <div className={styles.friendscard}>
                 <FriendsCart data={props.data} blockedusers={props.blockedusers} status={props.status} setShow={props.setShow}/>
             </div>

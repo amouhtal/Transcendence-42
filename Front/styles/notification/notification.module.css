@@ -15,8 +15,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    gap: 50px;
     padding: 25px;
+    gap: 40px;
     overflow-y: scroll;
 }
 .Content::-webkit-scrollbar {
@@ -31,13 +31,14 @@
 {
     width: 98%;
     height: 120px;
-    background-color: transparent;
-    box-shadow: rgb(0, 98, 115) 0px 5px 15px;
+    background-color: #646c79db;
+    box-shadow: black 0px 0px 15px;
     display: flex;
     align-items: center;
     gap: 20px;
     border-radius: 15px;
     position: relative;
+    border: 2px solid rgba(255, 255, 255, 0.538);
 }
 .userInfo{
     height: 100px;
@@ -52,14 +53,14 @@
     font-family: monospace;
     font-size: 20px;
     font-weight: bolder;
-    color: rgb(77, 77, 77);
+    color: rgba(255, 255, 255, 0.714);
     overflow-wrap:break-word;
     width: 290px;
 
 }
 
 .textContent{
-    color: rgb(85, 85, 85);
+    color: rgba(255, 255, 255, 0.714);
     font-size: 17px;
     font-family: monospace;
     font-weight: bold;
@@ -67,15 +68,15 @@
 
 .sparet{
     height: 80px;
-    width: 1.5px;
-    background-color: rgb(26, 105, 119);
+    width: 3px;
+    background-color: #fb9039de;
 }
 .userimageOff{
     margin-left: 35px;
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    border: 5px solid rgb(205, 0, 0);
+    border: 5px solid rgba(255, 255, 255, 0.714);
 }
 
 .userimageON{
@@ -101,22 +102,74 @@
 .btn{
     width: 130px;
     height: 50px;
-    color: rgb(86, 86, 86);
+    color: #fb9039de;
     border-radius: 10px;
     border: none;
-    box-shadow: rgb(4, 121, 142) 0px 5px 15px;
+    box-shadow: #fb9039af 0px 0px 10px;
     font-family: monospace;
     font-size: 18px;
     font-weight: bolder;
     letter-spacing: 1px;
-    border: 1px solid rgb(26, 105, 119);
+    border: 1px solid #fb9039c6;
     cursor: pointer;
-    background-color: rgb(0, 187, 255);
+    background-color: #1F3044;
 }
 .btn:hover{
-    color: rgb(0, 187, 255);
-    background-color: rgb(86, 86, 86);
+    color: rgba(255, 255, 255, 0.714);
+    background-color: black;
+    box-shadow: rgba(255, 255, 255, 0.714) 0px 0px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.714);
 }
+
+/*------------------AlertNotification--------------------*/
+
+.AlertNotifcation{
+    width: 20%;
+    height: 130px;
+    background-color: rgba(237, 237, 237, 0.694);
+    position: absolute;
+    z-index: 1000000;
+    right: 4%;
+    animation-name: spain;
+    animation-duration: 3s;
+    display: flex;
+    align-items: center;
+    /* border: 1px solid gray; */
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.39);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+.AlertN{
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    margin-left: 10px;
+    align-items: center;
+}
+  
+@keyframes spain{
+    from{transform: translateY(-130px)}
+    to{transform: translateY(-1px);}
+}
+
+.imgAlert{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+}
+.textAlert{
+    font-size: 15px;
+    font-family: monospace;
+    color: gray;
+}
+.UserNameAlert{
+    font-size: 15px;
+    font-family: monospace;
+    width: 100px;
+    color: rgb(1, 92, 108);
+    font-weight: bolder;
+}
+/*---------------end Alert-------------------------------*/
 
 @media screen and (max-width: 1836px)
 {

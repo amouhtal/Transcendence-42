@@ -110,9 +110,11 @@ export default class gamePlayService
     }
 
     movingBall(player:string,ballStat:any, playersStat:any,sockets:any,intervals:any,watchers:any){
+        let watchers_
         let stats_Ball =  ballStat.find(element => element.player1 === player || element.player2 === player)
         let stats_player = playersStat.find(element => element.player1 === player || element.player2 === player)
-        let watchers_ = watchers.find(element => element.player1 == player || element.player2 == player).watchers
+        if(typeof watchers.find(element => element.player1 == player || element.player2 == player) != "undefined")
+            watchers_ = watchers.find(element => element.player1 == player || element.player2 == player).watchers
         var player1 : Socket[] = [];
 		var player2 : Socket[] = [];
         //hitting player 2 paddle

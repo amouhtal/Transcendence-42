@@ -28,7 +28,6 @@ const FriendsCart = (props:any) => {
                     <div className={styles.userCard} onClick={(e:any) => {props.setShow(false)}} key={Math.random()}>
                         <div className={styles.imgFriendsContainer}>
                             <img src={networking.src} width={60} height={60} className={styles.profileImage}/>
-                            <div className={e.isActive ? styles.friendsStatusOnline : styles.friendsStatusOffline}></div>
                         </div>
                         <div className={styles.userName}>
                             <p>{e.name}</p>

@@ -7,35 +7,33 @@ import accept from '../../public/images/usersImages/accept.png'
 import reject from '../../public/images/usersImages/reject.png'
 
 const CartNotification = (props: any) => {
-  props.socket?.on("notification", (data:any) =>{
-  })
-  const data = {    
-    type: 'Invitation'
-  }
+  console.log("props=",props)
   return (
     <div className={props.MyP ? style2.CartContainer : style.CartContainer}>
-      <Link href="/users/zakdim">
+      <Link href={`/users/${props.data?.senderName}`}>
         <div className={props.MyP ? style2.userInfo : style.userInfo}>
-          <img src={img.src} className={props.MyP ? style2.userimageOff : style.userimageOff}></img>
-          <p className={props.MyP ? style2.userName: style.userName}>zakaria</p>
+          <img src={props.PicSender?.picture} className={props.MyP ? style2.userimageOff : style.userimageOff}></img>
+          <p className={props.MyP ? style2.userName: style.userName}>{props.data?.senderName}</p>
         </div>
       </Link>
       <span className={props.MyP ? style2.sparet : style.sparet}></span>
       <div className={props.MyP ? style2.textContent : style.textContent}>
-        {data.type == 'game' ? <p>game game game game game game game game game game game game game </p> : data.type == 'message' ? <p>message' message' message' message' message' message' message'</p> :
-         data.type == 'joinGroub' ? <p>joinGroub joinGroub joinGroub joinGroub joinGroub</p> :  data.type == 'Invitation' && <p>Invitation Invitation Invitation Invitation Invitation Invitation</p>}
+        {props.data?.type == 'playe' ? <p> Invite You To Play a Game</p> : props.data?.type == 'message' ?
+        <p> Send You New Message </p> :
+        props.data?.type == 'joinGroub' ? <p> Add You to His Room</p> :  props.data?.type == 'invit' &&
+        <p> Send you a Friend Request </p>}
       </div>
       {
         !props.MyP ? <div className={style.allButton}>
-        { data.type == 'game' && <button className={style.btn}>Accept</button>}
-        { data.type == 'game' && <button className={style.btn}>Rejecte</button>}
-        {(data.type == 'message' || data.type == 'Invitation') && <button className={style.btn}>View</button>}
+        { props.data?.type == 'playe' && <button className={style.btn}>Accept</button>}
+        { props.data?.type == 'playe' && <button className={style.btn}>Rejecte</button>}
+        {(props.data?.type == 'message' || props.data?.type == 'invit') && <button className={style.btn}>View</button>}
         </div>
         : <div className={style2.allButton}>
-          {data.type == 'game' && <img src={accept.src} className={style2.icon}></img>}
-          {data.type == 'game' && <img src={reject.src} className={style2.icon}></img>}
-          {data.type == 'message' && <Link href={"/messages"}><button className={style2.btn}>View</button></Link>}
-          {data.type == 'Invitation' && <Link href={"/users/zakdim"}><button className={style2.btn}>View</button></Link>}
+          {props.data?.type == 'playe' && <img src={accept.src} className={style2.icon}></img>}
+          {props.data?.type == 'playe' && <img src={reject.src} className={style2.icon}></img>}
+          {props.data?.type == 'message' && <Link href={"/messages"}><button className={style2.btn}>View</button></Link>}
+          {props.data?.type == 'invit' && <Link href={`/users/${props.data.senderName}`}><button className={style2.btn}>View</button></Link>}
          </div>
       }
     </div>

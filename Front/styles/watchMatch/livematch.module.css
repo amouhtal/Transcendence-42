@@ -26,15 +26,15 @@
     letter-spacing: 2px;
     font-size: 17px;
     font-weight: bolder;
-    background: inherit;
+    background: #646C79;
     cursor: pointer;
     /* box-shadow: rgb(0, 98, 115) 0px 0.5px 10px; */
-    border: 2px solid rgba(0, 98, 115, 0.426);
-    color: rgb(87, 87, 87);
+    border: 2px solid rgba(255, 255, 255, 0.555);
+    color: #1F3044;
 }
 .Btn:hover{
-    color: rgb(0, 187, 255);
-    background-color: rgb(87, 87, 87);
+    color: #fb9039de;
+    background-color: #1F3044;
 }
 .childSclor{
     position: relative;

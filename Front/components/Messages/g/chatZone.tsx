@@ -21,6 +21,9 @@ import authorizedIMG from '../../../public/images/banned-sign.png'
 import { StyledProgress } from '@nextui-org/react';
 import { defaultConfig } from 'next/dist/server/config-shared';
 import { time } from 'console';
+import { Loading, Grid } from "@nextui-org/react";
+
+
 const GroupChatZone = (props:any) => {
     const router = useRouter();
     const dummy:any = useRef<any>();
@@ -40,9 +43,12 @@ const GroupChatZone = (props:any) => {
     const [showEnterPasswordForProtectedRoom, setshowEnterPasswordForProtectedRoom] = useState<boolean>(false);
     const [showWrongPassword, setshowWrongPassword] = useState<boolean>(false);
     const [NotFound, setNotFound] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [ConversationisLoading, setConversationisLoadingIsLoading] = useState<boolean>(false);
 
 	const _roomId : number = typeof window != "undefined" ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5].indexOf("?")) : 0;
     useEffect(() => {
+        setIsLoading(false);
         axios.post("http://localhost:3001/roomMessage/getConnversation",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
         ).then((res) => {
             setMessages(res.data)
@@ -52,6 +58,7 @@ const GroupChatZone = (props:any) => {
         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
         ).then((res) => {
             setGroupMembers(res.data);
+            setIsLoading(true);
         })
         // dummy.current.scrollIntoView();
         setuserInfo(false);
@@ -77,12 +84,12 @@ const GroupChatZone = (props:any) => {
             });
             })
     },[bannedUserUpdate])
-    useEffect (() => {
-        setInterval(() => {
-            axios.post("http://localhost:3001/roomBannedUsers/getMutedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+    useEffect ( () => {
+        setInterval(async () => {
+             axios.post("http://localhost:3001/roomBannedUsers/getMutedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
             .then((res) => {
                 setBannedUsers(res.data);
-                res.data?.map((e:any) => {
+                res.data?.map(async (e:any) => {
                     if (e.bannedUserName === props.user?.userName)
                     {
                         let newtest : any = new Date(res.data[0].unBanTime);
@@ -97,8 +104,8 @@ const GroupChatZone = (props:any) => {
                         }
                         if (newtest.getTime() - new Date().getTime() <= 0)
                         {
-                            axios.post("http://localhost:3001/roomBannedUsers/unbanUser",{userName: e.bannedUserName, roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
-                            axios.post("http://localhost:3001/roomBannedUsers/getMutedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                             axios.post("http://localhost:3001/roomBannedUsers/unbanUser",{userName: e.bannedUserName, roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                             axios.post("http://localhost:3001/roomBannedUsers/getMutedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
                             .then((res) => {
                                 setBannedUsers(res.data);
                             })
@@ -107,9 +114,7 @@ const GroupChatZone = (props:any) => {
                 })
             })
         }, 20000);
-    },[])
-    useEffect(() => {
-        axios.post("http://localhost:3001/chatRoom/getRoomById", {roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+         axios.post("http://localhost:3001/chatRoom/getRoomById", {roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
         .then((res) => {
             setThisRoomInfo(res.data);
         })
@@ -119,8 +124,8 @@ const GroupChatZone = (props:any) => {
     const [friends, setFriends] = useState<any>();
     const [color, setColor] = useState<string>(checkout);
     const [reciverId, setReciverId] = useState<any>();
-    const getUsersInfo = (_userName:string) => {
-        axios.post("http:///localhost:3001/users/profile",{userName: _userName},
+    const getUsersInfo = async (_userName:string) => {
+        await axios.post("http:///localhost:3001/users/profile",{userName: _userName},
             {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
             ).then((res) => {
                 setReciverId(res.data?.userInfo);
@@ -181,9 +186,9 @@ const GroupChatZone = (props:any) => {
         })
         return on;
     }
-    const CheckProtectedRoom = (e:any) => {
+    const CheckProtectedRoom = async (e:any) => {
         e.preventDefault();
-        axios.post("http://localhost:3001/chatRoom/checkPassword", {roomId: _roomId, password:e.target.RoomPassword.value}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+        await axios.post("http://localhost:3001/chatRoom/checkPassword", {roomId: _roomId, password:e.target.RoomPassword.value}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
         .then((res) => {
             if (res.data && thisRoomInfo.protected)
             {
@@ -208,52 +213,65 @@ const GroupChatZone = (props:any) => {
     }
         return (
         <>
-        <GroupsZone data={friends} status={props.status} show={showFriends} setShow={setShowFriends} socket={props.socket} setRoomOwnerUsername={setRoomOwnerUsername} user={props.user}/>
+        <GroupsZone status={props.status} show={showFriends} setShow={setShowFriends} socket={props.socket} setRoomOwnerUsername={setRoomOwnerUsername} user={props.user}/>
             <div className={thisRoomInfo !== null ? userInfo? styles.chatZone : styles.fullChatZone : styles.displaynone}>
-            <div className={styles.chatHeader}>
-                <img src={back.src} className={styles.showFriendsZone} onClick={(e:any) => {e.preventDefault(); setShowFriends(!showFriends)}}/>
-                <div className={styles.imgHeaderContainer}>
-                    <img src={networking.src} className={styles.img}/>
-                        <div className={reciverId?.isActive ? styles.HeaderStatusOnline : styles.HeaderStatusOffline}></div>
-                </div>
-                <p className={styles.fullName}>{router.query.name}</p>
-                <p className={inGroupMembers(props.user?.userName) ? !isBanned(props.user?.userName) ? styles.settings : styles.displaynone : styles.displaynone} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
-                <button className={inGroupMembers(props.user?.userName) ? styles.displaynone : styles.joinBtn} onClick={(e:any) => {
-                    if (!thisRoomInfo.protected)
-                    {
-                        props.socket?.emit("addUserToChannel",{users: [{userName: props.user?.userName}], roomId: _roomId});
-                        setUpdateRoomMambets(!updateRoomMembers);
-                    }
-                    else
-                        setshowEnterPasswordForProtectedRoom(!showEnterPasswordForProtectedRoom);
-                }}>Join {router.query.name}</button>
-                <form action="" className={showEnterPasswordForProtectedRoom ? styles.ChatRoomPass : styles.displaynone} onSubmit={CheckProtectedRoom}>
-                    <input type="password" name="Password" id="RoomPassword" placeholder={"Password..."} className={styles.roomPassword} />
-                    <input type="submit" value={"send"} name="apply" id="apply" className={styles.submitRoomPassword}/>
-                </form>
-                <p className={showEnterPasswordForProtectedRoom ? showWrongPassword ? styles.WrongRoomPassword : styles.displaynone : styles.displaynone}>Wrong Password !!</p>
-            </div>  
-                <div className={inGroupMembers(props.user?.userName) ? styles.chatMain : styles.chatMainBlured}>
-                    <div className={inGroupMembers(props.user?.userName) ?  styles.displaynone : styles.blackLayer}></div>
-                {messages?.map((e:any) => {
-                    e.time = e.time.replace('T', " ");e.time = e.time.replace ('Z', "");e.time = e.time.split('.')[0];
-                    const [userInfo] :any = getUserInfo(e.senderId);
-                    return (
-                        <div className={`${e.senderId === props.user?.userName ? styles.left : styles.right}`} id="lastMessage">
-                            <img src={userInfo?.picture} className={`${e?.senderId === props.user?.userName ? styles.imgRight: styles.imgLeft}  ${isBlocked(e.senderId) ? styles.blured : styles.notBlured}`} alt="" />
-                            <div id="container" className={`${e.senderId === props.user?.userName ? styles.messageSenderContainer : styles.messageReciverContainer}
-                        ${e.senderId === props.user?.userName ? color === 'black' ? styles.messageContainerBlack : 
-                        color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none
-                        : styles.gray}`}>
-                            <p className={`${styles.messageChatMain} ${isBlocked(e.senderId) ? styles.blured : styles.notBlured}`}>{e.message}</p>
-                            <p className={e.senderId === props.user?.userName ? styles.TimeRight : styles.TimeLeft}>{e.time}</p>
-                            <p className={`${isBlocked(e.senderId) ? styles.showIsBlockedTXT : styles.displayNone}`}>Blocked</p>
+                {
+                    isLoading ?
+                    <div className={styles.chatHeader}>
+                        <img src={back.src} className={styles.showFriendsZone} onClick={(e:any) => {e.preventDefault(); setShowFriends(!showFriends)}}/>
+                        <div className={styles.imgHeaderContainer}>
+                            <img src={networking.src} className={styles.img}/>
+                    </div>
+                    <p className={styles.fullName}>{router.query.name}</p>
+                    <p className={inGroupMembers(props.user?.userName) ? !isBanned(props.user?.userName) ? styles.settings : styles.displaynone : styles.displaynone} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
+                    <button className={inGroupMembers(props.user?.userName) ? styles.displaynone : styles.joinBtn} onClick={(e:any) => {
+                        if (!thisRoomInfo.protected){
+                            props.socket?.emit("addUserToChannel",{users: [{userName: props.user?.userName}], roomId: _roomId});
+                            setUpdateRoomMambets(!updateRoomMembers);
+                        }
+                        else
+                            setshowEnterPasswordForProtectedRoom(!showEnterPasswordForProtectedRoom);}}>Join {router.query.name}</button>
+                    <form action="" className={showEnterPasswordForProtectedRoom ? styles.ChatRoomPass : styles.displaynone} onSubmit={CheckProtectedRoom}>
+                        <input type="password" name="Password" id="RoomPassword" placeholder={"Password..."} className={styles.roomPassword} />
+                        <input type="submit" value={"send"} name="apply" id="apply" className={styles.submitRoomPassword}/>
+                    </form>
+                    <p className={showEnterPasswordForProtectedRoom ? showWrongPassword ? styles.WrongRoomPassword : styles.displaynone : styles.displaynone}>Wrong Password !!</p>
+                    </div>  
+                :
+                    <div className={styles.chatHeader}>
+                        <div className={styles.LoadingContainer}>
+                            <Grid><Loading type="gradient" /></Grid>
                         </div>
                     </div>
+                }
+                {
+                    isLoading ?
+                        <div className={inGroupMembers(props.user?.userName) ? styles.chatMain : styles.chatMainBlured}>
+                            <div className={inGroupMembers(props.user?.userName) ?  styles.displaynone : styles.blackLayer}></div>
+                                {messages?.map((e:any) => {
+                                    e.time = e.time.replace('T', " ");e.time = e.time.replace ('Z', "");e.time = e.time.split('.')[0];
+                                    const [userInfo] :any = getUserInfo(e.senderId);
+                                    return (
+                                        <div className={`${e.senderId === props.user?.userName ? styles.left : styles.right}`} id="lastMessage">
+                                            <img src={userInfo?.picture} className={`${e?.senderId === props.user?.userName ? styles.imgRight: styles.imgLeft}  ${isBlocked(e.senderId) ? styles.blured : styles.notBlured}`} alt="" />
+                                        <div id="container" className={`${e.senderId === props.user?.userName ? styles.messageSenderContainer : styles.messageReciverContainer} ${e.senderId === props.user?.userName ? color === 'black' ? styles.messageContainerBlack : 
+                                                color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none : styles.gray}`}>
+                                                <p className={`${styles.messageChatMain} ${isBlocked(e.senderId) ? styles.blured : styles.notBlured}`}>{e.message}</p>
+                                                <p className={e.senderId === props.user?.userName ? styles.TimeRight : styles.TimeLeft}>{e.time}</p>
+                                                <p className={`${isBlocked(e.senderId) ? styles.showIsBlockedTXT : styles.displayNone}`}>Blocked</p>
+                                        </div>
+                        </div>
                     )
                 })}                    
                     <div ref={dummy}></div>
                 </div>
+                    :
+                    <div className={styles.chatMain}>
+                        <div className={styles.LoadingContainer}>
+                            <Grid><Loading type="gradient" /></Grid>
+                        </div>
+                    </div>
+            }
                     <div className={styles.messagesZone}>
                     <form className={inGroupMembers(props.user?.userName) ? !isBanned(props.user?.userName) ? styles.formMessage : styles.displaynone : styles.displaynone} onSubmit={handelSubmit}>
                         <input type="text" name="" id="message" placeholder="Type a message here..." className={styles.message} />

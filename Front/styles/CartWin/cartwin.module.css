@@ -7,17 +7,18 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 0px;
 }
 
 .row {
-  background-color: black;
+  background-image: linear-gradient(288deg, #646C79 0%, #1F3044 100%);
   width: 500px;
   height: 700px;
   border-radius: 25px;
   display: flex;
   justify-content: center;
   margin-top: 150px;
+  box-shadow: 0px 0px 20px #1F3044;
+  border: 2px solid rgba(255, 255, 255, 0.477);
 }
 .winicon {
   width: 220px;
@@ -43,32 +44,55 @@
 
 .gameover {
   position: absolute;
-  top: 2%;
+  top: -2%;
   font-family: "Press Start 2P", cursive;
   font-size: 130px;
   font-weight: bolder;
 }
 
 .Pgame {
-  color: rgb(219, 2, 2);
-  text-shadow: -1px -1px 1px #efede3, 0px 1px 0 #5f0909, 0px 2px 0 #022262,
-    0px 3px 0 #021b73, 0px 4px 0 #024eab, 0px 5px 0 #024eab, 0px 6px 0 #024eab,
-    0px 7px 0 #024eab, 0px 8px 0 #024eab, 0px 9px 0 #024eab, 0px 10px 0 #024eab,
-    0px 11px 0 #024eab, 0px 12px 0 #024eab, 0px 13px 0 #024eab,
-    0px 14px 0 #024eab, 0px 15px 0 #024eab, 2px 20px 5px rgba(0, 0, 0, 0.9),
-    5px 23px 5px rgba(0, 0, 0, 0.3), 8px 27px 8px rgba(0, 0, 0, 0.5),
-    8px 28px 35px rgba(0, 0, 0, 0.9);
+  text-transform: uppercase;
+  font-family: verdana;
+  font-size: 150px;
+  font-weight: 700;
+  color: #646C79;
+  text-shadow: 1px 1px 1px #919191,
+      1px 2px 1px #919191,
+      1px 3px 1px #919191,
+      1px 4px 1px #919191,
+      1px 5px 1px #919191,
+      1px 6px 1px #919191,
+      1px 7px 1px #919191,
+      1px 8px 1px #919191,
+      1px 9px 1px #919191,
+      1px 10px 1px #919191,
+  1px 18px 6px rgba(16,16,16,0.4),
+  1px 22px 10px rgba(16,16,16,0.2),
+  1px 25px 35px rgba(16,16,16,0.2),
+  1px 30px 60px rgba(16,16,16,0.4);
 }
 
 .spanover {
-  color: rgb(0, 103, 214);
-  text-shadow: -1px -1px 1px #efede3, 0px 1px 0 #380101, 0px 2px 0 #3a0202,
-    0px 3px 0 #580000, 0px 4px 0 #900202, 0px 5px 0 #900202, 0px 6px 0 #900202,
-    0px 7px 0 #900202, 0px 8px 0 #900202, 0px 9px 0 #900202, 0px 10px 0 #900202,
-    0px 11px 0 #900202, 0px 12px 0 #900202, 0px 13px 0 #900202,
-    0px 14px 0 #900202, 0px 15px 0 #900202, 2px 20px 5px rgba(0, 0, 0, 0.9),
-    5px 23px 5px rgba(0, 0, 0, 0.3), 8px 27px 8px rgba(0, 0, 0, 0.5),
-    8px 28px 35px rgba(0, 0, 0, 0.9);
+  text-transform: uppercase;
+  font-family: verdana;
+  font-size: 150px;
+  font-weight: 700;
+  color: #1f3044ba;
+  text-shadow: 1px 1px 1px #919191,
+      1px 2px 1px #919191,
+      1px 3px 1px #919191,
+      1px 4px 1px #919191,
+      1px 5px 1px #919191,
+      1px 6px 1px #919191,
+      1px 7px 1px #919191,
+      1px 8px 1px #919191,
+      1px 9px 1px #919191,
+      1px 10px 1px #919191,
+  1px 18px 6px rgba(16,16,16,0.4),
+  1px 22px 10px rgba(16,16,16,0.2),
+  1px 25px 35px rgba(16,16,16,0.2),
+  1px 30px 60px rgba(16,16,16,0.4);
+
 }
 
 /* font-family: 'Fontdiner Swanky', cursive;
@@ -100,18 +124,20 @@ font-family: 'Trade Winds', cursive; */
   text-align: center;
 }
 .Congra {
-  color: white;
+  color: rgba(255, 255, 255, 0.679);
   font-size: 17px;
-  font-family: "Trade Winds", cursive;
+  font-family: monospace;
   font-weight: bolder;
   text-align: center;
 }
 .scor {
-  color: white;
-  font-family: "Shojumaru", cursive;
+  color: rgba(255, 255, 255, 0.679);
+  font-family: monospace;
+  font-weight: bolder;
+  font-size: 18px;
 }
 .youwin {
-  color: #c1a100;
+  color: #fb9039;
   font-family: "Press Start 2P", cursive;
   text-align: center;
   margin-top: 50px;
@@ -120,20 +146,22 @@ font-family: 'Trade Winds', cursive; */
 }
 
 .btn{
+  background-image: linear-gradient(280deg, rgba(0, 0, 0, 0.689) 0%, #646c799c 100%);
   width: 35%;
   height: 43px;
-  color: black;
+  color: rgba(255, 255, 255, 0.664);
   letter-spacing: 2px;
   font-size: 15px;
   font-family: 'Press Start 2P', cursive;
-  margin-left: 30%;
+  margin-left: 32%;
   border-radius: 10px;
   border: none;
   cursor: pointer;
+  box-shadow: 0px 0px 10px #1F3044;
 }
 .btn:hover{
-  color: #c1a100;
-  background-color: #900202;
+  color: #fb9039;
+  background-color: black;
 }
 
 @media screen and (max-width:1202px)

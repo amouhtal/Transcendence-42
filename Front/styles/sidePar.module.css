@@ -7,7 +7,7 @@
     flex-direction:column;
     width: 100px;
     height: 100%;
-    background-color: rgba(128, 128, 128, 0.15);
+    background-color: #646C79;
     align-items: center;
     min-width: 70px;
     z-index: 1;
@@ -24,7 +24,7 @@
     flex-direction:column;
     width: 100px;
     height: 100%;
-    background-color: rgba(128, 128, 128, 0.15);
+    background-color: #646C79;
     align-items: center;
     min-width: 70px;
     backdrop-filter: blur(2px);
@@ -96,7 +96,7 @@
     margin-bottom: 10%;
     margin-bottom: 40px;
     width: 50px;
-    /* background-color: red; */
+    /* background-color: #fb9039b3; */
     border-radius: 50%;
     cursor: pointer;
     transition: 0.3s;

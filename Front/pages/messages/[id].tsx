@@ -10,6 +10,8 @@ import UserInfo from '../../components/Messages/UserInfo';
 // const socket = io("10.12.11.5:3000",{transports:['websocket']});
 import ChatZone from '../../components/Messages/chatZone';
 import axios from 'axios';
+import { Loading, Grid } from "@nextui-org/react";
+
 const Messages = (props:any) => {
     const [Status ,setStatus] = useState<boolean>(false);
     const router = useRouter();
@@ -17,10 +19,11 @@ const Messages = (props:any) => {
     const [blockedUsers, setBlockedUsers] = useState<any>([]);
     const [isBlocked, setisBlocked] = useState<boolean>(false);
 	const [updateIsBlocked, setUpdateIsBlocked] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	const userNameFromUrl: string = typeof window != "undefined" ? window.location.href.split("/")[4] : "";
 	console.log("userNameFrom Url=",userNameFromUrl,"id==",router.query.id);
-
+    
     useEffect(() => {
         const response: any = axios
           .post(
@@ -42,9 +45,7 @@ const Messages = (props:any) => {
                 router.push({pathname :`/errorPage/${error.response.status}`})
             }
         })
-      }, []);
 
-      useEffect(() => {
         axios
           .get(
             `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/block`,
@@ -59,28 +60,39 @@ const Messages = (props:any) => {
           .then((res) => {
             setBlockedUsers(res.data);
             console.log("BlockedUsers=",res.data);
-			res.data.map((e:any) => {
-				if (e.userName === userNameFromUrl)
-					setisBlocked(true);
-		  })
-          }).catch(function (error){
-            if (error.response){
-                router.push({pathname :`/errorPage/${error.response.status}`})
-            }
-        });
-
-      }, [updateIsBlocked]);
+		    	  res.data.map((e:any) => {
+				    if (e.userName === userNameFromUrl)
+					    setisBlocked(true);
+					})
+					setIsLoading(false);
+				})
+				.catch(function (error){
+					if (error.response){
+						router.push({pathname :`/errorPage/${error.response.status}`})
+					}
+				});
+				
+      }, []);
     var test:boolean = true;
 
     useEffect(() => {
 
     }, [])
     return (
-        <div className={styles.globaleContainer}>
-            <div className={styles.bcontainer}>
-                <ChatZone status={Status} socket={props.socket} user={userInfo} blockedusers={blockedUsers} isBlocked={isBlocked}/>
-            </div>
-        </div>
+		<>
+			<div className={styles.globaleContainer}>
+		{
+			isLoading ?
+				<div className={styles.LoadingContainer}>
+					<Grid><Loading type="gradient" /></Grid>
+				</div>
+				:
+            	<div className={styles.bcontainer}>
+                	<ChatZone status={Status} socket={props.socket} user={userInfo} blockedusers={blockedUsers} isBlocked={isBlocked}/>
+            	</div>
+		}
+        	</div>
+		</>
     );
 }
 

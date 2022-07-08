@@ -17,6 +17,7 @@ import padlock from '../../../public/images/padlock.png'
 import show from '../../../public/images/show.png'
 import hidden from '../../../public/images/hidden.png'
 import networking from '../../../public/images/teamwork.png'
+import { Loading, Grid } from "@nextui-org/react";
 
 /*
     -Private UseState : sheck If the room is Private or public : show or not show the room;
@@ -37,9 +38,9 @@ const FriendsZone = (props:any) => {
     const [PublicGroupsInfo, setPublicGroupsInfo] = useState<any>();
     const [PrivateGroupsInfo, setPrivateGroupsInfo] = useState<any>();
     const [getRoomsUpdate, setGetRoomsUpdate] = useState<boolean>(false);
-
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     useEffect(() => {
-        axios.get("http://localhost:3001/chatRoom/getAllRooms",
+         axios.get("http://localhost:3001/chatRoom/getAllRooms",
         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
         ).then((res) => {
             setPublicGroupsInfo(res.data.public);
@@ -56,10 +57,11 @@ const FriendsZone = (props:any) => {
                 setPrivateGroupsInfo(PrivateGroup);
                 on = false;
             })
+            setIsLoading(true);
         })
     },[router.query.id,getRoomsUpdate,router.query.name])
-    useEffect(() => {
-		axios
+    useEffect( () => {
+		 axios
 		  .get(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/all`, {
 			headers: {
 			  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -74,7 +76,8 @@ const FriendsZone = (props:any) => {
         setGroupName(e.target.value);
     }
     return (
-        <div className={props.show ? styles.friendListshow : styles.friendListDontshow}>
+        <>
+            <div className={props.show ? styles.friendListshow : styles.friendListDontshow}>
             <div className={styles.searchBar}>
                 <form action="">
                     <input type="search" name="" id="" className={styles.search} placeholder="Enter for search..."/>
@@ -93,7 +96,7 @@ const FriendsZone = (props:any) => {
                     setProtected(false);
                     setChoosenUsers([]);
                     setGetRoomsUpdate(!getRoomsUpdate);
-                    }}>Create</button>
+                }}>Create</button>
                 <button className={styles.btn_cancel} onClick={(e:any) => {e.preventDefault();setCreatNewGrp(!CreatNewGrp);setChoosenUsers([])}}>Cancel</button>
                 <form action="" className={styles.groupForm}>
                     <input type="text" placeholder="Group name" className={styles.groupName} onChange={handelNameCange}/>
@@ -125,11 +128,19 @@ const FriendsZone = (props:any) => {
                     <UsersCart data={usersData} setChoosenUsers={setChoosenUsers} usersChoosen={usersChoosen} update={update} setUpdate={setUpdate}/>
                 </div>
             </div>
-            <div className={styles.friendscard}>
-                <GroupsCart data={PublicGroupsInfo} PrivateData={PrivateGroupsInfo} status={props.status} setShow={props.setShow} setRoomOwnerUsername={props.setRoomOwnerUsername}/>
-            </div>
+            {
+                isLoading ?
+                <div className={styles.friendscard}>
+                    <GroupsCart data={PublicGroupsInfo} PrivateData={PrivateGroupsInfo} setShow={props.setShow} setRoomOwnerUsername={props.setRoomOwnerUsername}/>
+                </div>
+                :
+                <div className={styles.friendscard}>
+                    <Grid><Loading type="gradient" /></Grid>
+                </div>
+            }
         </div>
-    );
+        </>
+        );
 }
 
 export default FriendsZone;

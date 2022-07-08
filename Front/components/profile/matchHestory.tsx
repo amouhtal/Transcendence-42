@@ -5,7 +5,6 @@ import { useState } from "react";
 
 function MatchHestory(props: any) {
   console.log(props.gameHistory);
-  const [History, setHistory] = useState<any>(props.gameHistory);
   return (
     <div className={style.Container}>
       <p className={style.matchHestory}> Match History</p>

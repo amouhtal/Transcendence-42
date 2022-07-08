@@ -4,15 +4,6 @@ import Login from '../../components/login/Login'
 
 const login = () => {
     const router = useRouter();
-		if (typeof window != "undefined" && localStorage.getItem("accessToken") !== null && localStorage.getItem("accessToken") !== "undefined" && localStorage.getItem("accessToken") !== '')
-        {
-            // router.push("/home");
-            return (
-                <div>
-
-                </div>
-            )
-        }
     return (
         <div>
             <Login />

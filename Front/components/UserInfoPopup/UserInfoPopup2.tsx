@@ -1,12 +1,10 @@
 import style from "../../styles/addUser.module.css";
 import { useState, useRef, useEffect } from "react";
-import imagee from "../../public/images/profile.jpg";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { update_test } from "../../redux/sizes";
-import ErrorType from "../AllError/ErrorType";
-
+import Link from "next/link";
 const CinFormation2 = (props: any) => {
   const [valid, setValid] = useState<number>(0);
   const [image, setImage] = useState<any>();
@@ -19,12 +17,6 @@ const CinFormation2 = (props: any) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (
-        localStorage.getItem("accessToken") === null ||
-        localStorage.getItem("accessToken") === "undefined" ||
-        localStorage.getItem("accessToken") === ""
-      )
         axios
           .post(
             `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/profile`,
@@ -39,13 +31,13 @@ const CinFormation2 = (props: any) => {
           )
           .then((res) => {
             setUserInfo(res.data.userInfo);
+            console.log("pictureUrl=",res.data.userInfo.picture)
           })
           .catch(function (error) {
             if (error.response) {
               router.push({pathname :`/errorPage/${error.response.status}`})
             }
           });
-    }
   }, []);
 
   const handelChange = (e: any) => {
@@ -109,7 +101,38 @@ const CinFormation2 = (props: any) => {
     e.preventDefault();
     dispatch(update_test());
     const data = new FormData();
+    const dataUserName = {userName};
     data.append("image", file[0]);
+    axios
+    .post(
+      `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/complet`,
+      dataUserName,
+      {
+        headers: {
+          Authorization: `Bearer ${
+            localStorage.getItem("accessToken") as string
+          }`,
+        },
+      }
+      )
+      .then((res) => {
+        props.setUpdate(!props.update);
+        if (
+          res.data.message &&
+          (res.data.message == "valid username" ||
+          res.data.message == "Already have a username")
+          ) {
+            props.setUpdate(!props.update);
+          } else if (res.data.message) alert(res.data.message);
+        })
+        .catch(function (error) {
+          if (error.response) {
+            router.push({pathname :`/errorPage/${error.response.status}`})
+          }
+          props.setPopup(!props.Popup);
+    });
+
+
     axios
       .post(
         `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/upload`,
@@ -148,7 +171,7 @@ const CinFormation2 = (props: any) => {
               <div className={style.imge}>
                 <img
                   className={style.img}
-                  src={image !== undefined ? image : userInfo?.picture}
+                  src={image !== "undefined" ? image :  userInfo?.picture}
                 ></img>
               </div>
               <div className={style.child}>
@@ -199,6 +222,7 @@ const CinFormation2 = (props: any) => {
             </button>
           </form>
         </div>
+          <Link href={'/twofactor'}><button className={style.ActiveAuth}>ActiveAuth...</button></Link>
       </div>
     </>
   );

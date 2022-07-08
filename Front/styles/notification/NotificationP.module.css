@@ -5,16 +5,17 @@
     height: 100px;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 30px;
     border-radius: 20px;
     position: relative;
-    background-image: url('../../public/images/cool.png');
-    background-repeat: no-repeat;
-    object-fit: fill;
+    /* background-image: url('../../public/images/cool.png'); */
+    /* background-repeat: no-repeat; */
+    /* object-fit: fill; */
+    background-color: #1f3044a5;
 }
 .userInfo{
     height: 100px;
-    width: 158px;
+    width: 200px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -29,12 +30,11 @@
     font-family: monospace;
     font-size: 17px;
     font-weight: bolder;
-    color: rgba(0, 0, 0, 0.55);
-
+    color: rgba(255, 255, 255, 0.714);
 }
 
 .textContent{
-    color: rgba(0, 0, 0, 0.55);
+    color: rgba(255, 255, 255, 0.714);
 
     font-size: 14px;
     font-family: monospace;
@@ -45,14 +45,14 @@
 .sparet{
     height: 80px;
     width: 1.6px;
-    background-color: rgb(26, 105, 119);
+    background-color: #fb9039de;
 }
 .userimageOff{
     margin-left: 20px;
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    border: 3px solid rgb(205, 0, 0);
+    border: 3px solid rgba(255, 255, 255, 0.714);
 }
 
 .userimageON{
@@ -81,17 +81,18 @@
     color: rgba(0, 0, 0, 0.55);
     border-radius: 10px;
     border: none;
-    box-shadow: rgb(4, 121, 142) 0px 0.5px 10px;
+    box-shadow: rgba(0, 0, 0, 0.55) 0px 0.5px 10px;
     font-family: monospace;
     font-size: 18px;
     font-weight: bolder;
     /* border: 1px solid rgb(26, 105, 119); */
     cursor: pointer;
-    background-color: #3bb1f7;
-    background-image: linear-gradient(288deg, #3bb1f7 0%, #80d0c7 100%);
+    background-color: black;
+    background-image: linear-gradient(288deg, #fb9039de 0%, #fb903997 100%);
 }
 .btn:hover{
-    box-shadow: 0px 0px 20px white;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.714);
+    color: rgba(255, 255, 255, 0.714);
 }
 
 @media screen and (max-width: 1979px)

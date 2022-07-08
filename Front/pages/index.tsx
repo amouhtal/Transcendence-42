@@ -1,21 +1,26 @@
 import Router, { useRouter } from "next/router"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { Loading, Grid } from "@nextui-org/react";
+import styles from '../styles/messages/ChatZone.module.css'
 
 function Home (){
     const route = useRouter();
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     useEffect(() => {
-        if (typeof window !== "undefined") {
-            if (route.query.token !== "undefined" && route.query.refreshToken !== "undefined")
-            {
-                localStorage.setItem("accessToken",route.query.token as string);
-                localStorage.setItem("refreshToken",route.query.refreshToken as string);
-            }
-        }
-    },[route.query.token])
+        route.push("/home");
+    },[])
     return (
-        <div>
-            {/* {route.push('/profile')}; */}
-        </div>
+        <>
+        {
+            isLoading ?
+            <div className={styles.LoadingContainer}>
+                <Grid><Loading type="points" /></Grid>
+            </div>
+            :
+            <div>
+            </div>
+        }
+        </>
     )
 }
 
