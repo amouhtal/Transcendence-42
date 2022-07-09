@@ -8,8 +8,8 @@ const TokenContextProvider = (props: any) => {
     const [refreshToken, setRefreshToken] = useState<string>("");
     const [accessToken, setAcessToken] = useState<string>("");
     useEffect(() => {
-        setRefreshToken(document.cookie.split("accessToken")[0].split("refreshToken")[1].split("%22")[2]);
-        setAcessToken(document.cookie.split("accessToken")[1].split("%22")[2]);
+        setRefreshToken(document.cookie?.split("accessToken")[0]?.split("refreshToken")[1]?.split("%22")[2]);
+        setAcessToken(document.cookie?.split("accessToken")[1]?.split("%22")[2]);
     })
 
     console.log("refreshTokenA=", refreshToken, "\naccessTokenA=",accessToken)

@@ -111,7 +111,6 @@ const Messages = (props:any) => {
         console.log("isInGroup", isGroupMember);
         return isGroupMember;
     }
-    console.log("MMMMMOOOOKK=",administrators);
     return (
         <div className={styles.globaleContainer}>
                 <div className={styles.bcontainer}>
