@@ -165,6 +165,24 @@
   background-color: #d1dbdc;
 }
 
+.ActiveAuth {
+  width: 80px;
+  font-size: 17px;
+  font-weight: bolder;
+  height: 30px;
+  position: relative;
+  left: 50px;
+  bottom: 10px;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  background-color: black;
+  color: white;
+  border: 1.5px solid cyan;
+  box-shadow: 0px 0px 10px chartreuse;
+  cursor: pointer;
+
+}
 @media screen and (max-width: 2133px) {
   .form {
     width: 100%;

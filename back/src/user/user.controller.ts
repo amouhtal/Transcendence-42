@@ -129,7 +129,7 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   userUser(@Body() userData: UserDto) {
-    // console.log(userData);
+    // //console.logog(userData);
     this.userService.InsertUser(userData);
   }
 

@@ -65,3 +65,6 @@
 .iframe {
     position:absolute;
 }
+.ActiveAuth {
+    width: 50px;
+}

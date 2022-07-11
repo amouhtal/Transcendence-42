@@ -7,7 +7,7 @@ import accept from '../../public/images/usersImages/accept.png'
 import reject from '../../public/images/usersImages/reject.png'
 
 const CartNotification = (props: any) => {
-  console.log("props=",props)
+  //console.log("props=",props)
   return (
     <div className={props.MyP ? style2.CartContainer : style.CartContainer}>
       <Link href={`/users/${props.data?.senderName}`}>

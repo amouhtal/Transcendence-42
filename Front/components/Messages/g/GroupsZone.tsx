@@ -38,10 +38,9 @@ const FriendsZone = (props:any) => {
     const [PublicGroupsInfo, setPublicGroupsInfo] = useState<any>();
     const [PrivateGroupsInfo, setPrivateGroupsInfo] = useState<any>();
     const [getRoomsUpdate, setGetRoomsUpdate] = useState<boolean>(false);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     useEffect(() => {
-         axios.get("http://localhost:3001/chatRoom/getAllRooms",
-        {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
+         axios.get("http://localhost:3001/chatRoom/getAllRooms",{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
         ).then((res) => {
             setPublicGroupsInfo(res.data.public);
             setPrivateGroupsInfo(res.data.private);
@@ -57,7 +56,7 @@ const FriendsZone = (props:any) => {
                 setPrivateGroupsInfo(PrivateGroup);
                 on = false;
             })
-            setIsLoading(true);
+            setIsLoading(false);
         })
     },[router.query.id,getRoomsUpdate,router.query.name])
     useEffect( () => {
@@ -131,11 +130,11 @@ const FriendsZone = (props:any) => {
             {
                 isLoading ?
                 <div className={styles.friendscard}>
-                    <GroupsCart data={PublicGroupsInfo} PrivateData={PrivateGroupsInfo} setShow={props.setShow} setRoomOwnerUsername={props.setRoomOwnerUsername}/>
+                    <Grid><Loading type="gradient" /></Grid>
                 </div>
                 :
                 <div className={styles.friendscard}>
-                    <Grid><Loading type="gradient" /></Grid>
+                    <GroupsCart data={PublicGroupsInfo} PrivateData={PrivateGroupsInfo} setShow={props.setShow} setRoomOwnerUsername={props.setRoomOwnerUsername}/>
                 </div>
             }
         </div>

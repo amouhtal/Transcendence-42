@@ -58,7 +58,7 @@ export class UserService {
           .select('Games.winner_user').addSelect('Games.loser_user').addSelect('Games.Score').addSelect('Games.played_at')
           .from(Games, "Games").where("Games.winner_user= :value or Games.loser_user=:value", {value: "test_username3"}).getMany();
           
-          console.log("=>", userff);
+          //console.logogogog("=>", userff);
         const bothUsers = new Array()  
 
         userff.forEach(element => {
@@ -124,7 +124,7 @@ export class UserService {
       // .select(['Users.userName'], ['Users.email'])
       // .where('Users.email = :email', { email: tokenInfo.userId })
       // .getOne();
-      console.log("mail : ", user);
+      //console.logogogog("mail : ", user);
 
     if (user) return user;
   }
@@ -152,7 +152,7 @@ export class UserService {
 
 // public async create(user : User) {
 //     const newUser = await this.usersRepository.create(user);
-//     // console.log(await this.usersRepository.save(user));
+//     // //console.logogogog(await this.usersRepository.save(user));
 //     await this.usersRepository.save(newUser);
 
 //     return newUser;

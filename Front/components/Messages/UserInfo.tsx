@@ -9,6 +9,7 @@ import Link from 'next/link';
 import back from '../../public/images/left.png'
 import { useEffect, useState } from 'react';
 import messages from '../../pages/messages';
+import bruch from '../../public/images/brush.png'
 
 const UserInfo = (props: any) => {
 	const [search, setSearch] = useState<boolean>(false);
@@ -28,42 +29,34 @@ const UserInfo = (props: any) => {
 			<img src={back.src} className={styles.showFriendsZone} onClick={(e:any) => {e.preventDefault(); props.setDisplay(!props.display)}}/>
 				<div className={search? styles.searchBox : styles.non} onClick={(e:any) => {setSearch(!search)}}>
 				</div>
+				<Link href={`/users/${props.data?.userName}`}>
         	    <div className={styles.imgContainer}>
         	        <img src={props.data?.picture} alt="" className={styles.userInfoImg}/>
         	        <div className={props.status? styles.UserInfoZoneOnline : styles.UserInfoZoneOffline}></div>
         	    </div>
+				</Link>
         	    <div className={styles.userInfoName}>
         	        <p>{props.data?.userName}</p>
         	    </div>
-        	    <div className={styles.profileIconContainer}>
-        	        <Link href={`/users/${props?.data?.userName}`}>
-        	            <img src={profileIcon.src} alt="" className={styles.profileIcon}/>
-        	        </Link>
-        	        <p>Profile</p>
-        	    </div>
-        	    <div className={styles.CostumizationContainer}>
-        	        <div className={theme ? styles.showThemes : styles.ChangeTheme} onClick={(e:any)=> {setTheme(!theme)}}>
+        	    <div className={styles.CostumizationContainer} onClick={(e:any)=> {setTheme(!theme)}}>
+        	        {/* <div className={theme ? styles.showThemes : styles.ChangeTheme} >
 						<div className={theme ? styles.showThemesColors : styles.none}>
 							<p className={styles.blackColor} onClick={(e:any) => {props.color("black")}}></p>
 							<p className={styles.pinkColor} onClick={(e:any) => {props.color("pink")}}></p>
 							<p className={styles.greenColor} onClick={(e:any) => {props.color("green")}}></p>
 							<p className={styles.blueColor} onClick={(e:any) => {props.color("blue")}}></p>
-						</div>
-        	            <img src={themeIcon.src} alt="" className={styles.themeIcon}/>
+						</div> */}
+        	            <img src={bruch.src} alt="" className={styles.blockImage}/>
         	            <p>Theme</p>
-        	        </div>
+        	        {/* </div> */}
         	    </div>
-        	    <div className={styles.SearchInMessages}>
-        	        <div className={styles.search} onClick={(e:any) => {setSearch(!search)}}>
+        	    <div className={styles.SearchInMessages} onClick={(e:any) => {setSearch(!search)}}>
         	            <FiSearch className={styles.SearchIcon}/>
         	            <p>Search in conversation</p>
-        	        </div>
         	    </div>
         	    <div className={styles.BlockContainer}>
-        	        <div className={styles.block}>
         	            <img src={block.src} alt="" className={styles.blockImage}/>
         	            <p>Block</p>
-        	        </div>
         	    </div>
 			</div>
 		</>

@@ -43,7 +43,7 @@ export class roomMessageController {
 	{
 		const jwt = request.headers.authorization.replace('Bearer ', '');
 		const tokenInfo : any = this.jwtService.decode(jwt);
-		console.log("RoomId=",roomId.roomId);
+		// console.log("RoomId=",roomId.roomId);
 
 		let conv : any = await  this.RoomService.getRoomMessages(roomId.roomId);
 		return conv
@@ -52,7 +52,7 @@ export class roomMessageController {
 	@UseGuards(JwtAuthGuard)
 	async getLastMessage (@Body() roomId : any, @Req() request: Request ) 
 	{
-		console.log("RoomId=",roomId.roomId);
+		// console.log("RoomId=",roomId.roomId);
 
 		let conv : any = await  this.RoomService.getRoomMessages(roomId.roomId);
 		return conv[conv.length - 1]

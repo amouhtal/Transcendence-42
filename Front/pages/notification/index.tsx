@@ -65,7 +65,7 @@ const Notification = (props:any) => {
             }
         ).then((res) =>{
             setNotification(res.data);
-            console.log("response=", res.data)
+            // console.log("response=", res.data)
         }).catch(function (error){
             if (error.response){
                 router.push({pathname :`/errorPage/${error.response.status}`})

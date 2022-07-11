@@ -121,12 +121,14 @@
 }
 
 .LoadingContainer {
-    background-color: red;
+    /* background-color: red; */
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
+    width: calc(100% - 100px);
     height: 100%;
+    position: absolute;
+    right: 0;
 }
 @media screen and (max-width: 1446px)
 {

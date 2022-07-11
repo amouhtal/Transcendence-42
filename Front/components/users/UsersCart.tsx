@@ -13,11 +13,14 @@ import accept from "../../public/images/usersImages/accept.png";
 import reject from "../../public/images/usersImages/reject.png";
 import users from "../../pages/users";
 import ErrorType from "../AllError/ErrorType";
+import { Loading, Grid } from "@nextui-org/react";
 
 const UsersCart = (props: any) => {
   const [myData, setData] = useState<any>(props.data);
   const router = useRouter();
   const [status, setStatus] = useState<boolean>(false);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
     setData(props.data);
   });
@@ -45,49 +48,48 @@ const UsersCart = (props: any) => {
   let checkFriends: boolean;
   let checkInviteRecive: boolean;
   let checkInviteSend: boolean;
+  const isActive = (userName: string) => {
+    console.log("inIsActive=",userName)
+	const [userStatus, setUserStatus] = useState<boolean>(false);
+    axios.post(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/profile`,{userName: userName},
+    {headers: {Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`,},})
+    .then((res) => {
+      setUserStatus(res.data.userInfo.isActive);
+	  setIsLoading(false);
+    })
+    .catch(function (error) {
+      if (error.response) {
+        router.push({pathname :`/errorPage/${error.response.status}`})
+      }
+    });
+    return userStatus;
+  }
   return (
     <>
       {props.data?.map((e: any | any[]) => {
-        if (typeof window !== "undefined") {
-          if (
-            localStorage.getItem("accessToken") === null ||
-            localStorage.getItem("accessToken") === "undefined" ||
-            localStorage.getItem("accessToken") === ""
-          )
-            axios
-              .post(
-                `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/profile`,
-                { userName: e.userName },
-                {
-                  headers: {
-                    Authorization: `Bearer ${
-                      localStorage.getItem("accessToken") as string
-                    }`,
-                  },
-                }
-              )
-              .then((res) => {
-                setStatus(res.data.isActive);
-              })
-              .catch(function (error) {
-                if (error.response) {
-                  router.push({pathname :`/errorPage/${error.response.status}`})
-                }
-              });
-        }
+        let userStatus: boolean = isActive(e.userName);
+        console.log(e.userName," ,userStatus=",userStatus);
         return (
           <div className={styles.userCard} key={Math.random()}>
-            <div className={`${styles.imgContainer}`}>
-              <Link href={`/users/${e.userName}`} key={Math.random()}>
-                <img
-                  src={e.picture}
-                  width={80}
-                  height={80}
-                  className={`${styles.profileImage} ${
-                    status ? styles.userStatusOn : styles.userStatusOff
-                  }`}
-                />
+
+			<div className={`${styles.imgContainer}`}>
+			  {
+				  isLoading ?
+				  	<div className={styles.LoadingContainer}>
+		  				<Grid><Loading type="points" /></Grid>
+	 				</div>
+			 	:
+              	<Link href={`/users/${e.userName}`} key={Math.random()}>
+                	<img
+                  	src={e.picture}
+                  	width={80}
+                  	height={80}
+                  	className={`${styles.profileImage} ${
+					  userStatus ? styles.userStatusOn : styles.userStatusOff
+					}`}
+					/>
               </Link>
+				}
             </div>
             <div className={styles.userName}>
               <p>{e.userName}</p>
@@ -103,6 +105,8 @@ const UsersCart = (props: any) => {
                 className={
                   props.inBlock
                     ? styles.none
+					: e.userName === props.user?.userName
+					? styles.none
                     : checkInviteRecive
                     ? styles.none
                     : checkInviteSend
@@ -212,7 +216,7 @@ const UsersCart = (props: any) => {
                 <img
                   src={chatting.src}
                   alt="chat"
-                  className={props.inBlock ? styles.none : styles.chattingIcon}
+                  className={props.inBlock ? styles.none : e.userName === props.user?.userName ? styles.none : styles.chattingIcon}
                 />
               </Link>
               <img
@@ -225,15 +229,7 @@ const UsersCart = (props: any) => {
                   axios
                     .post(
                       `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/unblock`,
-                      data,
-                      {
-                        headers: {
-                          Authorization: `Bearer ${localStorage.getItem(
-                            "accessToken"
-                          )}`,
-                        },
-                      }
-                    )
+                      data,{headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`,},})
                     .catch(function (error) {
                       if (error.response) {
                         router.push({pathname :`/errorPage/${error.response.status}`})

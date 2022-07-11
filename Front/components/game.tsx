@@ -85,7 +85,7 @@ export default function Game(props: any) {
 
   if (typeof window != "undefined")
     useEffect(() => {
-          console.log(Settings.ballSize)
+          //console.logogog(Settings.ballSize)
           var changePerc1 =
           (position.current.y2 * 100) / size.current.canvaHeight - 100;
         var changePerc2 =
@@ -134,7 +134,7 @@ export default function Game(props: any) {
           }));
           changePlayer1((oldValue) => ({ ...oldValue, y: newPosition2 }));
           changeBall({ x: newPosition.x, y: newPosition.y });
-          console.log(newPosition.x, newPosition.y);
+          //console.logogog(newPosition.x, newPosition.y);
           resizeOneTime.current = 1;
         } else if (
           resizeOneTime.current != 2 &&
@@ -155,7 +155,7 @@ export default function Game(props: any) {
           }));
           changePlayer1((oldValue) => ({ ...oldValue, y: newPosition2 }));
           changeBall({ x: newPosition.x, y: newPosition.y });
-          console.log(newPosition.x, newPosition.y);
+          //console.logogog(newPosition.x, newPosition.y);
           resizeOneTime.current = 2;
         }
         else if (
@@ -177,7 +177,7 @@ export default function Game(props: any) {
           }));
           changePlayer1((oldValue) => ({ ...oldValue, y: newPosition2 }));
           changeBall({ x: newPosition.x, y: newPosition.y });
-          console.log(newPosition.x, newPosition.y);
+          //console.logogog(newPosition.x, newPosition.y);
           resizeOneTime.current = 3;
         }
 
@@ -200,7 +200,7 @@ export default function Game(props: any) {
           }));
           changePlayer1((oldValue) => ({ ...oldValue, y: newPosition2 }));
           changeBall({ x: newPosition.x, y: newPosition.y });
-          console.log(newPosition.x, newPosition.y);
+          //console.logogog(newPosition.x, newPosition.y);
           resizeOneTime.current = 4;
         }
 
@@ -221,7 +221,7 @@ export default function Game(props: any) {
           changeBall({ x: newPosition.x, y: newPosition.y });
           resizeOneTime.current = 5;
         }
-          console.log("test")
+          //console.logogog("test")
       }, [window.innerWidth]);
 
   useEffect(() => {

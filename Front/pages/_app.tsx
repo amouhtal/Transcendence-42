@@ -59,12 +59,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       changeNotification((oldValues:any)=> [...oldValues ,array.current])
       window.setTimeout(() =>{
         array.current.splice(0,1)
-        console.log(array.current)
+        // console.log(array.current)
         changeNotification(array.current)
       },6000)
     })
   },[socket])
-  console.log(notification)
+  // console.log(notification)
   return (
     <>
         <Provider store={store}>
@@ -74,7 +74,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <AlertNotification />
                 )
               }
-              	<TokenContextProvider>
+              <TokenContextProvider>
                 	<Component {...pageProps} socket={socket} user={userInfo} />
             	</TokenContextProvider>
             {typeof window != "undefined" &&

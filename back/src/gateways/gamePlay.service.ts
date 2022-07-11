@@ -204,7 +204,7 @@ export default class gamePlayService
                 player = sockets.get(watchers_[index])
                 for(let ids of player)
                 {
-                    console.log(watchers_)
+                    //console.log(watchers_)
                     ids.emit("gameOver",{
                         ballStats, 
                         playerStat,
@@ -253,7 +253,7 @@ export default class gamePlayService
         let legal = "illegal"
         let i = 0
         if (Object.keys(watchers).length > 0){
-            console.log(typeof watchers.find(element => element?.player1 === userName || element?.player2 === userName))
+            //console.log(typeof watchers.find(element => element?.player1 === userName || element?.player2 === userName))
             if (typeof watchers.find(element => element?.player1 === userName || element?.player2 === userName) == "undefined"){    
                 watchers.forEach(element => {
                     if (element.watchers.indexOf(userName) != -1){

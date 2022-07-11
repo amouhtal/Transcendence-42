@@ -22,7 +22,7 @@ const Messages = (props:any) => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	const userNameFromUrl: string = typeof window != "undefined" ? window.location.href.split("/")[4] : "";
-	console.log("userNameFrom Url=",userNameFromUrl,"id==",router.query.id);
+	// console.log("userNameFrom Url=",userNameFromUrl,"id==",router.query.id);
     
     useEffect(() => {
         const response: any = axios
@@ -59,7 +59,7 @@ const Messages = (props:any) => {
           )
           .then((res) => {
             setBlockedUsers(res.data);
-            console.log("BlockedUsers=",res.data);
+            // console.log("BlockedUsers=",res.data);
 		    	  res.data.map((e:any) => {
 				    if (e.userName === userNameFromUrl)
 					    setisBlocked(true);

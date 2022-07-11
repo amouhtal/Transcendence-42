@@ -9,7 +9,7 @@ export class Ft42AuthGuard extends AuthGuard('42') {
     console.log(
         "from guard"
     );
-    console.log(user);
+    // console.log(user);
     console.log("---------------------");
     
     if (

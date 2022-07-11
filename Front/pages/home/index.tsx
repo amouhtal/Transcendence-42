@@ -11,18 +11,19 @@ import axios from "axios";
 const home = (props:any) => {
   const [update, setUpdate] = useState<boolean>(false);
   const [userName, setUsername] = useState<boolean>(false);
-  const route = useRouter();
+  const router = useRouter();
 
+    
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (route.query.token && route.query.refreshToken) {
-        localStorage.setItem("accessToken", route.query.token as string);
+    if (typeof window !== "undefined" && router.query.token) {
+      if (router.query.token && router.query.refreshToken) {
+        localStorage.setItem("accessToken", router.query.token as string);
         localStorage.setItem(
           "refreshToken",
-          route.query.refreshToken as string
+          router.query.refreshToken as string
         );
       }
-      // route.push("/home");
+      router.push("/home");
     }
     if (
       localStorage.getItem("accessToken") !== "undefined" &&
@@ -43,34 +44,14 @@ const home = (props:any) => {
         .then((res) => {
           setUsername(res.data.exist);
         })
-        .catch((error: any) => {
-          console.log("err =", error.response.status);
-          if (
-            error.response.status === 401 &&
-            localStorage.getItem("accessToken") !== "" &&
-            localStorage.getItem("accessToken") !== "undefined" &&
-            localStorage.getItem("accessToken") !== null
-          ) {
-            console.log(
-              "hererere=",
-              localStorage.getItem("refreshToken") as string
-            );
-            axios
-              .get(
-                `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/auth/42/refresh`,
-                {
-                  data: {
-                    refreshToken: localStorage.getItem("refreshToken"),
-                  },
-                }
-              )
-              .then((res: any) => {
-                console.log("resp =", res);
-              });
+        .catch(function (error){
+          // console.log("im here");
+          if (error.response){
+              router.push({pathname :`/errorPage/${error.response.status}`})
           }
-        });
+      });
     }
-  }, [route.query.token]);
+  }, [router.query.token]);
   return (
     <>
       <div className={styles.globaleHomeContainer}>

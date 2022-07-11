@@ -101,7 +101,7 @@ export class TwoFactorAuthenticationController {
       this.authenticationService.newRefreshAndAccessToken(email, true, {
         ipAddress: 'ip',
       });
-    console.log(accessTokenCookie);
+    //console.logog(accessTokenCookie);
     // response.cookie('token', accessTokenCookie);
     // request.res.setHeader('Set-Cookie', [accessTokenCookie]);
     return accessTokenCookie;

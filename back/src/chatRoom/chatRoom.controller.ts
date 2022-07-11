@@ -29,7 +29,7 @@ export class chatRoomController {
 	@UseGuards(JwtAuthGuard)
 	async createRoom(@Body() body :any, @Req() request: Request )
 	{
-		console.log("here")
+		// console.log("here")
 		const jwt = request.headers.authorization.replace('Bearer ', '');
 		this.RoomService.createRoom(jwt,body)
 	}
@@ -38,7 +38,7 @@ export class chatRoomController {
 	@UseGuards(JwtAuthGuard)
 	async addUser(@Body() gameId :any, @Req() request: Request )
 	{
-		console.log("here")
+		// console.log("here")
 		const jwt = request.headers.authorization.replace('Bearer ', '');
 		const tokenInfo : any = this.jwtService.decode(jwt);
 		let user : User = await this.usersRepository.createQueryBuilder('Users').where('Users.email = :email', { email: tokenInfo.userId }).getOne();
@@ -77,7 +77,7 @@ export class chatRoomController {
 	@UseGuards(JwtAuthGuard)
 	async addAdministrator(@Body() body :any)
 	{
-		console.log(body)
+		// console.log(body)
 		return await this.RoomService.addAdministrator(body.roomId ,body.userName)
 	}
 	@Post('getRoomMemebers')
@@ -102,7 +102,7 @@ export class chatRoomController {
 		if(room !== "undefined" && room !== null)
 		{
 			let Administrators : any =room.Administrators
-			console.log(Administrators)
+			// console.log(Administrators)
 			return  Administrators
 		}
 		else
@@ -141,12 +141,12 @@ export class chatRoomController {
 		let room : chatRoom = await this.RoomService.getRoomById(body.roomId)
 		if(room !== null)
 		{
-			console.log("here", room)
+			// console.log("here", room)
 			return room
 		}
 		else
 		{
-			console.log("there" , room)
+			// console.log("there" , room)
 			return null 
 			
 		}

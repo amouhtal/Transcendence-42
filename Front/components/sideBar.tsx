@@ -24,10 +24,10 @@ function SidePar(props: any) {
   const [UsersInterface, setUsersInterface] = useState<boolean>(false);
   const router = useRouter();
   const test = useSelector<object>((state) => state);
-  // console.log(test);
+  // //console.logogogog(test);
   const dispatch = useDispatch<any>();
   const onclickHandler = () => {
-    // console.log(test);
+    // //console.logogogog(test);
     dispatch(update_test());
   };
   return (
@@ -185,7 +185,7 @@ function SidePar(props: any) {
             .then(() => {
               localStorage.removeItem("accessToken");
               localStorage.removeItem("refreshToken");
-              console.log("Delete successful");
+              //console.logogogog("Delete successful");
               props.setUpdate(!props.update);
             })
             .catch(function (error) {

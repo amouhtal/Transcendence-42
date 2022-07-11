@@ -40,7 +40,7 @@ const UsersCart = (props:any) => {
         return isExist;
     }
     const handelClick = (e:any) => {
-        // console.log("userNameNN =",e.target.id);
+        // //console.log("userNameNN =",e.target.id);
         const isHere: boolean = CheckIfUserExist(e.target.id.split('%')[0]);
         if (isHere === false)
         {

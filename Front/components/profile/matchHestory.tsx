@@ -4,7 +4,7 @@ import crry from "../../public/images/crrey.png";
 import { useState } from "react";
 
 function MatchHestory(props: any) {
-  console.log(props.gameHistory);
+  // console.log(props.gameHistory);
   return (
     <div className={style.Container}>
       <p className={style.matchHestory}> Match History</p>

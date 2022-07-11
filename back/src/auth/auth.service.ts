@@ -23,7 +23,7 @@ export class AuthService {
   ): Promise<RefreshToken | undefined> {
     try {
       const decoded = verify(refreshStr, process.env.REFRESH_SECRET);
-      console.log(decoded);
+      // console.log(decoded);
       if (typeof decoded === 'string') {
         return undefined;
       }
@@ -33,7 +33,7 @@ export class AuthService {
         await this.tokenRepository.findOneBy({ email: decoded.email }),
       );
     } catch (e) {
-      console.log(e.message);
+      // console.log(e.message);
       return undefined;
     }
   }
@@ -73,7 +73,7 @@ export class AuthService {
     const user = await this.usersRepository.findOneBy({
       email: refreshToken.email,
     });
-    console.log('______)', user);
+    // console.log('______)', user);
     if (!user) {
       return undefined;
     }
@@ -87,10 +87,10 @@ export class AuthService {
 
   async logout(refreshStr): Promise<void> {
     const refreshToken = await this.retrieveRefreshToken(refreshStr);
-    console.log('------------------');
-    console.log(refreshToken);
+    // console.log('------------------');
+    // console.log(refreshToken);
     if (!refreshToken) return;
-    console.log('------------------');
+    // console.log('------------------');
 
     await this.tokenRepository.query(
       `DELETE FROM public.refresh_token WHERE "email" = '${refreshToken.email}'`,

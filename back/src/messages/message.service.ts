@@ -27,7 +27,7 @@ export class messageService {
     async getConversation(SId : string , RId : string) 
     {
         var get = await this.messageRep.query(`SELECT id, "senderId", "reciverId" , "time", message FROM public.messages WHERE "senderId" = '${SId}' and "reciverId" = '${RId}' or "senderId" = '${RId}' and "reciverId" = '${SId}' ORDER by time`)
-        // console.log(get)
+        // //console.log(get)
         // var get = await getConnection().createQueryBuilder().select('`senderId`').from(messages,"`senderId`").where("\'senderId\' = :id ", { id: 1 }).andWhere("\'reciverId\' = :id ", { id: 2 }).getMany();
         // var get = await   this.messageRep.createQueryBuilder("message").select('`senderId`').select('`reciverId`').where("senderId = :id ", { id: 1 }).andWhere("reciverId = :id ", { id: 2 }).getMany();
 

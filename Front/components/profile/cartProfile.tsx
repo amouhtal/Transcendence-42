@@ -93,7 +93,7 @@ function CartProfile(props: any) {
           {(checkFriends = CheckIfFriend(props.data?.userName))}
           {(checkInviteRecive = CheckIfInviteRecive(props.ƒisdata?.userName))}
           {(checkInviteSend = CheckIfInviteSend(props.data?.userName))}
-          {console.log("isFrind?=", checkFriends, ", isIntiveRecive?=",checkInviteRecive, ", ","InviteSend?=", checkInviteSend)}
+          {/* {console.log("isFrind?=", checkFriends, ", isIntiveRecive?=",checkInviteRecive, ", ","InviteSend?=", checkInviteSend)} */}
           <img
             src={ajout.src}
             id={props.data?.userName}

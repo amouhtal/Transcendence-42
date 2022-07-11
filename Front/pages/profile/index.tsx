@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { type } from "os";
 import UserInfoPopup from "../../components/UserInfoPopup/UserInfoPopup";
 import CinFormation2  from "../../components/UserInfoPopup/UserInfoPopup2";
+import { Loading, Grid } from "@nextui-org/react";
 
 
 function Profile(props: any) {
@@ -16,6 +17,8 @@ function Profile(props: any) {
   const router = useRouter();
   const [showContent, setShowContent] = useState<boolean>(false);
   const [Popup ,setPopup] = useState<Boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
       axios
         .post(
@@ -32,6 +35,7 @@ function Profile(props: any) {
         .then((res) => {
           setUserInfo(res.data.userInfo);
           setMatchHistory(res.data.gameHistory);
+          setIsLoading(false);
         })
         .catch(function (error){
           if (error.response){
@@ -41,6 +45,12 @@ function Profile(props: any) {
   }, []);
   return (
     <>
+    {
+      isLoading ?
+      <div className={Style.LoadingContainer}>
+          <Grid><Loading type="points" /></Grid>
+      </div>
+      :
       <div className={Style.container}>
         <div className={Style.header}>
           <CartProfile data={userInfo} Myprofile={true} setPopup={setPopup} Popup={Popup}/>
@@ -48,6 +58,7 @@ function Profile(props: any) {
         </div>
         <MatchHestory userData={userInfo} gameHistory={MatchHistory} />
       </div>
+      }
       {Popup && <CinFormation2 setPopup={setPopup} Popup={Popup} socket = {props.socket}/>}
     </>
   );

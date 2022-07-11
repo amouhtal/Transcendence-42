@@ -49,7 +49,7 @@ const messages = (props: any) => {
           )
           .then((res) => {
             setBlockedUsers(res.data);
-            console.log("BlockedUsers=",res.data)
+            // console.log("BlockedUsers=",res.data)
           }).catch(function (error){
             if (error.response){
                 router.push({pathname :`/errorPage/${error.response.status}`})

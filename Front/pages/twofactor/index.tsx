@@ -122,7 +122,7 @@ const twofactor = () => {
               className={styles.submitButton}
               onClick={(e: any) => {
                 const data = { twoFactorAuthenticationCode: result.join("") };
-                console.log("data =", data);
+                // console.log("data =", data);
                 axios
                   .post(
                     `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/2fa/turn-on`,

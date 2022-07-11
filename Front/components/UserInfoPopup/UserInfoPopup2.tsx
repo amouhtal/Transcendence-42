@@ -31,7 +31,7 @@ const CinFormation2 = (props: any) => {
           )
           .then((res) => {
             setUserInfo(res.data.userInfo);
-            console.log("pictureUrl=",res.data.userInfo.picture)
+            // console.log("pictureUrl=",res.data.userInfo.picture)
           })
           .catch(function (error) {
             if (error.response) {
@@ -222,7 +222,7 @@ const CinFormation2 = (props: any) => {
             </button>
           </form>
         </div>
-          <Link href={'/twofactor'}><button className={style.ActiveAuth}>ActiveAuth...</button></Link>
+          <Link href={'/twofactor'}><button className={style.ActiveAuth}>2FA</button></Link>
       </div>
     </>
   );

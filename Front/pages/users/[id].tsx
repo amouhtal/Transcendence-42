@@ -31,7 +31,7 @@ function Profile(props:any) {
       )
       .then((res) => {
         setBlockedUsers(res.data);
-        console.log("BlockedUsers=",res.data)
+        // console.log("BlockedUsers=",res.data)
       }).catch(function (error){
         if (error.response){
             router.push({pathname :`/errorPage/${error.response.status}`})
@@ -70,7 +70,7 @@ function Profile(props:any) {
       .then((res) => {
         setUserData(res.data);
         seetGameHistory(res.data.gameHistory);
-        console.log("usersData=", res.data);
+        // console.log("usersData=", res.data);
       }).catch(function (error){
         if (error.response){
             router.push({pathname :`/errorPage/${error.response.status}`})
@@ -88,7 +88,7 @@ function Profile(props:any) {
   const isBlocked = (userName: any) => {
     let isBlocked: boolean = false;
     blockedUsers?.map((e:any) => {
-      console.log(e)
+      // console.log(e)
       if (e.userName === userName)
         isBlocked = true;
     })

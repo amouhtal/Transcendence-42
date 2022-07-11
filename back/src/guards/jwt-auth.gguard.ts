@@ -10,9 +10,9 @@ export class JwtAuthGuard extends AuthGuard('jwt')
   { 
     
     // if (err)
-      // console.log("error from handlereq");
+      // //console.log("error from handlereq");
     if (info instanceof JsonWebTokenError) {
-      console.log("-----------------------------------------------------------------");
+      //console.log("-----------------------------------------------------------------");
 
         // if the access token jwt is invalid this is the error we will be returning.
       throw new UnauthorizedException('Invalid JWT');

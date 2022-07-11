@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     width: 80%;
-    height: 180px;
+    height: 100px;
     cursor: pointer;
     margin-bottom: 40px;
     background: rgba(255, 255, 255, 0.803);
@@ -16,7 +16,7 @@
     align-items: center;
     justify-content: center;
     width: 80%;
-    height: 180px;
+    height: 100px;
     cursor: pointer;
     margin-bottom: 40px;
     background: white;
@@ -79,13 +79,14 @@
 .status {
     position: absolute;
     left: 28%;
-    top:20%;
+    top:22%;
     color: #a9a9a9;
 }
 
 .LastMessage {
     position: relative;
-    top: 30px;
+    top: 25px;
+    left: 90px;
     color: rgba(128, 128, 128, 0.671);
     width: 80%;
     text-overflow: ellipsis;

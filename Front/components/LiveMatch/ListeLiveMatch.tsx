@@ -29,7 +29,7 @@ const LiveListMatch = (props: any) =>{
            <button id={props.data?.player1} className={!props.LiveM ? style.watch : styleP.watch}
            onClick={(e:any)=>{
                    props.socket.emit("addWatcher",e.target.id)
-                   console.log("test")
+                   //console.logogog("test")
                    }}>Watch
            </button>
     </div>
