@@ -91,15 +91,13 @@ const UserInfo = (props: any) => {
         		<input type="search" name="" id="messageSearch" placeholder="Search..." className={styles.FindMessage} onChange={handleChange}/>
         	</form>
         	<div className={(props.display? (search? styles.userInfoContainerBlure : styles.userInfoContainer) : styles.userInfoContainerNone)}>
-			<img src={back.src} className={styles.showFriendsZone} onClick={(e:any) => {e.preventDefault(); props.setDisplay(!props.display)}}/>
-				<div className={search? styles.searchBox : styles.non} onClick={(e:any) => {setSearch(!search)}}>
-				</div>
-        	    <div className={styles.imgContainer}>
-        	        <img src={networking.src} alt="" className={styles.userInfoImg}/>
-        	        <div className={props.status? styles.UserInfoZoneOnline : styles.UserInfoZoneOffline}></div>
-        	    </div>
+				<img src={back.src} className={styles.showFriendsZone} onClick={(e:any) => {e.preventDefault(); props.setDisplay(!props.display)}}/>
+				<div className={search? styles.searchBox : styles.non} onClick={(e:any) => {setSearch(!search)}}></div>
+        	    <div className={styles.imgContainer}><img src={networking.src} alt="" className={styles.userInfoImg}/>
+        	    	<div className={props.status? styles.UserInfoZoneOnline : styles.UserInfoZoneOffline}></div>
+        		</div>
         	    <div className={styles.userInfoName}>
-        	        <p>{router.query.name}</p>
+        	    	<p>{router.query.name}</p>
         	    </div>
         	    <div className={styles.CostumizationContainer} onClick={(e:any)=> {setTheme(!theme)}}>
         	        {/* <div className={theme ? styles.showThemes : styles.ChangeTheme} onClick={(e:any)=> {setTheme(!theme)}}>*/}
@@ -120,44 +118,34 @@ const UserInfo = (props: any) => {
         	        {/* </div> */}
         	    </div>
         	    <div className={props.user?.userName === props.roomOwner ? styles.BlockContainer : styles.none} onClick={(e:any) => {setAddUserZone(!addUsersZone)}}>
-        	        {/* <div className={styles.block}> */}
         	            <img src={addUsers.src} alt="" className={styles.blockImage}/>
         	            <p>Add users</p>
-        	        {/* </div> */}
         	    </div>
         	    <div className={props.user?.userName === props.roomOwner ? styles.groupMembersDown : styles.BlockContainer} onClick={(e:any) => {setShowRoomMembers(!showRoomMembers)}}>
-        	        {/* <div className={styles.block}> */}
         	            <img src={group.src} alt="" className={styles.blockImage}/>
         	            <p>Group Members</p>
-        	        {/* </div> */}
         	    </div>
         	    <div className={props.user?.userName === props.roomOwner ? styles.NewOwner : styles.none} onClick={(e:any) => {setChangeRoomOwner(!changeRoomOwner)}}>
-        	        {/* <div className={styles.block}> */}
         	            <img src={ownerIMG.src} alt="" className={styles.blockImage}/>
         	            <p>Group Administrators</p>
-        	        {/* </div> */}
         	    </div>
         	    <div className={props.user?.userName === props.roomOwner ? props.thisRoomInfo?.protected ? styles.ChangeGroupPassword : styles.none : styles.none} onClick={(e:any) => {setChangeRoomPass(!changeRoomPass)}}>
-        	        {/* <div className={styles.block}> */}
         	            <img src={password.src} alt="" className={styles.blockImage}/>
         	            <p>Change Room password</p>
-        	        {/* </div> */}
         	    </div>
         	    <div className={props.user?.userName === props.roomOwner ? props.thisRoomInfo?.protected ? styles.ChangeGroupName : styles.changeGroupNameUp : styles.none} onClick={(e:any) => {setChangeRoomName(!changeRoomPass)}}>
-        	        {/* <div className={styles.block}> */}
         	            <img src={teamImg.src} alt="" className={styles.blockImage}/>
         	            <p>Change Room Name</p>
-        	        {/* </div> */}
         	    </div>
         	    <div className={props.user?.userName === props.roomOwner ? props.thisRoomInfo?.protected ? styles.LeaveChatDown : styles.LeaveChatMinUp : styles.LeaveChatUp} onClick={(e:any) => {
-					axios.post("http://localhost:3001/chatRoom/deleteUser",{roomId: _roomId, user: props.user.userName}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}});
+					
+					axios.post("http://localhost:3001/chatRoom/deleteUser",{roomId: _roomId, user: props.user.userName}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+					.then((res) => {console.log("inLeaveChanelle=",props.thisRoomInfo.members);props.socket?.emit("Refresh", props.thisRoomInfo.members);});
 					props.setUpdateRoomMambets(!props.updateRoomMembers);
 					props.setDisplay(!props.display)
 				}}>
-        	        {/* <div className={styles.block}> */}
         	            <img src={leaveIMG.src} alt="" className={styles.blockImage}/>
         	            <p>Leave Chat</p>
-        	        {/* </div> */}
         	    </div>
 
 				<div className={changeRoomPass ? styles.changePasswordContainer : styles.none}>
@@ -201,10 +189,11 @@ const UserInfo = (props: any) => {
             	    	        })
             	    	    }
             	    	</div>
-            	    	<p className={styles.Suggested}>SUGGESTED</p>
+            	    	{/* <p className={styles.Suggested}>SUGGESTED</p> */}
             	    	<div className={styles.usersContainer}>
             	        	<UsersCart data={addUsersZone ? usersData : props.roomMembers} showBanBtn={(addUsersZone || changeRoomOwner) || (!addUsersZone && !changeRoomOwner && !showRoomMembers) ? false : true} setChoosenUsers={setChoosenUsers} usersChoosen={usersChoosen} update={update} setUpdate={setUpdate} changeRoomOwner={changeRoomOwner} user={props.user} roomOwner={props.roomOwner}
-							setBannedUserUpdate={props.setBannedUserUpdate} bannedUserUpdate={props.bannedUserUpdate} socket={props.socket} administrators={props.administrators} setUpdateRoomMambets={props.setUpdateRoomMambets} updateRoomMembers={props.updateRoomMembers}/>
+							setBannedUserUpdate={props.setBannedUserUpdate} bannedUserUpdate={props.bannedUserUpdate} socket={props.socket} administrators={props.administrators} setUpdateRoomMambets={props.setUpdateRoomMambets} updateRoomMembers={props.updateRoomMembers}
+							thisRoomInfo={props.thisRoomInfo}/>
             	    	</div>
             	</div>
             		{/* <div className={styles.friendscard}>

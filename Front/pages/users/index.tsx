@@ -36,7 +36,7 @@ function users(props:any) {
         },
       })
       .then((res) => {
-		  console.log("res=",res.data)
+		//   console.log("res=",res.data)
         setUsersData(res.data);
 		setIsLoading(false);
       }).catch(function (error){
@@ -45,7 +45,8 @@ function users(props:any) {
         }
     });
   }, [update]);
-  console.log("user=",props.user);
+//   console.log("props=",props);
+  props.socket?.on("Refresh", (data:any) => {setUpdateVar(!update)});
   return (
     <>
       {
@@ -64,6 +65,7 @@ function users(props:any) {
 			inBlock={false}
 			update={update}
 			user={userInfo}
+			socket={props.socket}
 			/>
       }
     </>

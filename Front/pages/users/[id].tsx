@@ -15,9 +15,11 @@ function Profile(props:any) {
   const [gameHistory, seetGameHistory] = useState<any>();
   const [userInfo, setUserInfo] = useState<any>({});
   const [blockedUsers, setBlockedUsers] = useState<any>([]);
+  const [blockedUpdate, setBlockedUpdate] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
+    // console.log("in blocked");
     axios
       .get(
         `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/block`,
@@ -37,7 +39,7 @@ function Profile(props:any) {
             router.push({pathname :`/errorPage/${error.response.status}`})
         }
     });
-  }, []);
+  }, [blockedUpdate]);
 
   useEffect(() => {
     const response: any = axios
@@ -112,6 +114,8 @@ function Profile(props:any) {
           socket={props.socket}
           user={userInfo}
           blocked={blockedUsers}
+          blockedUpdate={blockedUpdate}
+          setBlockedUpdate={setBlockedUpdate}
           />
           <Achevment />
           </div>

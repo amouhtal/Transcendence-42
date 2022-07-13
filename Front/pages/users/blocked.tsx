@@ -8,14 +8,12 @@ import {useRouter} from 'next/router';
 import { Loading, Grid } from "@nextui-org/react";
 
 function users() {
-  const [usersData, setUsersData] = useState<any>([]);
-  let x: number = 0;
   const router = useRouter()
   const [count, setCount] = useState(0);
-  const [update, setUpdateVar] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [usersData, setUsersData] = useState<any>([]);
+  const [update, setUpdateVar] = useState<boolean>(false);
 
-//   console.log(process.env.NEXT_PUBLIC_IP_ADRESSE)
   useEffect(() => {
     axios.get(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/block`, {
         headers: {
@@ -23,9 +21,8 @@ function users() {
         },
       })
       .then((res) => {
-        console.log("res.data=",res.data)
-        setUsersData(res.data);
 		    setIsLoading(false);
+        setUsersData(res.data);
       }).catch(function (error){
         if (error.response){
             router.push({pathname :`/errorPage/${error.response.status}`})

@@ -61,7 +61,8 @@ const Users = (props:any) => {
                 setUpdate={props.setUpdate}
                 inBlock={props.inBlock}
                 update={props.update}
-                user={props.user}/>
+                user={props.user}
+                socket={props.socket}/>
             }
             </div>
         </div>

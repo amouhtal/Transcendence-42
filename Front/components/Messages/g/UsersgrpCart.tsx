@@ -98,7 +98,10 @@ const UsersCart = (props:any) => {
                         </div>
                         <div className={props.showBanBtn ? props.roomOwner === e.userName ? styles.none : isAdministrator(e.userName) ? props.roomOwner === props.user.userName ? styles.kick : styles.none : styles.kick : styles.none} id={e.userName}
                         onClick={(e:any) => {}}>
-                            <img src={kick.src} alt="kick" id={e.userName} onClick={(e:any) => {props.socket.emit("kickUser", {roomId: _roomId, userName: e.target.id}); props.setUpdateRoomMambets(!props.updateRoomMembers)}}/>
+                            <img src={kick.src} alt="kick" id={e.userName} onClick={(e:any) => {
+                                props.socket.emit("kickUser", {roomId: _roomId, userName: e.target.id});
+                                props.socket.emit("Refresh", props.thisRoomInfo.members);
+                                props.setUpdateRoomMambets(!props.updateRoomMembers)}}/>
                         </div>
                         <div className={showBanPannel && userBanned === e.userName ? styles.BanPopup : styles.none}>
                             <p className={`${styles.BanZone} ${!MuteChoice && BanChoice ? styles.chose: styles.none}`} onClick={(e:any) => {setBanChoice(true);setMuteChoice(false)}}>Ban</p>

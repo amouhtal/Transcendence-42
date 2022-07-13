@@ -152,7 +152,7 @@ export class friendsService {
     
     // console.log('--->', userName);
     const all_users = await this.userRepo
-      .query(`select public."Users"."userName", public."Users"."picture"  FROM public."Users" \
+      .query(`select public."Users"."userName", public."Users"."picture" ,public."Users"."isActive" FROM public."Users" \
 		WHERE  public."Users"."userName" NOT IN (select "Blocked" FROM public."FriendBlocked" WHERE public."FriendBlocked"."userId" = '${userId}' OR public."FriendBlocked"."Blocker" = '${userName}') \
 		`);
     // AND NOT IN \

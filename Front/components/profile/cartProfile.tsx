@@ -154,12 +154,16 @@ function CartProfile(props: any) {
                     },
                   }
                   )
+                  .then ((res) => {
+
+                    props.setBlockedUpdate(!props.blockedUpdate);
+                  })
                   .catch(function (error) {
                     if (error.response){
                       router.push({pathname :`/errorPage/${error.response.status}`})
                     }
                   });
-                }}
+                }} 
             ></img>
             <img
               src={setting.src}

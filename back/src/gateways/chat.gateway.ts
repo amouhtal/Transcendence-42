@@ -653,10 +653,11 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
         }
         //console.log("--------------------------------")
     }
-	@SubscribeMessage('Refreche')
+	@SubscribeMessage('Refresh')
 	async Refreche(client : Socket , data: any)
 	{
 		//console.log("------Refreche----------")
+		console.log("data=",data);
 		let auth_token = client.handshake.auth.Authorization;
 		if(auth_token !== "null" && auth_token !== "undefined" && auth_token)
 		{
@@ -664,7 +665,24 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 			let userInfo = await this.usersRepository.query(`select "userName" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`);
 			if(Object.keys(userInfo).length !== 0)
 			{
-				
+				console.log(data.length)
+				if(data.length > 0)
+				{
+					console.log("here1")
+					let sock : Socket[];
+					data.map((e:any) => {
+						sock =sockets.get(e.userName)
+						console.log("here2")
+						
+						if (sock !== undefined)
+						for(let so of sock)
+						{
+							console.log("here3")
+							so.emit("Refresh", "refresh")
+						}
+					})
+
+				}
 			}
 		}
 		//console.log("--------------------------------")

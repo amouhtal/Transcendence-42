@@ -39,6 +39,7 @@ const FriendsZone = (props:any) => {
     const [PrivateGroupsInfo, setPrivateGroupsInfo] = useState<any>();
     const [getRoomsUpdate, setGetRoomsUpdate] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [refresh,setRefresh] = useState<boolean>(false);
     useEffect(() => {
          axios.get("http://localhost:3001/chatRoom/getAllRooms",{headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
         ).then((res) => {
@@ -48,7 +49,7 @@ const FriendsZone = (props:any) => {
             let on: boolean = false;
             PrivateGroupsInfo?.map((e:any) => {
                 e.members.map((curr:any) => {
-                    if (curr.userName === props.user.userName)
+                    if (curr.userName === props.user?.userName)
                         on = true;
                 })
                 if (on)
@@ -58,7 +59,7 @@ const FriendsZone = (props:any) => {
             })
             setIsLoading(false);
         })
-    },[router.query.id,getRoomsUpdate,router.query.name])
+    },[getRoomsUpdate, refresh])
     useEffect( () => {
 		 axios
 		  .get(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/all`, {
@@ -74,6 +75,7 @@ const FriendsZone = (props:any) => {
         e.preventDefault();
         setGroupName(e.target.value);
     }
+    props.socket?.on("Refresh", (data:any) => {setRefresh(!refresh)})
     return (
         <>
             <div className={props.show ? styles.friendListshow : styles.friendListDontshow}>
@@ -91,10 +93,11 @@ const FriendsZone = (props:any) => {
                 <p className={styles.NewGrpP}>New Group</p>
                 <button className={styles.btn_create} onClick={(e:any) => {
                     props.socket?.emit("creatChannel",{name:GroupName, type:Private ? "private" : "public", protected:Protected ? true : false,password: Protected ? GourpPassword : null,users: usersChoosen});
+                    props.socket?.emit("Refresh",usersData);
+                    setGetRoomsUpdate(!getRoomsUpdate);
                     setCreatNewGrp(!CreatNewGrp);
                     setProtected(false);
                     setChoosenUsers([]);
-                    setGetRoomsUpdate(!getRoomsUpdate);
                 }}>Create</button>
                 <button className={styles.btn_cancel} onClick={(e:any) => {e.preventDefault();setCreatNewGrp(!CreatNewGrp);setChoosenUsers([])}}>Cancel</button>
                 <form action="" className={styles.groupForm}>
