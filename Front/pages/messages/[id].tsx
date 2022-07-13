@@ -1,7 +1,6 @@
 import styles from '../../styles/messages/messages.module.css'
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import Friends from '../../dataFriend.json'
 import Router, { useRouter } from 'next/router';
 import FriendsZone from '../../components/Messages/friendsZone';
 import Image from 'next/image';

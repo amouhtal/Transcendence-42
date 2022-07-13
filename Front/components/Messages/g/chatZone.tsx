@@ -132,7 +132,7 @@ const GroupChatZone = (props:any) => {
         // dummy.current?.scrollIntoView({ behavior: "smooth" });
     },[messages])
     const [userInfo, setuserInfo] = useState<boolean>(false);
-    const [showFriends, setShowFriends] = useState<boolean>(true);
+    const [showFriends, setShowFriends] = useState<boolean>(false);
     const [friends, setFriends] = useState<any>();
     const [color, setColor] = useState<string>(checkout);
     const [reciverId, setReciverId] = useState<any>();
@@ -266,7 +266,7 @@ const GroupChatZone = (props:any) => {
                                     e.time = e.time.replace('T', " ");e.time = e.time.replace ('Z', "");e.time = e.time.split('.')[0];
                                     const [userInfo] :any = getUserInfo(e.senderId);
                                     return (
-                                        <div className={`${e.senderId === props.user?.userName ? styles.left : styles.right}`} id="lastMessage">
+                                        <div className={`${e.senderId === props.user?.userName ? styles.left : styles.right}`} id="lastMessage" key={Math.random()}>
                                             <img src={userInfo?.picture} className={`${e?.senderId === props.user?.userName ? styles.imgRight: styles.imgLeft}  ${isBlocked(e.senderId) ? styles.blured : styles.notBlured}`} alt="" />
                                             <div id="container" className={`${e.senderId === props.user?.userName ? styles.messageSenderContainer : styles.messageReciverContainer} ${e.senderId === props.user?.userName ? color === 'black' ? styles.messageContainerBlack : 
                                                 color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none : styles.gray}`}>

@@ -179,7 +179,7 @@ const ChatZone = (props: any) => {
 			  		e.time = e.time.split(".")[0];
 			  		const userName = e.senderId === props.user?.userName ? e.reciverId : e.senderId;
 			  		return (
-						<div className={e.senderId === props.user?.userName ? styles.left : styles.right} id="lastMessage">
+						<div className={e.senderId === props.user?.userName ? styles.left : styles.right} id="lastMessage" key={Math.random()}>
                 			<img src={e.senderId === props.user?.userName ? props.user?.picture : reciverId?.picture} className={e?.senderId === props.user?.userName ? styles.imgRight : styles.imgLeft}/>
                 			<div id="container" className={`${e.senderId === props.user?.userName ? styles.messageSenderContainer : styles.messageReciverContainer}
 								${e.senderId === props.user?.userName? color === "black"? styles.messageContainerBlack : color === "pink" ? styles.messageContainerPink : color === "blue" ? styles.messageContainerBlue : styles.none : styles.gray}`}>

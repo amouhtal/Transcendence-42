@@ -1,12 +1,10 @@
 import Style from "../../styles/profile/Profile.module.css";
-import userData from "../../data.json";
 import { useRouter } from "next/router";
 import CartProfile from "../../components/profile/cartProfile";
 import Achevment from "../../components/profile/Achevment";
 import MatchHestory from "../../components/profile/matchHestory";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import FakeData from "../../data.json";
 import blocked from "../../public/images/banned-sign.png"
 function Profile(props:any) {
   const [userData, setUserData] = useState<any>([]);

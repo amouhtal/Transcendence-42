@@ -1,7 +1,6 @@
 import Users from "../../components/users/Users";
 import React, { Component } from "react";
-import FakeData from "../../data.json";
-import axios from "axios";
+  import axios from "axios";
 import { useEffect, useState } from "react";
 import styles from "../../styles/users/users.module.css";
 import {useRouter} from 'next/router';

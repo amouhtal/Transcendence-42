@@ -8,7 +8,6 @@ import image from '../../public/images/profile.jpg'
 import UserInfo from '../../../components/Messages/UserInfo';
 // const socket = io("10.12.11.5:3000",{transports:['websocket']});
 import GroupChatZone from '../../../components/Messages/g/chatZone';
-import FakeData from '../../../data.json'
 import axios from 'axios';
 import { curryGetDefaultMiddleware } from '@reduxjs/toolkit/dist/getDefaultMiddleware';
 const Messages = (props:any) => {
@@ -107,9 +106,9 @@ const Messages = (props:any) => {
     }, []);
     var test:boolean = true;
 
-    const [filterData] = FakeData.filter((value: any) => {
-        return (value.userName === router.query.id);
-    });
+    // const [filterData] = FakeData.filter((value: any) => {
+    //     return (value.userName === router.query.id);
+    // });
     const checkIfMemver = (e:string) => {
         let isGroupMember = false;
         groupMembers.map((curr:any) => {
@@ -123,7 +122,7 @@ const Messages = (props:any) => {
     return (
         <div className={styles.globaleContainer}>
                 <div className={styles.bcontainer}>
-                    <GroupChatZone data={filterData} status={Status} socket={props.socket} user={userInfo} roomOwner={roomOwner} administrators={administrators} setRoomOwner={setRoomOwner}
+                    <GroupChatZone  status={Status} socket={props.socket} user={userInfo} roomOwner={roomOwner} administrators={administrators} setRoomOwner={setRoomOwner}
                     update={update} setUpdate={setUpdate} ShowJoin={false} usersData={usersData} blockedusers={blockedUsers} />
                 </div>
         </div>

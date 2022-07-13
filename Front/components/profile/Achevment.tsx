@@ -108,9 +108,9 @@ function Achevment(props: any) {
             allnotification.map((Data, id) =>{
             const [senderInformation]: any = getSenderInformation(Data.senderName);
             return (
-              <>
+              <div key={Math.random()}>
                 <CartNotification MyP={true} key={id} data={Data} PicSender={senderInformation}/>
-              </>
+              </div>
             )})
            ):( <div className={style.NoNotification}>No Notification</div>)
           ):(

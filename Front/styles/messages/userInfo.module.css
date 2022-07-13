@@ -498,6 +498,7 @@
 {
     background-color: transparent;
     -webkit-border-radius: 6px;
+    border-radius: 0;
 }
 
 .LeaveChatDown {
@@ -675,8 +676,6 @@
     } */
     .btn {
         display: flex;
-    }
-    .imgContainer {
     }
     .userInfoImg {
         width: 100px;

@@ -36,36 +36,36 @@ const Users = (props:any) => {
     }
     return (
         <div className={styles.globalContainer}>
-        <div className={styles.container}>
-            <div className={styles.SearchBar}>
-                <form action="" className={styles.Form}>
-                    <input type="search"
-                    placeholder={props.placeholder}
-                    className={styles.SearchInput}
-                    onChange={(e: any) => handleChange(e, )}
-                    />
-                </form>
-            </div>
-            <div className={styles.child}>
-            {
-                isLoading ?
-                <div className={styles.LoadingContainer}>
-                    <Grid><Loading type="points" /></Grid>
+            <div className={styles.container}>
+                <div className={styles.SearchBar}>
+                    <form action="" className={styles.Form}>
+                        <input type="search"
+                        placeholder={props.placeholder}
+                        className={styles.SearchInput}
+                        onChange={(e: any) => handleChange(e, )}
+                        />
+                    </form>
                 </div>
-                :
-                <UsersCart data={filterData}
-                status={false}
-                usersSinvite={props.usersSinvite}
-                usersRinvite={props.usersRinvite}
-                friends={props.friends}
-                setUpdate={props.setUpdate}
-                inBlock={props.inBlock}
-                update={props.update}
-                user={props.user}
-                socket={props.socket}/>
-            }
+                <div className={styles.child}>
+                {
+                    isLoading ?
+                    <div className={styles.LoadingContainer}>
+                        <Grid><Loading type="points" /></Grid>
+                    </div>
+                    :
+                    <UsersCart data={filterData}
+                    status={false}
+                    usersSinvite={props.usersSinvite}
+                    usersRinvite={props.usersRinvite}
+                    friends={props.friends}
+                    setUpdate={props.setUpdate}
+                    inBlock={props.inBlock}
+                    update={props.update}
+                    user={props.user}
+                    socket={props.socket}/>
+                }
+                </div>
             </div>
-        </div>
         </div>
     );
 }

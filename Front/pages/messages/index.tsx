@@ -1,7 +1,6 @@
 import styles from '../../styles/messages/index.module.css'
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import Friends from '../../dataFriend.json'
 import Router, { useRouter } from 'next/router';
 import FriendsZone from '../../components/Messages/friendsZone';
 import Image from 'next/image';
@@ -15,9 +14,9 @@ const messages = (props: any) => {
     const [Status ,setStatus] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
     const router = useRouter();
-    const [filterData] = Friends.filter((value: any) => {
-        return (value.first_name === router.query.id);
-    });
+    // const [filterData] = Friends.filter((value: any) => {
+    //     return (value.first_name === router.query.id);
+    // });
     const [ContactInformation, setContatInformation] = useState<any>([]);
     const [friends, setFriends] = useState<any>();
     let FriendsInformation: any = [];

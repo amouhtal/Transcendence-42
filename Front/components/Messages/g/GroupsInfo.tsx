@@ -11,7 +11,6 @@ import { useEffect, useState } from 'react';
 import messages from '../../../pages/messages';
 import addUsers from '../../../public/images/add-user.png'
 import group from '../../../public/images/group.png'
-import FakeData from '../../../data.json'
 import UsersCart from './UsersgrpCart'
 import { Socket } from 'socket.io-client';
 import axios from 'axios';
@@ -28,22 +27,16 @@ const UserInfo = (props: any) => {
 	const [theme, setTheme] = useState<boolean>(false);
     const [usersChoosen, setChoosenUsers] = useState<any>([]);
 	const [addUsersZone, setAddUserZone] = useState<boolean>(false);
-	const [usersData, setUsersData] = useState<any>(FakeData);
+	const [usersData, setUsersData] = useState<any>([]);
 	const [showRoomMembers, setShowRoomMembers] = useState<boolean>(false);
 	const [changeRoomOwner, setChangeRoomOwner] = useState<boolean>(false);
 	const [update, setUpdate] = useState<boolean>(false);
 	const [changeRoomPass, setChangeRoomPass] = useState<boolean>(false);
 	const [changeRoomName, setChangeRoomName] = useState<boolean>(false);
-
 	const router = useRouter();
 	const _roomId : number = typeof window != "undefined" ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5].indexOf("?")) : 0;
-	const [roomMembers, setRoomMembers] = useState<any>([])
-	// const [display, setDisplay] = useState<boolean>();
-	// useEffect(() => {
-	// 	setDisplay(props.display);
-	// })
-	// dasdasdfds
-	// let i = 0;
+	const [roomMembers, setRoomMembers] = useState<any>([]);
+
 	useEffect(() => {
 		axios
 		  .get(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/all`, {
@@ -63,11 +56,11 @@ const UserInfo = (props: any) => {
 	}
 	const handelSearch = (e:any) => {
 		e.preventDefault();
-		const filtredData = FakeData.filter((crr:any) => {
+		// const filtredData = FakeData.filter((crr:any) => {
 
-			return (crr.userName.includes(e.target.value))
-		})
-		setUsersData(filtredData);
+		// 	return (crr.userName.includes(e.target.value))
+		// })
+		// setUsersData(filtredData);
 	}
 	const handleChangeRoomPass = (e:any) => {
 		e.preventDefault();

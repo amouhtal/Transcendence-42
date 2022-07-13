@@ -12,7 +12,6 @@ import image from '../../../public/images/profile.jpg'
 import stylesfriends from '../../../styles/messages/friends.module.css'
 import axios from "axios";
 import UsersCart from './UsersgrpCart'
-import FakeData from '../../../data.json'
 import padlock from '../../../public/images/padlock.png'
 import show from '../../../public/images/show.png'
 import hidden from '../../../public/images/hidden.png'
@@ -34,7 +33,7 @@ const FriendsZone = (props:any) => {
     const [Protected, setProtected] = useState<boolean>(false);
     const [GroupName, setGroupName] = useState<string>("");
     const [GourpPassword, setGroupPassword] = useState<string>("");
-    const [usersData, setUsersData] = useState<any>(FakeData);
+    const [usersData, setUsersData] = useState<any>([]);
     const [PublicGroupsInfo, setPublicGroupsInfo] = useState<any>();
     const [PrivateGroupsInfo, setPrivateGroupsInfo] = useState<any>();
     const [getRoomsUpdate, setGetRoomsUpdate] = useState<boolean>(false);
@@ -81,7 +80,7 @@ const FriendsZone = (props:any) => {
             <div className={props.show ? styles.friendListshow : styles.friendListDontshow}>
             <div className={styles.searchBar}>
                 <form action="">
-                    <input type="search" name="" id="" className={styles.search} placeholder="Enter for search..."/>
+                    <input type="search" className={styles.search} placeholder="Enter for search..."/>
                     <FiSearch className={styles.searchIcon}/>
                 </form>
             </div>

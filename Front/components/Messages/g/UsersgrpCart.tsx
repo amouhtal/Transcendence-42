@@ -73,7 +73,7 @@ const UsersCart = (props:any) => {
         <>
         {props.data?.map((e: any | any[]) => {
                 return  (
-                    <div className={styles.userCard} id={`${e.userName}%${e.picture}`} key={Math.random()} onClick={(e:any) => handelClick(e)} >
+                    <div className={styles.userCard} id={`${e.userName}%${e.picture}`} key={Math.random()} onClick={(e:any) => handelClick(e)}>
                         <div className={`${styles.imgContainer}`}>
                             <Link href={`/users/${e.userName}`} key={Math.random()}>
                                 <img src={e?.picture} width={80} height={80} className={`${styles.profileImage} ${status ?styles.userStatusOn : styles.userStatusOff}`}/>
