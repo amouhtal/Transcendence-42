@@ -78,6 +78,14 @@ const UserInfo = (props: any) => {
 
 		e.target.ChangeName.value = '';
 	}
+	const isAdministrator = (userName: string) => {
+        let isAdmin: boolean = false;
+        props.administrators?.map((e:any) => {
+                if (e.userName === userName)
+                    isAdmin = true;
+        })
+        return isAdmin;
+    }
     return (
 		<>
         	<form action="" className={search ? (props.display ? styles.showSearch : styles.DontShowSearch ): styles.DontShowSearch} onSubmit={(e:any) => {e.preventDefault()}}>
@@ -110,11 +118,11 @@ const UserInfo = (props: any) => {
         	            <p>Search in conversation</p>
         	        {/* </div> */}
         	    </div>
-        	    <div className={props.user?.userName === props.roomOwner ? styles.BlockContainer : styles.none} onClick={(e:any) => {setAddUserZone(!addUsersZone)}}>
+        	    <div className={props.user?.userName === props.roomOwner || isAdministrator(props.user?.userName) ? styles.BlockContainer : styles.none} onClick={(e:any) => {setAddUserZone(!addUsersZone)}}>
         	            <img src={addUsers.src} alt="" className={styles.blockImage}/>
         	            <p>Add users</p>
         	    </div>
-        	    <div className={props.user?.userName === props.roomOwner ? styles.groupMembersDown : styles.BlockContainer} onClick={(e:any) => {setShowRoomMembers(!showRoomMembers)}}>
+        	    <div className={props.user?.userName === props.roomOwner || isAdministrator(props.user?.userName) ? styles.groupMembersDown : styles.BlockContainer} onClick={(e:any) => {setShowRoomMembers(!showRoomMembers)}}>
         	            <img src={group.src} alt="" className={styles.blockImage}/>
         	            <p>Group Members</p>
         	    </div>

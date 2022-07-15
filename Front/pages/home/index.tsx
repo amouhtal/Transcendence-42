@@ -13,7 +13,6 @@ const home = (props:any) => {
   const [userName, setUsername] = useState<boolean>(false);
   const router = useRouter();
 
-    
   useEffect(() => {
     if (typeof window !== "undefined" && router.query.token) {
       if (router.query.token && router.query.refreshToken) {

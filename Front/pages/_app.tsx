@@ -22,7 +22,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [userInfo, setUserInfo] = useState<any>();
   const [showContent, setShowContent] = useState<boolean>(false);
   const router = useRouter();
-
   {/*Get AcessToken And refreshToken*/}
   useEffect(() => {
 
@@ -84,6 +83,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 showSidBar={showSidBar}
                 setUpdate={setUpdate}
                 update={update}
+                socket={socket}
               />
             ) : (
               ""

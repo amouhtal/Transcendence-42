@@ -76,7 +76,7 @@ const UsersCart = (props:any) => {
                     <div className={styles.userCard} id={`${e.userName}%${e.picture}`} key={Math.random()} onClick={(e:any) => handelClick(e)}>
                         <div className={`${styles.imgContainer}`}>
                             <Link href={`/users/${e.userName}`} key={Math.random()}>
-                                <img src={e?.picture} width={80} height={80} className={`${styles.profileImage} ${status ?styles.userStatusOn : styles.userStatusOff}`}/>
+                                <img src={e?.picture} width={80} height={80} className={`${styles.profileImage} ${e.isActive ? styles.userStatusOn : styles.userStatusOff}`}/>
                             </Link>
                         </div>
                         <div className={styles.userName}>
@@ -92,11 +92,11 @@ const UsersCart = (props:any) => {
                         onClick={(e:any) => {}}>
                             <img src={ban.src} alt="ban" id={e.userName} onClick={(curr:any) => {setShowBanPannel(!showBanPannel);setUserBanned(curr.target.id); setMuteChoice(true)}}/>
                         </div> */}
-                        <div className={props.showBanBtn ? props.roomOwner === e.userName ? styles.none : isAdministrator(e.userName) ? props.roomOwner === props.user.userName ? styles.ban : styles.none : styles.ban : styles.none} id={e.userName}
+                        <div className={props.showBanBtn ? props.user.userName !== props.roomOwner && !isAdministrator(props.user.userName) ? styles.none : props.user.userName === props.roomOwner && e.userName !== props.roomOwner ? styles.ban : isAdministrator(props.user.userName) ? e.userName === props.roomOwner || isAdministrator(e.userName) ? styles.none : styles.ban : styles.none : styles.none} id={e.userName}
                         onClick={(e:any) => {}}>
                             <img src={ban.src} alt="ban" id={e.userName} onClick={(curr:any) => {setShowBanPannel(!showBanPannel);setUserBanned(curr.target.id); setMuteChoice(true)}}/>
                         </div>
-                        <div className={props.showBanBtn ? props.roomOwner === e.userName ? styles.none : isAdministrator(e.userName) ? props.roomOwner === props.user.userName ? styles.kick : styles.none : styles.kick : styles.none} id={e.userName}
+                        <div className={props.showBanBtn ? props.user.userName !== props.roomOwner && !isAdministrator(props.user.userName) ? styles.none : props.user.userName === props.roomOwner && e.userName !== props.roomOwner ? styles.kick : isAdministrator(props.user.userName) ? e.userName === props.roomOwner || isAdministrator(e.userName) ? styles.none : styles.kick : styles.none : styles.none} id={e.userName}
                         onClick={(e:any) => {}}>
                             <img src={kick.src} alt="kick" id={e.userName} onClick={(e:any) => {
                                 props.socket.emit("kickUser", {roomId: _roomId, userName: e.target.id});

@@ -21,4 +21,8 @@ export class Notification extends BaseEntity
     @Column()
     time : Date
 
+
+    @Column({nullable : true})
+    Accepted : boolean
+
 }

@@ -16,7 +16,8 @@ interface UsersType {
 }
 
 const Users = (props:any) => {
-    const [filterData, setFilterData] = useState<any>(props.usersData); useEffect(() => {setFilterData(props.usersData);setIsLoading(false);},props.userData);
+    const [filterData, setFilterData] = useState<any>(props.usersData);
+    useEffect(() => {setIsLoading(false);},props.userData);
     const [userStatus, setStatus] = useState<boolean>(false);
     const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);

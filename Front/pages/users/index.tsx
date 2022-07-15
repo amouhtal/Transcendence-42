@@ -45,7 +45,7 @@ function users(props:any) {
     });
   }, [update]);
 //   console.log("props=",props);
-  props.socket?.on("Refresh", (data:any) => {setUpdateVar(!update)});
+	props.socket?.off("Refresh").on("Refresh", (data:any) => {console.log("heifhiewhfilhediv");setUpdateVar(!update)});
   return (
     <>
       {

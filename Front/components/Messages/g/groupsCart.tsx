@@ -11,14 +11,14 @@ const FriendsCart = (props:any) => {
     let info : any = [];
 	// const _roomId : number = typeof window != "undefined" ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5]?.indexOf("?")) : 0;
 
-    // const getLastMessage = (e:number) => {
-    //     const  [lastMessage, setLastMessage] = useState<string>("");
-    //         axios.post("http://localhost:3001/roomMessage/getLastMessage", {roomId: e}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
-    //         .then((res) => {
-    //             setLastMessage(res.data.message)
-    //         })
-    //     return (lastMessage);
-    // }
+    const getLastMessage = (e:number) => {
+        const  [lastMessage, setLastMessage] = useState<string>("");
+            axios.post("http://localhost:3001/roomMessage/getLastMessage", {roomId: e}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+            .then((res) => {
+                setLastMessage(res.data.message)
+            })
+        return (lastMessage);
+    }
     return (
         <>
         {
@@ -31,9 +31,6 @@ const FriendsCart = (props:any) => {
                         </div>
                         <div className={styles.userName}>
                             <p>{e.name}</p>
-                        </div>
-                        <div className={styles.LastMessage}>
-                            {/* <p>{getLastMessage(e.id)}</p> */}
                         </div>
                     </div>
                 </Link>
@@ -51,9 +48,6 @@ const FriendsCart = (props:any) => {
                     </div>
                     <div className={styles.userName}>
                         <p>{e.name}</p>
-                    </div>
-                    <div className={styles.LastMessage}>
-                        {/* <p>{getLastMessage(e.id)}</p> */}
                     </div>
                 </div>
             </Link>

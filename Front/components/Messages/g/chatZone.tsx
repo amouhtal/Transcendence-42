@@ -91,7 +91,7 @@ const GroupChatZone = (props:any) => {
             })
     },[bannedUserUpdate])
     useEffect ( () => {
-        setInterval(async () => {
+        // setInterval(async () => {
              axios.post("http://localhost:3001/roomBannedUsers/getMutedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
             .then((res) => {
                 setBannedUsers(res.data);
@@ -108,18 +108,18 @@ const GroupChatZone = (props:any) => {
                             }
                             setTimeLeftForBan(timeLeft);
                         }
-                        if (newtest.getTime() - new Date().getTime() <= 0)
-                        {
-                             axios.post("http://localhost:3001/roomBannedUsers/unbanUser",{userName: e.bannedUserName, roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
-                             axios.post("http://localhost:3001/roomBannedUsers/getMutedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
-                            .then((res) => {
-                                setBannedUsers(res.data);
-                            })
-                        }
+                        // if (newtest.getTime() - new Date().getTime() <= 0)
+                        // {
+                        //      axios.post("http://localhost:3001/roomBannedUsers/unbanUser",{userName: e.bannedUserName, roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                        //      axios.post("http://localhost:3001/roomBannedUsers/getMutedUserByRoomId",{roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+                        //     .then((res) => {
+                        //         setBannedUsers(res.data);
+                        //     })
+                        // }
                     }
                 })
             })
-        }, 20000);
+        // }, 20000);
     },[]);
     useEffect(() => {
         console.log("refresh")
@@ -153,21 +153,27 @@ const GroupChatZone = (props:any) => {
     }
     if (process.browser)
         localStorage.setItem("color", color as string);
+    
     props.socket?.on("messageRoom", (data:any) => {console.log("here");setMessages(data)});
-    props.socket?.on("mutedUser", (res:any) => {
+    props.socket?.off("mutedUser").once("mutedUser", (res:any) => {
+        console.log("res=",res);
         setBannedUsers([res]);
-        let newtest : any = new Date(res.unBanTime);
-        let difference: any = newtest.getMinutes() - +new Date().getMinutes();
-        let timeLeft  = {};
-        if (difference > 0) {
-            timeLeft = {
-                minutes: newtest.getMinutes() - +new Date().getMinutes(),
-                seconds: +new Date().getSeconds() - newtest.getSeconds()
-            }
-            setTimeLeftForBan(timeLeft);
-        }
+        // let newtest : any = new Date(res?.unBanTime);
+        // let difference: any = newtest.getMinutes() - +new Date().getMinutes();
+        // let timeLeft  = {};
+        // if (difference > 0) {
+        //     timeLeft = {
+        //         minutes: newtest.getMinutes() - +new Date().getMinutes(),
+        //         seconds: +new Date().getSeconds() - newtest.getSeconds()
+        //     }
+        //     setTimeLeftForBan(timeLeft);
+        // }
     })
-    props.socket?.on("getBannedUserByRoomId", (res:any) => {});
+    props.socket?.off("unMuteUser").on("unMuteUser", (data: any) => {
+        console.log("newRes=",data);
+        setBannedUsers(data)
+    })
+    props.socket?.off("getBannedUserByRoomId").on("getBannedUserByRoomId", (res:any) => {});
     const getUserInfo = (e:any) => {
         let userInfo :any = props.usersData.filter((curr:any) => {
             return (e === curr.userName);
@@ -223,7 +229,7 @@ const GroupChatZone = (props:any) => {
             })
             return on;
     }
-    props.socket?.on("Refresh",(data:any) => {setRefresh(!refresh);setUpdateRoomMambets(!updateRoomMembers);})
+    props.socket?.off("Refresh").on("Refresh",(data:any) => {setRefresh(!refresh);setUpdateRoomMambets(!updateRoomMembers);})
         return (
         <>
         <GroupsZone status={props.status} show={showFriends} setShow={setShowFriends} socket={props.socket} setRoomOwnerUsername={setRoomOwnerUsername} user={props.user}/>

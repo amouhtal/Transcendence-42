@@ -2,6 +2,7 @@ import { JwtService } from "@nestjs/jwt";
 import { InjectRepository } from "@nestjs/typeorm";
 import { MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway, WebSocketServer } from "@nestjs/websockets";
 import { match } from "assert";
+import { CronJob } from "cron";
 import { now } from "moment";
 import { SocketAddress } from "net";
 import { EMPTY } from "rxjs";
@@ -397,7 +398,7 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 	@SubscribeMessage('startChannels')
 	async handleChannels(client : Socket , text: any)
 	{
-		//console.log("--------startChannels-------------")
+		console.log("--------startChannels-------------")
 		let auth_token = client.handshake.auth.Authorization;
 		if(auth_token !== "null" && auth_token !== "undefined" && auth_token)
 		{
@@ -419,7 +420,7 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 				}
 			}
 		}
-		//console.log("--------------------------------")
+		console.log("--------------------------------")
 
 	}
 
@@ -543,7 +544,7 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 @SubscribeMessage('muteUser')
 	async muteUser(client : Socket , data: any)
 	{
-		//console.log("------muteUser----------")
+		console.log("------muteUser----------")
 		let auth_token = client.handshake.auth.Authorization;
 		if(auth_token !== "null" && auth_token !== "undefined" && auth_token)
 		{
@@ -552,18 +553,28 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 			if(Object.keys(userInfo).length !== 0)
 			{
 				let muteUserInfo :any = await this.roomBannedUserServ.muteUser(data.userName, data.roomId, data.periode)
-				let recvSockts : Socket[] = sockets.get(data.userName);
 				if(muteUserInfo !== "null")
 				{
-					for(let sock of recvSockts)
-					{
-						//console.log("mel-hamra Hmaaaaaarr")
-						sock.emit("mutedUser", muteUserInfo)
-					}
+					const date = new Date(muteUserInfo.unBanTime);
+					const job = new CronJob(date, async () => {
+						await this.roomBannedUserServ.unbanUser(data.userName,data.roomId)
+						let recvSockts : Socket[] = sockets.get(data.userName);
+							for(let sock of recvSockts)
+							{
+								sock.emit("unMuteUser", await this.roomBannedUserServ.getMutedUserByRoomId(data.roomId))
+							}
+					});
+					let recvSockts : Socket[] = sockets.get(data.userName);
+							for(let sock of recvSockts)
+							{
+								//console.log("mel-hamra Hmaaaaaarr")
+								sock.emit("mutedUser", muteUserInfo)
+							}
+					job.start()
 				}
 			}
 		}
-		//console.log("--------------------------------")
+		console.log("--------------------------------")
 	}
 
 
@@ -657,7 +668,6 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 	async Refreche(client : Socket , data: any)
 	{
 		//console.log("------Refreche----------")
-		console.log("data=",data);
 		let auth_token = client.handshake.auth.Authorization;
 		if(auth_token !== "null" && auth_token !== "undefined" && auth_token)
 		{
@@ -665,7 +675,6 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 			let userInfo = await this.usersRepository.query(`select "userName" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`);
 			if(Object.keys(userInfo).length !== 0)
 			{
-				console.log(data.length)
 				if(data.length > 0)
 				{
 					console.log("here1")

@@ -130,7 +130,7 @@ const ChatZone = (props: any) => {
     }
   };
   if (process.browser) localStorage.setItem("color", color as string);
-  props.socket?.on("message", (data: any) => {
+  props.socket?.off("message").on("message", (data: any) => {
     setMessages(data);
   });
   const isBlocked = (userName: any) => {
@@ -153,7 +153,7 @@ const ChatZone = (props: any) => {
     })
     return isNotValidUser;
   }
-  props.socket?.on("Refresh",(data:any) => {setRefresh(!refresh)})
+  props.socket?.off("Refresh").on("Refresh",(data:any) => {setRefresh(!refresh)})
   return (
     <>
       <FriendsZone data={friends} status={props.status} show={showFriends} setShow={setShowFriends} socket={props.socket} updateFriendsList={updateFriendsList} setUpdateFreindsList={setUpdateFriendsList} blockedusers={props.blockedusers}/>
