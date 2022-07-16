@@ -7,12 +7,14 @@ import { liveGame } from "src/entities/liveGame.entity";
 import { User } from "src/entities/user.entity";
 import { Repository } from "typeorm";
 import { Socket } from "socket.io";
+import { UserService } from "src/user/user.service";
 
 @Injectable()
 export class liveGameService
 {
     constructor(
-		@InjectRepository(liveGame) private liveGameRepository: Repository<liveGame>
+		@InjectRepository(liveGame) private liveGameRepository: Repository<liveGame>,
+        @InjectRepository(User) private userRepo: Repository<User>
 	){}
 
     async saveGame(game : LiveGameDto)
@@ -50,12 +52,27 @@ export class liveGameService
     }
     async getLiveGame(player : string)
     {
-        let game : liveGame = await this.liveGameRepository.findOne({where: [{ player1: player },{ player2: player }]})
-        if(game !== null)
+        console.log("-------------------livegame-------------")
+        console.log("=====>",player)
+
+        if (player !== undefined)
         {
-            return game
+            console.log("im hererere")
+            let game : liveGame = await this.liveGameRepository.
+            findOne(
+                { where: [{ player1: player } , { player2: player }]},
+                );
+                if(game !== null)
+                {
+                    let player1 : User = await this.userRepo.findOneBy({userName : game.player1})
+                    let player2 : User = await this.userRepo.findOneBy({userName : game.player2})
+                    
+                    console.log("here=>",player)
+                    console.log(game);
+                    return { playerpic1 : player1.picture , playerpic2 : player2.picture , player1 : player1.userName , player2 : player2.userName}
+                }
+                else
+                return null
         }
-        else
-         return null
     }
 }

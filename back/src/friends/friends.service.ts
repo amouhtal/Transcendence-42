@@ -145,9 +145,11 @@ export class friendsService {
     // `);
     
     let blocked_friends = await this.userRepo
-    .query(`select public."Users"."userName", public."Users"."picture"  FROM public."Users" \
-    WHERE  public."Users"."userName" IN \
-    (select "userName" FROM public."FriendBlocked" WHERE public."FriendBlocked"."userId" = '${userId}') \
+    .query(`select public."Users"."userName", public."Users"."picture"  FROM public."Users" 
+    WHERE  public."Users"."userName" IN 
+    (select "FriendBlocked"."Blocker"  FROM public."FriendBlocked" WHERE public."FriendBlocked"."Blocked" = '${userName}') 
+	OR  public."Users"."userName" IN 
+    (select "FriendBlocked"."Blocked"  FROM public."FriendBlocked" WHERE public."FriendBlocked"."Blocker" = '${userName}') 
     `);
     
     // console.log('--->', userName);

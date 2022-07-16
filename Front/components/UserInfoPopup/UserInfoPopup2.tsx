@@ -103,35 +103,35 @@ const CinFormation2 = (props: any) => {
     const data = new FormData();
     const dataUserName = {userName};
     data.append("image", file[0]);
-    axios
-    .post(
-      `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/complet`,
-      dataUserName,
-      {
-        headers: {
-          Authorization: `Bearer ${
-            localStorage.getItem("accessToken") as string
-          }`,
-        },
-      }
-      )
-      .then((res) => {
-        props.setUpdate(!props.update);
-        if (
-          res.data.message &&
-          (res.data.message == "valid username" ||
-          res.data.message == "Already have a username")
-          ) {
-            props.setUpdate(!props.update);
-          } else if (res.data.message) alert(res.data.message);
-        })
-        .catch(function (error) {
-          if (error.response) {
-            router.push({pathname :`/errorPage/${error.response.status}`})
-          }
-          props.setPopup(!props.Popup);
-    });
-
+    // axios
+    // .post(
+    //   `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/complet`,
+    //   dataUserName,
+    //   {
+    //     headers: {
+    //       Authorization: `Bearer ${
+    //         localStorage.getItem("accessToken") as string
+    //       }`,
+    //     },
+    //   }
+    //   )
+    //   .then((res) => {
+    //     props.setUpdate(!props.update);
+    //     if (
+    //       res.data.message &&
+    //       (res.data.message == "valid username" ||
+    //       res.data.message == "Already have a username")
+    //       ) {
+    //         props.setUpdate(!props.update);
+    //       } else if (res.data.message) alert(res.data.message);
+    //     })
+    //     .catch(function (error) {
+    //       if (error.response) {
+    //         router.push({pathname :`/errorPage/${error.response.status}`})
+    //       }
+    //       props.setPopup(!props.Popup);
+    // });
+      props.socket?.emit("changeUserName", dataUserName)
 
     axios
       .post(

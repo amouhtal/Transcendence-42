@@ -48,7 +48,14 @@ const UsersCart = (props: any) => {
   let checkFriends: boolean;
   let checkInviteRecive: boolean;
   let checkInviteSend: boolean;
-
+  // const isBlockedMe = (userName:string) => {
+  //   let on: boolean = false;
+  //   props.blockedMe.map((e:any) => {
+  //     if (e.userName === userName)
+  //       on = true;
+  //   })
+  //   return on;
+  // }
   return (
     <>
       {props.data?.map((e: any | any[]) => {
@@ -213,6 +220,7 @@ const UsersCart = (props: any) => {
                 id={e.userName}
                 className={props.inBlock ? styles.addUserIcon : styles.none}
                 onClick={(e: any) => {
+                console.log("lolol=", e.target.id)
                   const data = { userName: `${e.target.id}` };
                   axios
                     .post(

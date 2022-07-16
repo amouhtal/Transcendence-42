@@ -12,7 +12,8 @@ function Achevment(props: any) {
     const [allnotification, setNotification] = useState([])
     const [livematch, setLiveMatch] = useState<any>([])
     const [alluser, setAlluser] = useState([])
-
+    const [data, setData] = useState<any>(props.data); useEffect(() => {setData(props.data)}, [props.data])
+    console.log("props=",props.data?.userName)
 
     useEffect(() => {
             axios.get(
@@ -31,33 +32,30 @@ function Achevment(props: any) {
     }, [])
 
     useEffect(() => {
-        axios
-          .post(
-            `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/profile`,
-            null,
-            {
-              headers: {
-                Authorization: `Bearer ${
-                  localStorage.getItem("accessToken") as string
-                }`,
-              },
-            }
-          )
-          .then((res) => {
-            setUserInfo(res.data.userInfo);
-        })
-        .catch(function (error){
+            axios.post(
+              `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/livegames/getLiveGameByUserName`,
+              {userName :  data?.userName},{
+                  headers: {
+                      Authorization: `Bearer ${
+                        localStorage.getItem("accessToken") as string
+                      }`,
+                  }  
+              }
+          ).then((res) =>{
+            setLiveMatch(res.data);
+          }).catch(function (error){
             if (error.response){
-                router.push({pathname :`/errorPage/${error.response.status}`})
+              router.push({pathname :`/errorPage/${error.response.status}`})
             }
-        })
-
-    }, []);
-
+          })
+      }, [data]);
+      // console.log("useeeerName", userInfo?.userName);
+      console.log("lavematch-=-=>",livematch);
+      
     useEffect(() =>{
         axios.post(
             `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/notifications/getUserNotifications`,
-            {userName :  userInfo?.userName},{
+            {userName : data?.userName},{
                 headers: {
                     Authorization: `Bearer ${
                       localStorage.getItem("accessToken") as string
@@ -71,29 +69,9 @@ function Achevment(props: any) {
                 router.push({pathname :`/errorPage/${error.response.status}`})
             }
         })
-
-
-      //   axios.post(
-      //     `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/livegames/getLiveGameByUserName`,
-      //     {userName :  userInfo?.userName},{
-      //         headers: {
-      //             Authorization: `Bearer ${
-      //               localStorage.getItem("accessToken") as string
-      //             }`,
-      //         }  
-      //     }
-      // ).then((res) =>{
-      //   console.log("lavematch-=-=>",res.data);
-      //   setLiveMatch(res.data);
-      // }).catch(function (error){
-      //     if (error.response){
-      //         router.push({pathname :`/errorPage/${error.response.status}`})
-      //     }
-      // })
-
-
-    },[userInfo])
+    },[data])
     const getSenderInformation = (userName:string) => {
+      console.log(",=====>",alluser)
         const filterData: any = alluser.filter((e:any) => {
             return (e.userName === userName);
         })
@@ -105,16 +83,17 @@ function Achevment(props: any) {
         {
           props.Myprofile ?(
             allnotification.length > 0 ?(
-            allnotification.map((Data, id) =>{
-            const [senderInformation]: any = getSenderInformation(Data.senderName);
+            allnotification.map((e, id) =>{
+            const [senderInformation]: any = getSenderInformation(e.senderName);
+            console.log("senderInformation=",senderInformation);
             return (
               <div key={Math.random()}>
-                <CartNotification MyP={true} key={id} data={Data} PicSender={senderInformation}/>
+                <CartNotification MyP={true} key={id} data={e} PicSender={senderInformation}/>
               </div>
             )})
            ):( <div className={style.NoNotification}>No Notification</div>)
           ):(
-            <LiveListMatch LiveM={true}/>)
+            livematch && <LiveListMatch LiveM={true} data={livematch}/>)
         }
       </div>
     </div>

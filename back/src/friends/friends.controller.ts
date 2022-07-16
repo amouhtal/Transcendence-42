@@ -186,16 +186,26 @@ export class FriendsController {
     const jwt = request.headers.authorization.replace('Bearer ', '');
     const tokenInfo: any = this.jwtService.decode(jwt);
     const userId = await this.userRepo.query(
-      `select "id" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`,
+      `select "userName" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`,
     );
-    let user_blocked = await this.userRepo
-      .query(`select public."Users"."userName", public."Users"."picture"  FROM public."Users"
-		WHERE  public."Users"."userName" IN 
-		(select "Blocked" FROM public."FriendBlocked" WHERE public."FriendBlocked"."userId" = '${userId[0].id}')
-		`);
-    // console.log(user_blocked);
+    let users_I_blocked = 
+    await this.userRepo
+    .query(`select public."Users"."userName", public."Users"."picture"  FROM public."Users" 
+    WHERE  public."Users"."userName" IN 
+    (select "FriendBlocked"."Blocker"  FROM public."FriendBlocked" WHERE public."FriendBlocked"."Blocked" = '${userId[0].userName}' )
+    `);
+    
+    let users_T_blocked = 
+    await this.userRepo
+    .query(`select public."Users"."userName", public."Users"."picture"  FROM public."Users" 
+    WHERE  public."Users"."userName" IN 
+    (
+    select "FriendBlocked"."Blocked"  FROM public."FriendBlocked" WHERE public."FriendBlocked"."Blocker" = '${userId[0].userName}')
 
-    return user_blocked;
+    `);
+    
+
+    return {users_I_blocked,users_T_blocked };
   }
 
   @Post('block')
@@ -255,7 +265,8 @@ export class FriendsController {
     const userId = await this.userRepo.query(
       `select "id" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`,
     );
-
+      console.log(data.userName, userId[0].id);
+      
     await this.userRepo.query(
       `DELETE FROM public."FriendBlocked" WHERE  "Blocked" = '${data.userName}' AND "userId" = '${userId[0].id}'`,
     );

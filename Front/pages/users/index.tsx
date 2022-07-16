@@ -14,6 +14,7 @@ function users(props:any) {
   const [update, setUpdateVar] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [userInfo, setUserInfo] = useState<any>({});
+	const [blockedMe, setblockedMe] = useState<any>([]);
 //   console.log(process.env.NEXT_PUBLIC_IP_ADRESSE)
 	useEffect(() => {
 		axios.post(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/profile`,null,
@@ -35,9 +36,17 @@ function users(props:any) {
         },
       })
       .then((res) => {
-		//   console.log("res=",res.data)
+		axios.get(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/block`, {
+			headers: {
+			  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+			},
+		  })
+		  .then((res2) => {
+				setblockedMe(res.data.users_T_blocked);
+		  })
         setUsersData(res.data);
 		setIsLoading(false);
+	
       }).catch(function (error){
         if (error.response){
             router.push({pathname :`/errorPage/${error.response.status}`})
@@ -65,6 +74,7 @@ function users(props:any) {
 			update={update}
 			user={userInfo}
 			socket={props.socket}
+			blockedMed={blockedMe}
 			/>
       }
     </>

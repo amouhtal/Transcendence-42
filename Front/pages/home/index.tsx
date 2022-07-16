@@ -21,6 +21,7 @@ const home = (props:any) => {
           "refreshToken",
           router.query.refreshToken as string
         );
+        props.setIsConnected(!props.isConnected);
       }
       router.push("/home");
     }

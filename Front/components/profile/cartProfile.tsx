@@ -12,6 +12,7 @@ import ErrorType from "../AllError/ErrorType";
 import setting from "../../public/images/imgeSidBar/profileSetting.png";
 
 function CartProfile(props: any) {
+  console.log("imInCart=",props)
   const router = useRouter()
   let isConected = false;
   const route = useRouter();
@@ -155,7 +156,6 @@ function CartProfile(props: any) {
                   }
                   )
                   .then ((res) => {
-
                     props.setBlockedUpdate(!props.blockedUpdate);
                   })
                   .catch(function (error) {

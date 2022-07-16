@@ -57,9 +57,9 @@ const Messages = (props:any) => {
             }
           )
           .then((res) => {
-            setBlockedUsers(res.data);
+            setBlockedUsers(res.data.users_T_blocked);
             // console.log("BlockedUsers=",res.data);
-		    	  res.data.map((e:any) => {
+		    	  res.data.users_T_blocked.map((e:any) => {
 				    if (e.userName === userNameFromUrl)
 					    setisBlocked(true);
 					})

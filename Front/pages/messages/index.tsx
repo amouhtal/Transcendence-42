@@ -47,7 +47,7 @@ const messages = (props: any) => {
             }
           )
           .then((res) => {
-            setBlockedUsers(res.data);
+            setBlockedUsers(res.data.users_T_blocked);
             // console.log("BlockedUsers=",res.data)
           }).catch(function (error){
             if (error.response){

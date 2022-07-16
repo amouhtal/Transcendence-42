@@ -22,10 +22,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   const [userInfo, setUserInfo] = useState<any>();
   const [showContent, setShowContent] = useState<boolean>(false);
   const router = useRouter();
+  const [isConnected, setIsConnected] = useState<boolean>(false);
   {/*Get AcessToken And refreshToken*/}
   useEffect(() => {
 
   });
+  const {accessToken, refreshToken} = useContext(TokenContext);
 
   useEffect(() => {
     document.getElementsByTagName("body")[0].style.margin = "0";
@@ -33,6 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     document.getElementsByTagName("body")[0].style.height = "100%";
   });
   useEffect(() => {
+    console.log("im in SocketIo")
     let socketOptions = {
       transportOptions: {
         polling: {
@@ -50,7 +53,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       `${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}`,
       socketOptions
     ));
-  },[]);
+  },[isConnected]);
   useEffect(()=>{
     socket?.emit("startChannels");
     socket?.on("notification",(data:any) =>{
@@ -58,7 +61,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       changeNotification((oldValues:any)=> [...oldValues ,array.current])
       window.setTimeout(() =>{
         array.current.splice(0,1)
-        // console.log(array.current)
         changeNotification(array.current)
       },6000)
     })
@@ -74,7 +76,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                 )
               }
               <TokenContextProvider>
-                	<Component {...pageProps} socket={socket} user={userInfo} />
+                	<Component {...pageProps} socket={socket} user={userInfo} isConnected={isConnected} setIsConnected={setIsConnected} />
             	</TokenContextProvider>
             {typeof window != "undefined" &&
             (window.location.href.split("/")[3] != "game" && window.location.pathname.split("/")[1] != "errorPage" && window.location.pathname.split("/")[1] != "login")? (

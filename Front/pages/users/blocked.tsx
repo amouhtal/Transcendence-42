@@ -20,8 +20,9 @@ function users() {
         },
       })
       .then((res) => {
+        console.log("im=",res.data)
 		    setIsLoading(false);
-        setUsersData(res.data);
+        setUsersData(res.data.users_T_blocked);
       }).catch(function (error){
         if (error.response){
             router.push({pathname :`/errorPage/${error.response.status}`})

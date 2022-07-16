@@ -630,7 +630,7 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 	@SubscribeMessage('changeUserName')
     async changeUserName(client : Socket , data: any)
     {
-        //console.log("------changeUserName----------")
+        console.log("------changeUserName----------")
         let auth_token = client.handshake.auth.Authorization;
         if(auth_token !== "null" && auth_token !== "undefined" && auth_token)
         {
@@ -659,10 +659,13 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 					this.roomMessageServ.changeName(userInfo[0].userName,data.userName)
 					this.roomBannedUserServ.changeName(userInfo[0].userName,data.userName)
 					this.notifServ.changeName(userInfo[0].userName,data.userName)
+					return ("userName updated successfully")
 				}
+				else
+					return("name already exist")
             }
         }
-        //console.log("--------------------------------")
+        console.log("--------------------------------")
     }
 	@SubscribeMessage('Refresh')
 	async Refreche(client : Socket , data: any)

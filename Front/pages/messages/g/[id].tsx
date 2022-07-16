@@ -101,7 +101,7 @@ const Messages = (props:any) => {
             }
           )
           .then((res) => {
-            setBlockedUsers(res.data);
+            setBlockedUsers(res.data.users_T_blocked);
       })
     }, []);
     var test:boolean = true;
