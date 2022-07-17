@@ -40,4 +40,12 @@ export class notificationService
     //     await this.notificationRep.query(`UPDATE public."notification" SET "senderName"='${newUserName}' WHERE "senderName"='${oldUserName}'`);
     //     await this.notificationRep.query(`UPDATE public."notification" SET "reciverName"='${newUserName}' WHERE "reciverName"='${oldUserName}'`);
     // }
+    async deleteNotification(sender : string , reciver : string )
+    {
+        return await this.notificationRep.delete({senderName : sender , reciverName : reciver , type : "playe"})
+    }
+    async getNotificationBySR(sender : string , reciver : string )
+    {
+        return  await this.notificationRep.findBy({senderName : sender , reciverName : reciver , type : "playe"})
+    }
 }

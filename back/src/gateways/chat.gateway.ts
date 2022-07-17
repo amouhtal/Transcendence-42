@@ -37,6 +37,7 @@ var playersStat = new Array
 var ballStat = new Array
 var intervals = new Array
 var watchers = new Array
+var Invits = new Array
 var mods = new Array
 var opponentLeft = async (this_:any, sender_id:any) =>{
 	if(matchMakingarray.indexOf(sender_id[0].userName) != -1)
@@ -257,7 +258,7 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 			});
 			if (legal == "legal"){
 				if (typeof playersStat.find(element => element.player1 == user_id[0].userName || element.player2 == user_id[0].userName) == "undefined"){
-					if (matchMakingarray.indexOf(user_id[0].userName) == -1){
+					if (matchMakingarray.indexOf(user_id[0].userName) == -1 && Invits.indexOf(user_id[0].userName) == -1){
 						matchMakingarray.push(user_id[0].userName)
 						let speed =  isNaN(body.speed) ? 5 : parseInt(body.speed)
 						let ballSize = isNaN(body.ballSize) ? 12.5 : 1000 / (1000  / parseInt(body.ballSize))
@@ -265,30 +266,36 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 							speed = 5
 						if (body.ballSize == null || ballSize < 4 || ballSize > 40)
 							ballSize = 12.5
-						mods.push({userName:user_id[0].userName,speed:speed ,ballSize:ballSize
-						})
-						//console.log(mods)
+						mods.push({userName:user_id[0].userName,speed:speed ,ballSize:ballSize})
 					}
-		
-					if (matchMakingarray.length > 1)
+					if (matchMakingarray.length > 1 || Invits.length > 1)
 					{
 						let game : LiveGameDto = new(LiveGameDto)
-						player = sockets.get(user_id[0].userName)
-						player2 = sockets.get(matchMakingarray[0])
-						game.player1 = matchMakingarray[0]
-						game.player2 =  matchMakingarray[1]
-						game.time = new Date()
+						if (matchMakingarray.indexOf(user_id[0].userName) != -1){
+							player = sockets.get(user_id[0].userName)
+							player2 = sockets.get(matchMakingarray[0])
+							game.player1 = matchMakingarray[0]
+							game.player2 =  matchMakingarray[1]
+							game.time = new Date()
+							matchMakingarray.splice(0,2)
+						} else{
+							player = sockets.get(Invits[0])
+							player2 = sockets.get(Invits[1])
+							game.player1 = Invits[0]
+							game.player2 =  Invits[1]
+							game.time = new Date()
+							Invits.splice(0,2)
+						}
 						await this.liveGameServ.saveGame(game)
 						this.gamePlaysServ.init(game.player1,game.player2,playersStat,ballStat,watchers,mods)
 						for(let ids of player)
 						{
-							ids.emit("matchmaking", [matchMakingarray[0], matchMakingarray[1],"Found"])
+							ids.emit("matchmaking", [game.player1, game.player2,"Found"])
 						}
 						for(let ids of player2)
 						{
-							ids.emit("matchmaking", [matchMakingarray[0], matchMakingarray[1],"Found"])
+							ids.emit("matchmaking", [game.player1, game.player2,"Found"])
 						}
-						matchMakingarray.splice(0,2)
 						mods.splice(0,2)
 					}
 					else
@@ -326,9 +333,9 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 			if (Object.keys(userInfo).length > 0){
 				let game : LiveGameDto = await this.liveGameServ.getGame(userInfo[0].userName)
 				if (Object.keys(game).length !== 0){
-					if (userInfo[0].userName == game[0].player1){
+					if (typeof intervals.find(element => element.player1 == userInfo[0].userName || element.player2 == userInfo[0].userName) == "undefined"){
 						let speed = ballStat.find(element => element.player1 == userInfo[0].userName || element.player2 == userInfo[0].userName).Settings.speed
-						const interval = setInterval(() => this.gamePlaysServ.movingBall(userInfo[0].userName,ballStat,playersStat,sockets,intervals,watchers) , speed)
+						const interval = setInterval(() => this.gamePlaysServ.movingBall(userInfo[0].userName,ballStat,playersStat,sockets,intervals,watchers) , speed + 10)
 						intervals.push({id:interval,player1:game[0].player1,player2:game[0].player2})
 					}
 				}
@@ -349,6 +356,8 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 			if (Object.keys(userInfo).length > 0){
 				player = sockets.get(userInfo[0].userName)
 					if(watchers.find(element => element.player1 == body || element.player2 == body).watchers.indexOf(userInfo[0].userName) == -1){
+						if (matchMakingarray.indexOf(userInfo[0].userName))
+							matchMakingarray.splice(matchMakingarray.indexOf(userInfo[0].userName),1)
 						watchers.find(element => element.player1 == body || element.player2 == body).watchers.push(userInfo[0].userName)
 						lega = "added"
 					}else{
@@ -359,6 +368,80 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 					ids.emit("addWatcher", lega)
 				}
 				//console.log(watchers)
+			}
+		}
+	}
+	@SubscribeMessage('acceptInvite')
+	async acceptInvite(client: Socket, body: any)
+	{
+		let auth_token = await client.handshake.auth.Authorization;
+		if(auth_token !== "null" && auth_token !== "undefined" && auth_token)
+		{
+			var player : Socket[] = [];
+			var player2 : Socket[] = [];
+			const tokenInfo : any = this.jwtService.decode(auth_token);
+			let userInfo = await this.usersRepository.query(`select "userName" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`);
+			if (Object.keys(userInfo).length > 0){
+				player = sockets.get(userInfo[0].userName)
+				player2 = sockets.get(body)
+				if(player2 !== undefined)
+				{
+					if (typeof playersStat.find(element => element.player1 == userInfo[0].userName || element.player2 == userInfo[0].userName) == "undefined" && 
+						typeof playersStat.find(element => element.player1 == body || element.player2 == body) == "undefined"){
+						let not : any = await this.notifServ.getNotificationBySR(body,userInfo[0].userName)
+						if(not.length > 0)
+						{
+						Invits.push(userInfo[0].userName)
+						Invits.push(body)
+						mods.push({userName:userInfo[0].userName,speed:4 ,ballSize:12.5})
+						mods.push({userName:body,speed:4 ,ballSize:12.5})
+						for(let ids of player)
+						{
+							ids.emit("accepted","Accepted")
+						}
+						for(let ids of player2)
+						{
+							ids.emit("accepted","Accepted")
+						}
+						this.notifServ.deleteNotification(body,userInfo[0].userName)
+						}
+					} else {
+						for(let ids of player)
+						{
+							ids.emit("accepted","Playing")
+						}
+
+					}
+				} else {
+					for(let ids of player)
+					{
+						ids.emit("accepted","Disconected")
+					}
+				}
+			}
+		}
+	}
+	@SubscribeMessage('declineInvite')
+	async declineInvite(client: Socket, body: any)
+	{
+		let auth_token = await client.handshake.auth.Authorization;
+		if(auth_token !== "null" && auth_token !== "undefined" && auth_token)
+		{
+			var player2 : Socket[] = [];
+			const tokenInfo : any = this.jwtService.decode(auth_token);
+			let userInfo = await this.usersRepository.query(`select "userName" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`);
+			if (Object.keys(userInfo).length > 0){
+				let not : any = await this.notifServ.getNotificationBySR(body,userInfo[0].userName)
+				if(not.length > 0)
+				{
+					player2 = sockets.get(body)
+					this.notifServ.deleteNotification(body,userInfo[0].userName)
+
+					for(let ids of player2)
+					{
+						ids.emit("declined",userInfo[0].userName)
+					}
+				}
 			}
 		}
 	}
@@ -378,7 +461,6 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 	@SubscribeMessage('playing')
 	async playing(client: Socket, body: moveData)
 	{
-		//console.log("--------playing-------------")
 		let auth_token = await client.handshake.auth.Authorization;
 		if(auth_token !== "null" && auth_token !== "undefined" && auth_token)
 		{
@@ -388,7 +470,6 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 			{
 				let liveGame : LiveGameDto = await this.liveGameServ.getGame(userInfo[0].userName)
 				if (Object.keys(liveGame).length !== 0 && (userInfo[0].userName == liveGame[0].player1 || userInfo[0].userName == liveGame[0].player2)){
-					//console.log("herre")
 					this.gamePlaysServ.movingPaddles(playersStat,userInfo[0].userName,body, sockets, liveGame,watchers)
 				}
 			}

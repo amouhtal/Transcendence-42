@@ -68,16 +68,27 @@ const UsersCart = (props: any) => {
 				  	<div className={styles.LoadingContainer}>
 		  				<Grid><Loading type="points" /></Grid>
 	 				</div>
-			 	:
-              	<Link href={`/users/${e.userName}`} key={Math.random()}>
-                	<img
-                  	src={e.picture}
-                  	width={80}
-                  	height={80}
-                  	className={`${styles.profileImage} ${e.isActive ? styles.userStatusOn : styles.userStatusOff
-					}`}
-					/>
-              </Link>
+			 		:
+					 props.user.userName === e.userName ?
+              		<Link href={`/profile`} key={Math.random()}>
+                		<img
+                  		src={e.picture}
+                  		width={80}
+                  		height={80}
+                  		className={`${styles.profileImage} ${e.isActive ? styles.userStatusOn : styles.userStatusOff
+						}`}
+						/>
+              		</Link>
+					  :
+              		<Link href={`/users/${e.userName}`} key={Math.random()}>
+                		<img
+                  		src={e.picture}
+                  		width={80}
+                  		height={80}
+                  		className={`${styles.profileImage} ${e.isActive ? styles.userStatusOn : styles.userStatusOff
+						}`}
+						/>
+              		</Link>
 				}
             </div>
             <div className={styles.userName}>
@@ -117,7 +128,11 @@ const UsersCart = (props: any) => {
                           )}`,
                         },
                       }
-                    )
+                    ).then((res) => {
+						const data = { reciverName: `${e.target.id}`, type : "invit" };
+                        props.socket?.emit("notification", data);
+						props.socket?.emit("Refresh", [{userName: e.target.id}])
+                    })
                     .catch(function (error) {
                       if (error.response) {
                         router.push({pathname :`/errorPage/${error.response.status}`})

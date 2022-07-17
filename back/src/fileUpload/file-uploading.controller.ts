@@ -40,8 +40,8 @@ export class uploadController {
   )
   async uploadedFile(@UploadedFile() file, @Req() request: Request) {
     const response = {
-      originalname: file.originalname,
-      filename: file.filename,
+      originalname: file?.originalname,
+      filename: file?.filename,
     };
     const jwt = request.headers.authorization.replace('Bearer ', '');
     let user: User = await this.userService.getUserJwt(jwt);

@@ -9,37 +9,36 @@ const CinFormation2 = (props: any) => {
   const [valid, setValid] = useState<number>(0);
   const [image, setImage] = useState<any>();
   const [userName, setUserName] = useState<string>("");
-  const [file, setFile] = useState<any>();
+  const [file, setFile] = useState<any>([]);
   const [imageName, changeImageName] = useState<string>("");
   const changeStyle = useRef(null);
   const [userInfo, setUserInfo] = useState<any>({});
   const dispatch = useDispatch();
   const router = useRouter();
 
-  useEffect(() => {
-        axios
-          .post(
-            `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/profile`,
-            null,
-            {
-              headers: {
-                Authorization: `Bearer ${
-                  localStorage.getItem("accessToken") as string
-                }`,
-              },
-            }
-          )
-          .then((res) => {
-            setUserInfo(res.data.userInfo);
-            // console.log("pictureUrl=",res.data.userInfo.picture)
-          })
-          .catch(function (error) {
-            if (error.response) {
-              router.push({pathname :`/errorPage/${error.response.status}`})
-            }
-          });
-  }, []);
-
+  // useEffect(() => {
+  //       axios
+  //         .post(
+  //           `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/profile`,
+  //           null,
+  //           {
+  //             headers: {
+  //               Authorization: `Bearer ${
+  //                 localStorage.getItem("accessToken") as string
+  //               }`,
+  //             },
+  //           }
+  //         )
+  //         .then((res) => {
+  //           setUserInfo(res.data.userInfo);
+  //           // console.log("pictureUrl=",res.data.userInfo.picture)
+  //         })
+  //         .catch(function (error) {
+  //           if (error.response) {
+  //             router.push({pathname :`/errorPage/${error.response.status}`})
+  //           }
+  //         });
+  // }, []);
   const handelChange = (e: any) => {
     let lent: string = e.target.value;
     if (lent.length >= 6 && lent.length <= 11) {
@@ -101,42 +100,29 @@ const CinFormation2 = (props: any) => {
     e.preventDefault();
     dispatch(update_test());
     const data = new FormData();
-    const dataUserName = {userName};
-    data.append("image", file[0]);
-    // axios
-    // .post(
-    //   `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/complet`,
-    //   dataUserName,
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${
-    //         localStorage.getItem("accessToken") as string
-    //       }`,
-    //     },
-    //   }
-    //   )
-    //   .then((res) => {
-    //     props.setUpdate(!props.update);
-    //     if (
-    //       res.data.message &&
-    //       (res.data.message == "valid username" ||
-    //       res.data.message == "Already have a username")
-    //       ) {
-    //         props.setUpdate(!props.update);
-    //       } else if (res.data.message) alert(res.data.message);
-    //     })
-    //     .catch(function (error) {
-    //       if (error.response) {
-    //         router.push({pathname :`/errorPage/${error.response.status}`})
-    //       }
-    //       props.setPopup(!props.Popup);
-    // });
-      props.socket?.emit("changeUserName", dataUserName)
+    let dataUserName:any;
+    console.log("usersname=",userName)
+    if (userName === "")
+    {
+      console.log("The UserName=",props.data.userName);
+      dataUserName = {userName: props.data?.userName}
+    }
+    else
+      dataUserName = {userName};
+    if (file.length < 1)
+      data.append("image", props.data?.picture);
+    else
+      data.append("image", file[0]);
 
-    axios
+    props.setPopup(!props.Popup);
+    props.socket?.emit("changeUserName", dataUserName);
+    props.setRefresh(!props.refresh);
+    if (file.length >= 1)
+    {
+      axios
       .post(
-        `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/upload`,
-        data,
+      `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/upload`,
+      data,
         {
           headers: {
             Authorization: `Bearer ${
@@ -144,14 +130,27 @@ const CinFormation2 = (props: any) => {
             }`,
           },
         }
-      )
+      ).then((res) => {
+            axios.post(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/profile`,null,
+            {headers: {Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`,},})
+            .then((res) => {
+                props.setData(res.data.userInfo);;
+              })
+            .catch(function (error){
+                if (error.response){
+                   router.push({pathname :`/errorPage/${error.response.status}`})
+                } 
+            })
+      })
       .catch(function (error) {
         if (error.response) {
           router.push({pathname :`/errorPage/${error.response.status}`})
         }
       });
-  };
-  return (
+      console.log("========>",props.data?.picture)
+    };
+  }
+    return (
     <>
       <div className={style.container}>
         <div className={style.row0}>
@@ -171,7 +170,7 @@ const CinFormation2 = (props: any) => {
               <div className={style.imge}>
                 <img
                   className={style.img}
-                  src={image !== "undefined" ? image :  userInfo?.picture}
+                  src={image === undefined ? props.data?.picture : image}
                 ></img>
               </div>
               <div className={style.child}>

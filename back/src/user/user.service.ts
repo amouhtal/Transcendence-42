@@ -97,7 +97,7 @@ export class UserService {
       //   .set({ userName: newUserName })
       //   .where('useremail = :email', { email: email })
       //   .execute();
-      await this.usersRepository.query(`UPDATE public."Users" SET "userName"= '${newUserName}' WHERE  "userName"= '${oldUserName}'`)
+      await this.usersRepository.query(`UPDATE public."Users" SET "userName"= '${newUserName}', "ifUserName"= 'true' WHERE  "userName"= '${oldUserName}'`)
       
         return true;
 

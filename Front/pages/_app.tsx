@@ -64,6 +64,17 @@ function MyApp({ Component, pageProps }: AppProps) {
         changeNotification(array.current)
       },6000)
     })
+    socket?.on("accepted",(data:any)=>{
+      if (data === "Accepted")
+        router.push("/game")
+      else if (data === "Playing") 
+        alert("The user is in game!")
+      else
+        alert("The user is disconnected")
+    })
+    socket?.off("declined").on("declined",(data:any)=>{
+        alert(data + " Has declined your invitation")
+    })
   },[socket])
   // console.log(notification)
   return (

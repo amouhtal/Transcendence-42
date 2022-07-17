@@ -42,8 +42,8 @@ export default class gamePlayService
             player2:player2, 
             ballX:gameStat.with / 2, 
             ballY:gameStat.height / 2, 
-            ballMovmentX:2,
-            ballMovmentY:2,
+            ballMovmentX:7.5,
+            ballMovmentY:7.5,
             trajectX:false,
             trajectY:true,
             Settings:mods[random],
@@ -288,6 +288,6 @@ export default class gamePlayService
 
         if(impact < 0)
             impact *= -1
-        return {y:impact / 30 ,x:4 - (impact / 30)}
+        return {y:impact /8 ,x:15 - (impact / 8)}
     }
 }

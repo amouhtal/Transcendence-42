@@ -31,7 +31,7 @@ function SidePar(props: any) {
     dispatch(update_test());
   };
   return (
-    <>
+    <div>
       <div
         className={
           props.showSidBar
@@ -158,15 +158,6 @@ function SidePar(props: any) {
               ></img>
             </Link>
           </div>
-          {/* <div className={Style.child}>
-            <img
-              src={setting.src}
-              onClick={onclickHandler}
-              className={
-                Style.iconimg
-              }
-            ></img>
-          </div> */}
         </div>
         <div
           className={Style.Logout}
@@ -217,7 +208,7 @@ function SidePar(props: any) {
       >
         <AiOutlineBars className={Style.icon} />
       </button>
-    </>
+    </div>
   );
 }
 export default SidePar;

@@ -1,5 +1,5 @@
 import styles from "../../styles/home/home.module.css";
-import UserInfoPopup from "../../components/UserInfoPopup/UserInfoPopup";
+import CinFormation from "../../components/UserInfoPopup/UserInfoPopup";
 import UserInfoPopup2 from "../../components/UserInfoPopup/UserInfoPopup2";
 import SidePar from "../../components/sideBar";
 import { useState } from "react";
@@ -11,6 +11,7 @@ import axios from "axios";
 const home = (props:any) => {
   const [update, setUpdate] = useState<boolean>(false);
   const [userName, setUsername] = useState<boolean>(false);
+  const [Popup ,setPopup] = useState<Boolean>(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -57,10 +58,10 @@ const home = (props:any) => {
       <div className={styles.globaleHomeContainer}>
         <Watch socket={props.socket}/>
       </div>
-        {/* <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainerBlure}></div>
-        <div className={userName ? styles.none : update ? styles.none : styles.userInfoContainer}>
-        <UserInfoPopup setUpdate={setUpdate} update={update} isUsername={setUsername}/>
-      </div> */}
+        <div className={!Popup ? styles.none : userName ? styles.none : update ? styles.none : styles.userInfoContainerBlure}></div>
+        <div className={!Popup ? styles.none : userName ? styles.none : update ? styles.none : styles.userInfoContainer}>
+          <CinFormation setUpdate={setUpdate} update={update} isUsername={setUsername} socket = {props.socket} setPopup={setPopup} Popup={Popup}/>
+        </div>
     </>
   );
 };

@@ -18,8 +18,9 @@ function Profile(props: any) {
   const [showContent, setShowContent] = useState<boolean>(false);
   const [Popup ,setPopup] = useState<Boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-
+  const [refresh, setRefresh] = useState<boolean>(false);
   useEffect(() => {
+    console.log("here==================================================================>");
       axios
         .post(
           `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/profile`,
@@ -34,6 +35,7 @@ function Profile(props: any) {
         )
         .then((res) => {
           setUserInfo(res.data.userInfo);
+          console.log("fjdklsjfdklsjfdklsjfdklsjfdkls===>",res.data.userInfo)
           setMatchHistory(res.data.gameHistory);
           setIsLoading(false);
         })
@@ -42,7 +44,7 @@ function Profile(props: any) {
               router.push({pathname :`/errorPage/${error.response.status}`})
           }
       })
-  }, []);
+  }, [refresh]);
   return (
     <>
     {
@@ -59,7 +61,7 @@ function Profile(props: any) {
         <MatchHestory userData={userInfo} gameHistory={MatchHistory} />
       </div>
       }
-      {Popup && <CinFormation2 setPopup={setPopup} Popup={Popup} socket = {props.socket}/>}
+      {Popup && <CinFormation2 setPopup={setPopup} Popup={Popup} socket = {props.socket} data={userInfo} setData={setUserInfo} refresh={refresh} setRefresh={setRefresh} />}
     </>
   );
 }

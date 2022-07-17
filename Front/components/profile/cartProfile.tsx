@@ -92,22 +92,16 @@ function CartProfile(props: any) {
         </div>
         <div className={style.addPlock}>
           {(checkFriends = CheckIfFriend(props.data?.userName))}
-          {(checkInviteRecive = CheckIfInviteRecive(props.ƒisdata?.userName))}
+          {(checkInviteRecive = CheckIfInviteRecive(props.data?.userName))}
           {(checkInviteSend = CheckIfInviteSend(props.data?.userName))}
-          {/* {console.log("isFrind?=", checkFriends, ", isIntiveRecive?=",checkInviteRecive, ", ","InviteSend?=", checkInviteSend)} */}
+          {console.log("isFrind?=", checkFriends, ", isIntiveRecive?=",checkInviteRecive, ", ","InviteSend?=", checkInviteSend)}
           <img
             src={ajout.src}
             id={props.data?.userName}
             className={
-              props.Myprofile
+              props.Myprofile || props.user.userName === router.query.id
               ? style.none
-              : props.user.userName === router.query.id
-              ? style.none 
-              : checkInviteRecive
-              ? style.none
-              : checkInviteSend
-              ? style.none
-              : checkFriends
+              : checkInviteRecive || checkInviteSend || checkFriends
               ? style.none
               : style.ajoute
             }
@@ -116,6 +110,7 @@ function CartProfile(props: any) {
               const notData = { reciverName: `${props.data?.userName}`, type : "invit" };
 
               props.socket?.emit("notification", notData);
+              props.socket?.emit("Refresh", [{userName: props.data?.userName}])
               axios
               .post(
                 `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/send`,
@@ -168,7 +163,7 @@ function CartProfile(props: any) {
             <img
               src={setting.src}
               onClick={() => props.setPopup(!props.Popup)}
-              className={style.setting}
+              className={props.Myprofile ? style.setting : style.none}
             ></img>
           <img
             src={play.src}
@@ -176,6 +171,7 @@ function CartProfile(props: any) {
             onClick={()=>{
               const notData = { reciverName: `${props.data?.userName}`, type : "playe" };
               props.socket?.emit("notification", notData);
+              props.socket?.emit("Refresh", [{userName: props.data?.userName}])
             }}
             ></img>
           <img
@@ -184,6 +180,8 @@ function CartProfile(props: any) {
             ></img>
           <img
             src={accept.src}
+            width={30}
+            height={30}
             alt="accept"
             id={props.data?.userName}
             className={
@@ -206,7 +204,9 @@ function CartProfile(props: any) {
                       )}`,
                     },
                   }
-                  )
+                  ).then ((res) => {
+                    props.socket?.emit("Refresh", [{userName: e.target.id}])
+                  })
                   .catch(function (error) {
                     if (error.response) {
                       router.push({pathname :`/errorPage/${error.response.status}`})
@@ -243,12 +243,14 @@ function CartProfile(props: any) {
                         )}`,
                       },
                     }
-                    )
+                    ).then((res) => {
+                      props.socket?.emit("Refresh", [{userName: e.target.id}])
+                    })
                     .catch(function (error) {
-                  if (error.response) {
-                    router.push({pathname :`/errorPage/${error.response.status}`})
-                  }
-                });
+                      if (error.response) {
+                        router.push({pathname :`/errorPage/${error.response.status}`})
+                      }
+                    });
                 props.setUpdate(!props.update);
               }}
               />

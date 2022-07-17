@@ -146,6 +146,11 @@
 .none {
   display: none;
 }
+
+.acceptInvite {
+  cursor: pointer;
+}
+
 .rejectInvite {
   cursor: pointer;
 }

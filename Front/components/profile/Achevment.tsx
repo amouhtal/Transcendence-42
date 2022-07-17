@@ -12,7 +12,8 @@ function Achevment(props: any) {
     const [allnotification, setNotification] = useState([])
     const [livematch, setLiveMatch] = useState<any>([])
     const [alluser, setAlluser] = useState([])
-    const [data, setData] = useState<any>(props.data); useEffect(() => {setData(props.data)}, [props.data])
+    const [data, setData] = useState<any>(props.data); useEffect(() => {setData(props.data)}, [props.data]);
+    const [refresh, setRfresh] = useState<boolean>(false);
     console.log("props=",props.data?.userName)
 
     useEffect(() => {
@@ -49,9 +50,7 @@ function Achevment(props: any) {
             }
           })
       }, [data]);
-      // console.log("useeeerName", userInfo?.userName);
-      console.log("lavematch-=-=>",livematch);
-      
+      // console.log("useeeerName", userInfo?.userName);      
     useEffect(() =>{
         axios.post(
             `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/notifications/getUserNotifications`,
@@ -69,7 +68,7 @@ function Achevment(props: any) {
                 router.push({pathname :`/errorPage/${error.response.status}`})
             }
         })
-    },[data])
+    },[refresh,data])
     const getSenderInformation = (userName:string) => {
       console.log(",=====>",alluser)
         const filterData: any = alluser.filter((e:any) => {
@@ -77,6 +76,7 @@ function Achevment(props: any) {
         })
         return filterData;
     }
+    props.socket?.off("Refresh").on("Refresh", (data: any) => {setRfresh(!refresh)})
   return (
     <div className={style.cartSlide}>
       <div className={style.achivment}>
@@ -93,7 +93,7 @@ function Achevment(props: any) {
             )})
            ):( <div className={style.NoNotification}>No Notification</div>)
           ):(
-            livematch && <LiveListMatch LiveM={true} data={livematch}/>)
+            livematch && <LiveListMatch LiveM={true} data={livematch} socket={props.socket}/>)
         }
       </div>
     </div>

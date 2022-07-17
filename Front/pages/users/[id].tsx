@@ -16,6 +16,7 @@ function Profile(props:any) {
   const [blockedUsers, setBlockedUsers] = useState<any>([]);
   const [blockInUsers, setBlockInUsers] = useState<any>([]);
   const [blockedUpdate, setBlockedUpdate] = useState<boolean>(false);
+  const [refresh, setRefresh] = useState<boolean>(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -83,7 +84,7 @@ function Profile(props:any) {
       setUsersData(res.data);
     })
     // }
-  }, [update, router.query.id]);
+  }, [update, router.query.id, refresh]);
   let filtredData = usersData?.all_users?.filter((value: any) => {
     return value.userName === router.query.id;
   })[0];
@@ -109,6 +110,7 @@ function Profile(props:any) {
     // console.log("isBlocked=",isBlocked)
     return isBlocked;
   }
+  props.socket?.off("Refresh").on("Refresh", (data:any) => {setRefresh(!refresh)})
   return (
     <>
       <div className={!isBlocked(router.query?.id) ? Style.container : Style.containerBlured}>
@@ -134,7 +136,7 @@ function Profile(props:any) {
         	blocked={blockedUsers}
         	blockedUpdate={blockedUpdate}
         	setBlockedUpdate={setBlockedUpdate}/>
-          	<Achevment data={userData?.userInfo}/>
+          	<Achevment data={userData?.userInfo} socket={props.socket}/>
           </div>
           <div className={!isBlockedMe(router.query?.id) ? Style.matchH : Style.displaynone}>
           	<MatchHestory gameHistory={gameHistory} friends={false} />

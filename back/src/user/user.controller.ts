@@ -106,14 +106,14 @@ export class UserController {
           winner: {
             userName: element.winner_user,
             score: element.Score.split("-")[0],
-            picture: win_pic[0].picture,
+            picture: win_pic[0]?.picture,
           },
           loser: {
             userName: element.loser_user,
             score: element.Score.split("-")[1],
-            picture: lose_pic[0].picture,
+            picture: lose_pic[0]?.picture,
           },
-          played_at: gameHistory[0].played_at,
+          played_at: gameHistory[0]?.played_at,
         });
       }
       const profileInfo = {
@@ -189,7 +189,8 @@ export class UserController {
 
     let user: User = await this.userService.getUserJwt(jwt);
 
-    if (user) return { exist: true };
+    if (user.ifUserName) 
+      return { exist: true };
     return { exist: false };
   }
 

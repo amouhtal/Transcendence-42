@@ -118,7 +118,7 @@ const UserInfo = (props: any) => {
         	            <p>Search in conversation</p>
         	        {/* </div> */}
         	    </div>
-        	    <div className={props.user?.userName === props.roomOwner || isAdministrator(props.user?.userName) ? styles.BlockContainer : styles.none} onClick={(e:any) => {setAddUserZone(!addUsersZone)}}>
+        	    <div className={props.user?.userName === props.roomOwner ? styles.BlockContainer : styles.none} onClick={(e:any) => {setAddUserZone(!addUsersZone)}}>
         	            <img src={addUsers.src} alt="" className={styles.blockImage}/>
         	            <p>Add users</p>
         	    </div>

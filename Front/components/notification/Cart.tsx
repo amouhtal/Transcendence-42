@@ -7,7 +7,7 @@ import accept from '../../public/images/usersImages/accept.png'
 import reject from '../../public/images/usersImages/reject.png'
 
 const CartNotification = (props: any) => {
-  console.log("data=======>",props.data);
+  //console.log("props=",props)
   return (
     <div className={props.MyP ? style2.CartContainer : style.CartContainer}>
       <Link href={`/users/${props.data?.senderName}`}>
@@ -25,8 +25,8 @@ const CartNotification = (props: any) => {
       </div>
       {
         !props.MyP ? <div className={style.allButton}>
-        { props.data?.type == 'playe' && <button className={style.btn}>Accept</button>}
-        { props.data?.type == 'playe' && <button className={style.btn}>Rejecte</button>}
+        { props.data?.type == 'playe' && <button className={style.btn} id={props.data?.senderName} onClick={(e) => props.socket.emit("acceptInvite",e.target.id)} >Accept</button>}
+        { props.data?.type == 'playe' && <button className={style.btn} id={props.data?.senderName} onClick={(e) => props.socket.emit("declineInvite",e.target.id)} >Reject</button>}
         {(props.data?.type == 'message' || props.data?.type == 'invit') && <button className={style.btn}>View</button>}
         </div>
         : <div className={style2.allButton}>
