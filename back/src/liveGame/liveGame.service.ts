@@ -52,12 +52,9 @@ export class liveGameService
     }
     async getLiveGame(player : string)
     {
-        console.log("-------------------livegame-------------")
-        console.log("=====>",player)
 
         if (player !== undefined)
         {
-            console.log("im hererere")
             let game : liveGame = await this.liveGameRepository.
             findOne(
                 { where: [{ player1: player } , { player2: player }]},
@@ -67,8 +64,6 @@ export class liveGameService
                     let player1 : User = await this.userRepo.findOneBy({userName : game.player1})
                     let player2 : User = await this.userRepo.findOneBy({userName : game.player2})
                     
-                    console.log("here=>",player)
-                    console.log(game);
                     return { playerpic1 : player1.picture , playerpic2 : player2.picture , player1 : player1.userName , player2 : player2.userName}
                 }
                 else

@@ -12,7 +12,6 @@ import ErrorType from "../AllError/ErrorType";
 import setting from "../../public/images/imgeSidBar/profileSetting.png";
 
 function CartProfile(props: any) {
-  console.log("imInCart=",props)
   const router = useRouter()
   let isConected = false;
   const route = useRouter();
@@ -94,7 +93,6 @@ function CartProfile(props: any) {
           {(checkFriends = CheckIfFriend(props.data?.userName))}
           {(checkInviteRecive = CheckIfInviteRecive(props.data?.userName))}
           {(checkInviteSend = CheckIfInviteSend(props.data?.userName))}
-          {console.log("isFrind?=", checkFriends, ", isIntiveRecive?=",checkInviteRecive, ", ","InviteSend?=", checkInviteSend)}
           <img
             src={ajout.src}
             id={props.data?.userName}

@@ -32,8 +32,7 @@ import  gamePlayService  from "./gamePlay.service";
 
 @Module({
     imports: [TypeOrmModule.forFeature([User,messages,roomMessage,Games,liveGame, chatRoom,Notification,roomBannedUser]), 
-    JwtModule.register({ secret: 'bda1843e3fa6f42e528dd2ec9f088a1d4b181d525faa9caaf65c9b3ca978ef54' }),MessageModule,chatRoomModule,gameModule,NotificationModule],
-    // JwtModule.register({ secret: 'bda1843e3fa6f42e528dd2ec9f088a1d4b181d525faa9caaf65c9b3ca978ef54' }),MessageModule,chatRoomModule,gameModule],
+    JwtModule.register({ secret: process.env.ACCESS_SECRET })],
     controllers: [messageController], 
     providers: [chatGateway, UserService,messageService ,liveGameService,roomMessageService,GamesService, chatRoomService,notificationService,gamePlayService,roomBannedUserService]
     // providers: [chatGateway, UserService,messageService ,liveGameService,roomMessageService,GamesService, chatRoomService]

@@ -40,7 +40,6 @@ const UsersCart = (props:any) => {
         return isExist;
     }
     const handelClick = (e:any) => {
-        // //console.log("userNameNN =",e.target.id);
         const isHere: boolean = CheckIfUserExist(e.target.id.split('%')[0]);
         if (isHere === false)
         {
@@ -71,11 +70,11 @@ const UsersCart = (props:any) => {
     }
     return (
         <>
-        {props.data?.map((e: any | any[]) => {
+        {props.data?.map((e: any, index:number) => {
                 return  (
-                    <div className={styles.userCard} id={`${e.userName}%${e.picture}`} key={Math.random()} onClick={(e:any) => handelClick(e)}>
+                    <div className={styles.userCard} id={`${e.userName}%${e.picture}`} key={index} onClick={(e:any) => handelClick(e)}>
                         <div className={`${styles.imgContainer}`}>
-                            <Link href={`/users/${e.userName}`} key={Math.random()}>
+                            <Link href={`/users/${e.userName}`} >
                                 <img src={e?.picture} width={80} height={80} className={`${styles.profileImage} ${e.isActive ? styles.userStatusOn : styles.userStatusOff}`}/>
                             </Link>
                         </div>
@@ -88,10 +87,6 @@ const UsersCart = (props:any) => {
                         <div id={e.userName} className={isAdministrator(e.userName) ? props.roomOwner !== e.userName ? styles.admin : styles.none : styles.none}>
                             <p>Admin</p>
                         </div>
-                        {/* <div className={props.showBanBtn ? props.user.userName === props.roomOwner ? styles.ban : styles.none : styles.none : styles.none} id={e.userName}
-                        onClick={(e:any) => {}}>
-                            <img src={ban.src} alt="ban" id={e.userName} onClick={(curr:any) => {setShowBanPannel(!showBanPannel);setUserBanned(curr.target.id); setMuteChoice(true)}}/>
-                        </div> */}
                         <div className={props.showBanBtn ? props.user.userName !== props.roomOwner && !isAdministrator(props.user.userName) ? styles.none : props.user.userName === props.roomOwner && e.userName !== props.roomOwner ? styles.ban : isAdministrator(props.user.userName) ? e.userName === props.roomOwner || isAdministrator(e.userName) ? styles.none : styles.ban : styles.none : styles.none} id={e.userName}
                         onClick={(e:any) => {}}>
                             <img src={ban.src} alt="ban" id={e.userName} onClick={(curr:any) => {setShowBanPannel(!showBanPannel);setUserBanned(curr.target.id); setMuteChoice(true)}}/>

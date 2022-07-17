@@ -6,12 +6,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 export class Ft42AuthGuard extends AuthGuard('42') {
 
   handleRequest(err: Error, user: any, info: any) {
-    console.log(
-        "from guard"
-    );
-    // console.log(user);
-    console.log("---------------------");
-    
+
     if (
       info &&
       info.message ===

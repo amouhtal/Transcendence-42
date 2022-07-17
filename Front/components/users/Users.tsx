@@ -28,7 +28,6 @@ const Users = (props:any) => {
         const newFilter = props.usersData.filter((value: any) => {
             return (value.userName.includes(searchWord));
         });
-        // console.log(newFilter)
         setFilterData(newFilter);
     }
     const handleClick = (e: any) : void => { e.preventDefault(); }

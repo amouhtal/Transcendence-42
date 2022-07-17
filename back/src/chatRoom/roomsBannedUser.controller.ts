@@ -8,8 +8,6 @@ import { roomBannedUserService } from "./roomsBannedUser.service";
 export class roomBannedUsersController {
 	constructor(
 		private readonly roomBannedUserServ: roomBannedUserService ,
-		// @InjectRepository(roomMessage) private roomMessageRep: Repository<roomMessage>,
-		// @InjectRepository(User) private usersRepository: Repository<User>,
 		private readonly jwtService: JwtService
 	) {}
 

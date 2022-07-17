@@ -67,7 +67,6 @@ const CinFormation = (props: any) => {
       } else resolve(false);
     });
   }
-  // {console.log("====>", image)};
   let putfile = (e: any) => {
     var reader = new FileReader();
     var file = document.querySelector("input[type=file]") as HTMLInputElement;
@@ -100,7 +99,6 @@ const CinFormation = (props: any) => {
     dispatch(update_test());
     const data = new FormData();
     let dataUserName:any;
-    console.log("usersname=",userName)
     if (userName === "")
     {
       dataUserName = {userName: props.data?.userName}

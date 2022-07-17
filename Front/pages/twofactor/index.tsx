@@ -122,7 +122,6 @@ const twofactor = () => {
               className={styles.submitButton}
               onClick={(e: any) => {
                 const data = { twoFactorAuthenticationCode: result.join("") };
-                // console.log("data =", data);
                 axios
                   .post(
                     `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/2fa/turn-on`,
@@ -142,7 +141,6 @@ const twofactor = () => {
                         "refreshToken",
                         res.data.refreshToken
                       );
-                      // axios.post(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/2fa/turn-one`,{twoFactorAuthenticationCode:result.join('')},{headers:{'Authorization': `Bearer ${res.data.accessToken}`}})
                     }
                   }).catch(function (error){
                     if (error.response){

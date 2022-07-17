@@ -65,7 +65,6 @@ const Notification = (props:any) => {
             }
         ).then((res) =>{
             setNotification(res.data);
-            // console.log("response=", res.data)
         }).catch(function (error){
             if (error.response){
                 router.push({pathname :`/errorPage/${error.response.status}`})
@@ -86,9 +85,9 @@ const Notification = (props:any) => {
                 allnotification.map((Data, index) =>{
                     const [senderInformation]: any = getSenderInformation(Data.senderName);
                     return (
-                        <>
+                        <div className={style.containerDiv} key={index}>
                             <CartNotification socket={props.socket} MyP={false} key={index} data={Data} PicSender={senderInformation}/>
-                        </>
+                        </div>
                         )
                 }
                 )

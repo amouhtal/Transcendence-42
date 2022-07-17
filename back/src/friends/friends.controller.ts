@@ -45,9 +45,7 @@ export class FriendsController {
       `select "id" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`,
     );
 
-    //  const userName = await this.userRepo.query(`SELECT "userName", "picture" FROM public."Users";`);
     return await this.friendService.users(userName[0].userName, userId[0].id);
-    //     return this.friendService.findAll(userName);
   }
 
   @Post('one')
@@ -129,7 +127,6 @@ export class FriendsController {
     const id = await this.userRepo.query(
       `select "id" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`,
     );
-    // console.log(userName[0].userName, data.sender_id);
     return this.friendService.acceptFriend(
       userName[0].userName,
       data.sender_id,
@@ -144,8 +141,6 @@ export class FriendsController {
     const user = await this.userRepo.query(
       `select "userName" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`,
     );
-    // console.log('tokenInfo.userId : ', request);
-
     return this.friendService.sendInv(user[0].userName, data.recipent_id);
   }
 
@@ -162,7 +157,6 @@ export class FriendsController {
 
   @Post('reject')
   async rejectInv(@Body() data: FriendsInviteDto, @Req() request: Request) {
-    // console.log('here');
     const jwt = request.headers.authorization.replace('Bearer ', '');
     const tokenInfo: any = this.jwtService.decode(jwt);
     const userName = await this.userRepo.query(
@@ -172,13 +166,11 @@ export class FriendsController {
       `select "id" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`,
     );
 
-    //  const userName = await this.userRepo.query(`SELECT "userName", "picture" FROM public."Users";`);
     return this.friendService.rejectFriend(
       userName[0].userName,
       data.recipent_id,
       userId[0].id,
     );
-    // return this.friendService.findAll(userName);
   }
 
   @Get('block')
@@ -240,7 +232,6 @@ export class FriendsController {
     if (ifUserBlocked.length == 0 && CurrentUserName != FriendUserName) {
       //Delete from friends
 
-      // console.log(CurrentUserName, FriendUserID);
       await this.userRepo.query(
         `DELETE FROM public."FriendLsit"
         WHERE public."FriendLsit"."userName" = '${CurrentUserName}' AND  public."FriendLsit"."userId" = '${FriendUserID}'`,
@@ -265,7 +256,6 @@ export class FriendsController {
     const userId = await this.userRepo.query(
       `select "id" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`,
     );
-      console.log(data.userName, userId[0].id);
       
     await this.userRepo.query(
       `DELETE FROM public."FriendBlocked" WHERE  "Blocked" = '${data.userName}' AND "userId" = '${userId[0].id}'`,

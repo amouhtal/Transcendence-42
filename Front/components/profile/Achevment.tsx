@@ -14,8 +14,6 @@ function Achevment(props: any) {
     const [alluser, setAlluser] = useState([])
     const [data, setData] = useState<any>(props.data); useEffect(() => {setData(props.data)}, [props.data]);
     const [refresh, setRfresh] = useState<boolean>(false);
-    console.log("props=",props.data?.userName)
-
     useEffect(() => {
             axios.get(
                 `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/all`,
@@ -50,7 +48,6 @@ function Achevment(props: any) {
             }
           })
       }, [data]);
-      // console.log("useeeerName", userInfo?.userName);      
     useEffect(() =>{
         axios.post(
             `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/notifications/getUserNotifications`,
@@ -70,7 +67,6 @@ function Achevment(props: any) {
         })
     },[refresh,data])
     const getSenderInformation = (userName:string) => {
-      console.log(",=====>",alluser)
         const filterData: any = alluser.filter((e:any) => {
             return (e.userName === userName);
         })
@@ -85,7 +81,6 @@ function Achevment(props: any) {
             allnotification.length > 0 ?(
             allnotification.map((e, id) =>{
             const [senderInformation]: any = getSenderInformation(e.senderName);
-            console.log("senderInformation=",senderInformation);
             return (
               <div key={Math.random()}>
                 <CartNotification MyP={true} key={id} data={e} PicSender={senderInformation}/>

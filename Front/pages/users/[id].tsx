@@ -20,7 +20,6 @@ function Profile(props:any) {
   const router = useRouter();
 
   useEffect(() => {
-    // console.log("in blocked");
     axios
       .get(
         `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/block`,
@@ -73,7 +72,6 @@ function Profile(props:any) {
       .then((res) => {
         setUserData(res.data);
         seetGameHistory(res.data.gameHistory);
-        console.log("usersData=", res.data);
       }).catch(function (error){
         if (error.response){
             router.push({pathname :`/errorPage/${error.response.status}`})
@@ -86,28 +84,22 @@ function Profile(props:any) {
     // }
   }, [update, router.query.id, refresh]);
   let filtredData = usersData?.all_users?.filter((value: any) => {
-    return value.userName === router.query.id;
+    return value?.userName === router?.query?.id;
   })[0];
   const isBlocked = (userName: any) => {
     let isBlocked: boolean = false;
-    // console.log("imInIsBlocked=",blockedUsers)
     blockedUsers?.map((e:any) => {
-      // console.log(e)
       if (e.userName === userName)
         isBlocked = true;
     })
-    // console.log("isBlocked=",isBlocked)
     return isBlocked;
   }
   const isBlockedMe = (userName: any) => {
     let isBlocked: boolean = false;
-    // console.log("imInIsBlocked=",blockedUsers)
     blockInUsers?.map((e:any) => {
-      // console.log(e)
       if (e.userName === userName)
         isBlocked = true;
     })
-    // console.log("isBlocked=",isBlocked)
     return isBlocked;
   }
   props.socket?.off("Refresh").on("Refresh", (data:any) => {setRefresh(!refresh)})

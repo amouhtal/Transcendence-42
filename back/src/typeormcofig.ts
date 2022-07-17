@@ -11,8 +11,6 @@ import { roomMessage } from './entities/roomMessage.entity';
 import { Notification } from './entities/notification.entity';
 import { roomBannedUser } from './entities/roomsBannedUser.entity';
 
-// ['**/*.entity{.ts,.js}']
-
 export const typeOrmConfig: TypeOrmModuleOptions = {
   type: 'postgres',
   host: 'db',

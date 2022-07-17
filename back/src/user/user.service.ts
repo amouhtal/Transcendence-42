@@ -37,8 +37,7 @@ export class UserService {
   }
 
   public async InsertUser(userDto: UserDto) {
-    // const userData = await this.usersRepository.create(userDto);
-    // await this.usersRepository.save(userData);
+
     try {
       const userData = await this.usersRepository
         .createQueryBuilder()
@@ -53,31 +52,6 @@ export class UserService {
   }
 
   public async findAll() {
-    /*
-          const userff = await this.usersRepository.createQueryBuilder()
-          .select('Games.winner_user').addSelect('Games.loser_user').addSelect('Games.Score').addSelect('Games.played_at')
-          .from(Games, "Games").where("Games.winner_user= :value or Games.loser_user=:value", {value: "test_username3"}).getMany();
-          
-          //console.logogogog("=>", userff);
-        const bothUsers = new Array()  
-
-        userff.forEach(element => {
-          let obj ={
-            winner: {
-                userName:element.winner_user,
-                image:"test",
-                score:element.Score.split("-")[0]
-                },
-                loser:{
-                    userName:element.loser_user,
-                    image:"test",
-                    score:element.Score.split("-")[1]
-                  },
-                date:element.played_at
-          }
-          bothUsers.push(obj)
-        });
-            return bothUsers;*/
     return await this.usersRepository.query(`select * from Users`);
   }
 
@@ -89,27 +63,18 @@ export class UserService {
     .where('user.userName = :name', { name: newUserName })
     .getOne();
       
-    // if (user === null) {
       await this.updateUsername(newUserName,oldUserName);
-      // await this.usersRepository
-      //   .createQueryBuilder()
-      //   .update(User)
-      //   .set({ userName: newUserName })
-      //   .where('useremail = :email', { email: email })
-      //   .execute();
+
       await this.usersRepository.query(`UPDATE public."Users" SET "userName"= '${newUserName}', "ifUserName"= 'true' WHERE  "userName"= '${oldUserName}'`)
       
         return true;
 
-    // }
-    // else
-    //   return false;
+    
   }
 
   async updateActive(stats : Boolean,userName : string)
   {
       var get = await this.usersRepository.query(`UPDATE public."Users" SET "isActive"= '${stats}' WHERE  "userName"= '${userName}'`)
-      // var get = await this.userRep.query(`SELECT id, "senderId", "reciverId", message FROM public.messages WHERE "senderId" = '${SId}' and "reciverId" = '${RId}'`)
   }
 
   async findByemail(email: string): Promise<User> {
@@ -120,11 +85,6 @@ export class UserService {
     const tokenInfo: any = this.jwtService.decode(token);
 
     let user = await this.usersRepository.findOneBy({email : tokenInfo.userId});
-      // .createQueryBuilder('Users').
-      // .select(['Users.userName'], ['Users.email'])
-      // .where('Users.email = :email', { email: tokenInfo.userId })
-      // .getOne();
-      //console.logogogog("mail : ", user);
 
     if (user) return user;
   }
@@ -137,8 +97,7 @@ export class UserService {
   {
     await this.usersRepository.query(`UPDATE public."FriendBlocked" SET "Blocker"='${newName}' WHERE "Blocker"='${oldName}'`);
     await this.usersRepository.query(`UPDATE public."FriendBlocked" SET "Blocked"='${newName}' WHERE "Blocked"='${oldName}'`);
-    // await this.usersRepository.query(`UPDATE public."FriendBlocked" SET "Blocked"='${newName}' WHERE "Blocked"='${oldName}'`);
-    // friends
+
     await this.usersRepository.query(`UPDATE public."FriendLsit" SET "userName"='${newName}' WHERE "userName"='${oldName}'`);
     // invitations
     await this.usersRepository.query(`UPDATE public."FriendShip" SET "sender_id"='${newName}' WHERE "sender_id"='${oldName}'`);
@@ -149,11 +108,3 @@ export class UserService {
     
   }
 }
-
-// public async create(user : User) {
-//     const newUser = await this.usersRepository.create(user);
-//     // //console.logogogog(await this.usersRepository.save(user));
-//     await this.usersRepository.save(newUser);
-
-//     return newUser;
-// }

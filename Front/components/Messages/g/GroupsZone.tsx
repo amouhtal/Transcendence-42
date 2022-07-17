@@ -100,7 +100,7 @@ const FriendsZone = (props:any) => {
                 }}>Create</button>
                 <button className={styles.btn_cancel} onClick={(e:any) => {e.preventDefault();setCreatNewGrp(!CreatNewGrp);setChoosenUsers([])}}>Cancel</button>
                 <form action="" className={styles.groupForm}>
-                    <input type="text" placeholder="Group name" className={styles.groupName} onChange={handelNameCange}/>
+                    <input type="text" placeholder="Group name" className={styles.groupName} onChange={handelNameCange} key={Math.random()} onKeyDown={(e) => {try {handleRoshHotkey()}catch(error) {}}} />
                 </form>
                 <div className={styles.container}>
                     <label className={styles.switch}>
@@ -115,9 +115,9 @@ const FriendsZone = (props:any) => {
                 <input type="text" placeholder="Search..." className={styles.creatGroupsearch}/>
                 <div className={styles.usersAdd}>
                     {
-                        usersChoosen.map((e:any) => {
+                        usersChoosen.map((e:any, index:number) => {
                             return (
-                                <div className={styles.users}>
+                                <div className={styles.users} key={index}>
                                     <img src={e.picture} alt="" className={styles.addUsersimg}/>
                                 </div>
                             )
@@ -145,3 +145,7 @@ const FriendsZone = (props:any) => {
 }
 
 export default FriendsZone;
+
+function handleRoshHotkey() {
+    throw new Error("Function not implemented.");
+}

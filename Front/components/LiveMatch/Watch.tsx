@@ -35,7 +35,6 @@ function Watch (props:any) {
           });
         })
       },[])
-      //console.log(props)
     return (
         <>
             <div className={style.container}>

@@ -46,7 +46,6 @@ const home = (props:any) => {
           setUsername(res.data.exist);
         })
         .catch(function (error){
-          // console.log("im here");
           if (error.response){
               router.push({pathname :`/errorPage/${error.response.status}`})
           }

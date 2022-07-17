@@ -5,41 +5,6 @@ import { useRouter } from "next/router";
 import ErrorType from "../../components/AllError/ErrorType";
 import shield from '../../public/images/shield.png'
 const authentication = () => {
-  // useEffect(() => {
-  //     let data;
-  // axios({
-  //     url: `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/2fa/generate`,
-  //     data:data,
-  //     headers: {Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`},
-  //     method:'POST',
-  //     responseType: 'blob'
-  // })
-  // .then((response) => {
-  //     console.log(response);
-  //     const url = window.URL.createObjectURL(new Blob([response.data]));
-  //     const link = document.createElement('img');
-  //     link.src = url;
-  //     link.setAttribute(`style`, `width:250px;heght250px;`); //or any other extension
-  //     console.log(link);
-  //     document.getElementById("QrcodeContainer")?.appendChild(link);
-  //     link.click();
-  // });
-  // })
-  // axios({
-  //     url: `http://10.12.10.2/2fa/generate`,
-  //     headers:{ 'Authorization': `Bearer ${localStorage.getItem("accessToken") as string}`},
-  //     method: 'POST',
-  //     responseType: 'blob', // important
-  // }).then((response) => {
-  //     console.log(response);
-  //     // const url = window.URL.createObjectURL(new Blob([response.data]));
-  //     // const link = document.createElement('a');
-  //     // link.href = url;
-  //     // link.setAttribute('download', 'file.pdf'); //or any other extension
-  //     // document.body.appendChild(link);
-  //     // link.click();
-  // });
-  // })
   const router = useRouter()
   const route = useRouter();
   useEffect(() => {
@@ -51,8 +16,6 @@ const authentication = () => {
           route.query.refreshToken as string
         );
       }
-      // route.query.token = '';
-      // route.query.refreshToken = '';
     }
   }, [route.query.token]);
   let result: any = [];

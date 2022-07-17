@@ -48,7 +48,7 @@ export class UserController {
   ) {}
 
   @Get("users")
-  // @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   findAllUsers(@Req() request1: Request) {
     return this.userService.findAll();
   }
@@ -129,36 +129,8 @@ export class UserController {
   @UseGuards(JwtAuthGuard)
   @UsePipes(ValidationPipe)
   userUser(@Body() userData: UserDto) {
-    // //console.logog(userData);
     this.userService.InsertUser(userData);
   }
-
-  // @Post("complet")
-  // @UseGuards(JwtAuthGuard)
-  // async chekUsername(@Req() request1: Request, @Body() request: ExampleDto) {
-  //   const jwt = request1.headers.authorization.replace("Bearer ", "");
-  //   let user: User | boolean = await this.userService.getUserJwt(jwt);
-  //   let ret = {
-  //     message: "invalid username",
-  //   };
-
-  //   // const userff = await this.usersRepository.query(
-  //   //   `select "userName" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`,
-  //   // );
-
-  //   if (user) {
-  //     let re = await this.userService.findUser(request, user);
-
-  //     if (re) {
-  //       ret.message = "valid username";
-  //       return ret;
-  //     }
-  //   } else {
-  //     ret.message = "Already have a username";
-  //     return ret;
-  //   }
-  //   return ret;
-  // }
 
   @UseGuards(JwtAuthGuard)
   @Post("getPicture")
@@ -195,11 +167,3 @@ export class UserController {
   }
 
 }
-
-// https://i.gifer.com/OMLj.gif
-// https://media.giphy.com/media/2SapIQjC9gjHW/giphy.gif
-// https://media.giphy.com/media/3o6ZtpWvwnhf34Oj0A/giphy.gif
-// https://book.giflingua.com/images/origin/fred.gif
-// https://image.shutterstock.com/image-illustration/3d-illustration-internet-meme-why-600w-433966000.jpg
-// https://c.tenor.com/IeSvLs07zsAAAAAC/ice-age-possum.gif
-// https://i.gifer.com/embedded/download/1DH5.gif

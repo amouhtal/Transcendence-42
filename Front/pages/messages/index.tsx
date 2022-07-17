@@ -14,14 +14,10 @@ const messages = (props: any) => {
     const [Status ,setStatus] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
     const router = useRouter();
-    // const [filterData] = Friends.filter((value: any) => {
-    //     return (value.first_name === router.query.id);
-    // });
     const [ContactInformation, setContatInformation] = useState<any>([]);
     const [friends, setFriends] = useState<any>();
     let FriendsInformation: any = [];
     const [blockedUsers, setBlockedUsers] = useState<any>([]);
-    // console.log("prrrrroooops======>", props);
     useEffect(() => {
         axios.get("http://localhost:3001/message/getConntacts",
         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
@@ -48,7 +44,6 @@ const messages = (props: any) => {
           )
           .then((res) => {
             setBlockedUsers(res.data.users_T_blocked);
-            // console.log("BlockedUsers=",res.data)
           }).catch(function (error){
             if (error.response){
                 router.push({pathname :`/errorPage/${error.response.status}`})

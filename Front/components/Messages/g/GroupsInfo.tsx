@@ -141,7 +141,7 @@ const UserInfo = (props: any) => {
         	    <div className={props.user?.userName === props.roomOwner ? props.thisRoomInfo?.protected ? styles.LeaveChatDown : styles.LeaveChatMinUp : styles.LeaveChatUp} onClick={(e:any) => {
 					
 					axios.post("http://localhost:3001/chatRoom/deleteUser",{roomId: _roomId, user: props.user.userName}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
-					.then((res) => {console.log("inLeaveChanelle=",props.thisRoomInfo.members);props.socket?.emit("Refresh", props.thisRoomInfo.members);});
+					.then((res) => {props.socket?.emit("Refresh", props.thisRoomInfo.members);});
 					props.setUpdateRoomMambets(!props.updateRoomMembers);
 					props.setDisplay(!props.display)
 				}}>
@@ -181,9 +181,9 @@ const UserInfo = (props: any) => {
             	    	<input type="text" placeholder="Search..." className={styles.creatGroupsearch} onChange={handelSearch}/>
             	    	<div className={showRoomMembers ? styles.none : styles.usersAdd}>
             	        	{
-            	            	usersChoosen.map((e:any) => {
+            	            	usersChoosen.map((e:any,index:number) => {
             	                	return (
-            	                    	<div className={styles.users}>
+            	                    	<div className={styles.users} key={index}>
             	                	        <img src={e.picture} alt="" className={styles.addUsersimg}/>
             	            	        </div>
             	        	        )

@@ -15,7 +15,6 @@ function users(props:any) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [userInfo, setUserInfo] = useState<any>({});
 	const [blockedMe, setblockedMe] = useState<any>([]);
-//   console.log(process.env.NEXT_PUBLIC_IP_ADRESSE)
 	useEffect(() => {
 		axios.post(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/profile`,null,
 		  {headers: {Authorization: `Bearer ${localStorage.getItem("accessToken") as string}`,},})
@@ -53,8 +52,7 @@ function users(props:any) {
         }
     });
   }, [update]);
-//   console.log("props=",props);
-	props.socket?.off("Refresh").on("Refresh", (data:any) => {console.log("heifhiewhfilhediv");setUpdateVar(!update)});
+	props.socket?.off("Refresh").on("Refresh", (data:any) => {setUpdateVar(!update)});
   return (
     <>
       {

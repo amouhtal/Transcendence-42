@@ -4,9 +4,7 @@ import { chatRoom } from "./chatRoom.entity"
 @Entity('roomMessage')
 export class    roomMessage extends BaseEntity{
 
-    @PrimaryGeneratedColumn({
-        comment : 'the quiz unique indentifier',
-    })
+    @PrimaryGeneratedColumn()
     id : number
 
     @Column()
@@ -16,8 +14,8 @@ export class    roomMessage extends BaseEntity{
     message : string
 
     @Column()
-    roomId : number    // @ManyToOne(() =>user,(user) => user.messages)
-    // user : user
+    roomId : number 
+
     @Column()
     time : Date
 

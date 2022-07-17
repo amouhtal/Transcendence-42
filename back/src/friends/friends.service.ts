@@ -32,27 +32,21 @@ export class friendsService {
       );
       ret.push({ userName: element.userName, picture: image[0]?.picture });
     }
-    console.log(ret);
     return ret;
   }
 
-  // @UseGuards(AuthGuard('jwt'))
   public async sendInv(sender: string, recipent: string) {
     const user = await this.userRepo.query(
       `select * from public."Users" WHERE public."Users"."userName" = '${recipent}'`,
     );
 
     if (user && sender != recipent) {
-      // console.log(" sender" , sender, " recipent", recipent);
       let val = new FriendShip();
       val.sender_id = sender;
       val.recipent_id = recipent;
       const invExistInbase = await this.userRepo.query(
         `select * from public."FriendShip" WHERE public."FriendShip"."sender_id" = '${sender}' AND public."FriendShip"."recipent_id" = '${recipent}'`,
       );
-      // const NotFriend = await this.userRepo.query(`select * from public."FriendShip" WHERE public."FriendShip"."sender_id" = '${sender}' AND public."FriendShip"."recipent_id" = '${recipent}'`);
-
-      // console.log(user, ' sender', sender, ' recipent', recipent);
       if (invExistInbase.length == 0) await this.friendShipRepo.save(val);
     }
   }
@@ -77,7 +71,6 @@ export class friendsService {
         );
       }
       if (user.length != 0) {
-        // console.log(user);
         await this.friendShipRepo.delete(val);
       }
     }
@@ -92,9 +85,7 @@ export class friendsService {
       val.userName = sender_id;
       val.user = id;
       await this.friendListRepo.save(val);
-      // console.log("----> " ,val);
-      // await this.userRepo.query(`INSERT INTO public."FriendLsit"( "userName", "userId") VALUES ('${sender_id}', '${id}')`)
-      // console.log(user, Cuser, sender_id);
+
     }
     await this.friendShipRepo.query(
       `DELETE FROM public."FriendShip" WHERE sender_id='${sender_id}' and recipent_id='${Cuser}'`,
@@ -120,11 +111,7 @@ export class friendsService {
   }
 
   public async users(userName: any, userId: any) {
-    // const user_unfriends = await this.userRepo.query(`select public."Users"."userName", public."Users"."picture" FROM public."Users" where public."Users"."userName" in ( \
-    // select public."Users"."userName" FROM public."Users" \
-    // except (select  public."FriendLsit"."userName" from  public."FriendLsit" where public."FriendLsit"."userId" =30 or  public."FriendLsit"."userName" = 'amouhtal') \
-    // except (select  public."Users"."userName" from  public."Users" where public."Users"."id" = (select  public."FriendLsit"."userId" from  public."FriendLsit" where public."FriendLsit"."userName" = 'amouhtal') \
-    // except (select public."FriendShip"."sender_id" from  public."FriendShip" WHERE public."FriendShip"."recipent_id" = 'amanar') except (select public."FriendShip"."recipent_id" from  public."FriendShip" WHERE public."FriendShip"."sender_id" = 'amouhtal')))`);
+
     const user_rinvite = await this.userRepo
       .query(` select public."Users"."userName", public."Users"."picture" FROM public."Users" where public."Users"."userName" in \
 		( select  public."FriendShip"."sender_id" from  public."FriendShip" WHERE public."FriendShip"."recipent_id" = '${userName}'
@@ -137,12 +124,7 @@ export class friendsService {
     const user_friends = await this.userRepo.query(
       `select public."Users"."userName", public."Users"."picture" FROM public."Users" where public."Users"."userName" in ( SELECT  "userName" FROM public."FriendLsit" WHERE "userId" = '${userId}') OR public."Users"."userName" in ( SELECT  "userName" FROM public."Users" WHERE   "id" in (select "userId" from public."FriendLsit" WHERE "userName" = '${userName}'))`,
       );
-    // console.log( user_friends);
-    // const blocked_friends = await this.userRepo.query(`select public."Users"."userName", public."Users"."picture"  FROM public."Users"
-    // WHERE  public."Users"."userName" IN
-    // (select "userName" FROM public."FriendBlocked" WHERE public."FriendBlocked"."userId" = '${userId}')
-    // console.log(userId)
-    // `);
+
     
     let blocked_friends = await this.userRepo
     .query(`select public."Users"."userName", public."Users"."picture"  FROM public."Users" 
@@ -152,15 +134,12 @@ export class friendsService {
     (select "FriendBlocked"."Blocked"  FROM public."FriendBlocked" WHERE public."FriendBlocked"."Blocker" = '${userName}') 
     `);
     
-    // console.log('--->', userName);
     const all_users = await this.userRepo
       .query(`select public."Users"."userName", public."Users"."picture" ,public."Users"."isActive" FROM public."Users" \
       WHERE  public."Users"."userName" NOT IN ((select "Blocked" FROM public."FriendBlocked" WHERE public."FriendBlocked"."Blocker" = '${userName}' ) \
        union \
       (select "Blocker" FROM public."FriendBlocked" WHERE public."FriendBlocked"."Blocked" = '${userName}'))
 		`);
-    // AND NOT IN \
-    // public."Users"."userName" IN (select "userName" FROM public."Users" WHERE public."Users"."id"=(select "userId" FROM public."FriendBlocked" WHERE public."FriendBlocked"."userName" = '${userName}')) \
     const ret = {
       all_users,
       user_rinvite,
@@ -171,16 +150,6 @@ export class friendsService {
 
     return ret;
   }
-
-  // select public."Users"."userName"
-  // FROM public."Users"
-  // except (select  public."FriendLsit"."userName" from  public."FriendLsit" where public."FriendLsit"."userId" =30 or  public."FriendLsit"."userName" = 'amouhtal')
-  // except (select  public."Users"."userName" from  public."Users" where public."Users"."id" = (select  public."FriendLsit"."userId" from  public."FriendLsit" where public."FriendLsit"."userName" = 'amouhtal'))
-
-  // SELECT  public."Users"."userName"
-  // FROM  public."Users"
-  // except (select public."FriendShip"."sender_id" from  public."FriendShip" WHERE public."FriendShip"."recipent_id" = 'amanar')
-  // except (select public."FriendShip"."recipent_id" from  public."FriendShip" WHERE public."FriendShip"."sender_id" = 'amanar')
 
   public async friendStatus(userName: string) {
     let friend: any;
@@ -202,7 +171,6 @@ export class friendsService {
     if (!pending && !friend)
       pending = await this.friendShipRepo.findOneBy({ recipent_id: userName });
     if (pending && !friend) obj.pending = 'true';
-    // console.log(obj);
     return obj;
   }
 }

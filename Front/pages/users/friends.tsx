@@ -14,7 +14,6 @@ function users() {
   const [update, setUpdateVar] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-//   console.log(process.env.NEXT_PUBLIC_IP_ADRESSE)
   useEffect(() => {
     axios.get(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/all`, {
         headers: {

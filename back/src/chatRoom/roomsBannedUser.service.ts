@@ -56,7 +56,6 @@ export class roomBannedUserService
     async getMutedUserByRoomId(roomId : number)
     {
         let user : roomBannedUser[] = await this.banRoomRepository.findBy({roomId : roomId , banType : "mute"})
-        console.log("user =>",user)
         if(user.length <= 0)
             return [];
         return user;
@@ -73,7 +72,6 @@ export class roomBannedUserService
     }
     async changeName(oldUserName : string, newUserName : string)
     {
-        console.log("unban User")
         await this.banRoomRepository.query(`UPDATE public."roomBannedUser" SET "bannedUserName"='${newUserName}' WHERE "bannedUserName"='${oldUserName}'`);
     }
 }

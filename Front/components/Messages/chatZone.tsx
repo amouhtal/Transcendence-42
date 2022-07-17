@@ -103,7 +103,6 @@ const ChatZone = (props: any) => {
     });
   }, []);
   useEffect(() => {
-    console.log("im in getFreids");
     axios
     .get("http://localhost:3001/message/getConntacts", {
       headers: {

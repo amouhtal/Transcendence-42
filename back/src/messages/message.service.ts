@@ -27,9 +27,6 @@ export class messageService {
     async getConversation(SId : string , RId : string) 
     {
         var get = await this.messageRep.query(`SELECT id, "senderId", "reciverId" , "time", message FROM public.messages WHERE "senderId" = '${SId}' and "reciverId" = '${RId}' or "senderId" = '${RId}' and "reciverId" = '${SId}' ORDER by time`)
-        // //console.log(get)
-        // var get = await getConnection().createQueryBuilder().select('`senderId`').from(messages,"`senderId`").where("\'senderId\' = :id ", { id: 1 }).andWhere("\'reciverId\' = :id ", { id: 2 }).getMany();
-        // var get = await   this.messageRep.createQueryBuilder("message").select('`senderId`').select('`reciverId`').where("senderId = :id ", { id: 1 }).andWhere("reciverId = :id ", { id: 2 }).getMany();
 
         return (get);
     }
@@ -46,21 +43,6 @@ export class messageService {
     }
     async changeName(oldUserName : string, newUserName : string)
     {
-        // var messages : messages[] = await this.messageRep.update({where :{ senderId : oldUserName , reciverId  : oldUserName }})
-        // var messages : messages[] = await this.messageRep.find({
-        //     where: [
-        //         { senderId: oldUserName },
-        //         { reciverId: oldUserName }
-        //     ]
-        //   })
-        // for(let msg of messages)
-        // {
-        //     if(msg.reciverId == oldUserName)
-        //         msg.reciverId = newUserName
-        //     if(msg.senderId == oldUserName)
-        //         msg.senderId = newUserName
-        //     await msg.save()
-        // }
         await this.messageRep.query(`UPDATE public."messages" SET "senderId"='${newUserName}' WHERE "senderId"='${oldUserName}'`);
         await this.messageRep.query(`UPDATE public."messages" SET "reciverId"='${newUserName}' WHERE "reciverId"='${oldUserName}'`);
         

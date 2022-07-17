@@ -24,7 +24,11 @@
   }
 
 
-
+.containerDiv {
+    width: 80%;
+    /* position: absolute; */
+    /* background-color: red; */
+}
 /* ==========================CartNotification===================== */
 
 .CartContainer

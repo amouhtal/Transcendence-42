@@ -2,7 +2,6 @@ import React, { createContext, useEffect, useState } from 'react'
 
 export const TokenContext: any = createContext("tokenContext");
 
-// console.log("im in context");
 const TokenContextProvider = (props: any) => {
     const [variableOne, setVariableOne] = useState<any>(`somethingRandom`)
     const [refreshToken, setRefreshToken] = useState<string>("");

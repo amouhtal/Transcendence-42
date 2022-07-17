@@ -6,7 +6,6 @@ import FriendsZone from '../../components/Messages/friendsZone';
 import Image from 'next/image';
 import image from '../../public/images/profile.jpg'
 import UserInfo from '../../components/Messages/UserInfo';
-// const socket = io("10.12.11.5:3000",{transports:['websocket']});
 import ChatZone from '../../components/Messages/chatZone';
 import axios from 'axios';
 import { Loading, Grid } from "@nextui-org/react";
@@ -21,7 +20,6 @@ const Messages = (props:any) => {
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	const userNameFromUrl: string = typeof window != "undefined" ? window.location.href.split("/")[4] : "";
-	// console.log("userNameFrom Url=",userNameFromUrl,"id==",router.query.id);
     
     useEffect(() => {
         const response: any = axios
@@ -58,7 +56,6 @@ const Messages = (props:any) => {
           )
           .then((res) => {
             setBlockedUsers(res.data.users_T_blocked);
-            // console.log("BlockedUsers=",res.data);
 		    	  res.data.users_T_blocked.map((e:any) => {
 				    if (e.userName === userNameFromUrl)
 					    setisBlocked(true);

@@ -29,7 +29,6 @@ export class chatRoomController {
 	@UseGuards(JwtAuthGuard)
 	async createRoom(@Body() body :any, @Req() request: Request )
 	{
-		// console.log("here")
 		const jwt = request.headers.authorization.replace('Bearer ', '');
 		this.RoomService.createRoom(jwt,body)
 	}
@@ -38,11 +37,9 @@ export class chatRoomController {
 	@UseGuards(JwtAuthGuard)
 	async addUser(@Body() gameId :any, @Req() request: Request )
 	{
-		// console.log("here")
 		const jwt = request.headers.authorization.replace('Bearer ', '');
 		const tokenInfo : any = this.jwtService.decode(jwt);
 		let user : User = await this.usersRepository.createQueryBuilder('Users').where('Users.email = :email', { email: tokenInfo.userId }).getOne();
-		// let users = await this.usersRepository.find({ relations: ['chatRooms'] , where: { email: tokenInfo.userId }});
 		const chat = await this.roomRep
 			.createQueryBuilder("chat")
 			.leftJoinAndSelect("chat.members", "Users").where('chat.id = :id', { id: gameId.gameId })
@@ -50,14 +47,6 @@ export class chatRoomController {
 		chat[0].members = [...chat[0].members ,user]
 		chat[0].save()
 
-		// let game : chatRoom = await this.RoomService.getRoomById(gameId.gameId)
-		// console.log("=======")
-		// console.log(user)
-		// console.log("=======")
-		// console.log(game.members)
-		// // game.members.push(user)
-		// user.chatRooms = [game]
-		// game.members  = [user]
 	}
 
 	@Post('getPublicRooms')
@@ -77,7 +66,6 @@ export class chatRoomController {
 	@UseGuards(JwtAuthGuard)
 	async addAdministrator(@Body() body :any)
 	{
-		// console.log(body)
 		return await this.RoomService.addAdministrator(body.roomId ,body.userName)
 	}
 	@Post('getRoomMemebers')
@@ -102,7 +90,6 @@ export class chatRoomController {
 		if(room !== "undefined" && room !== null)
 		{
 			let Administrators : any =room.Administrators
-			// console.log(Administrators)
 			return  Administrators
 		}
 		else
@@ -141,12 +128,10 @@ export class chatRoomController {
 		let room : chatRoom = await this.RoomService.getRoomById(body.roomId)
 		if(room !== null)
 		{
-			// console.log("here", room)
 			return room
 		}
 		else
 		{
-			// console.log("there" , room)
 			return null 
 			
 		}
@@ -170,9 +155,3 @@ export class chatRoomController {
 		return await this.RoomService.checkPassword(body.roomId,body.password)
 	}
 }
-/* 
-SELECT *
-FROM subject
-JOIN subject_note AS jt on jt.subject_id = subject.id
-WHERE jt.note_id = :id 
-*/	

@@ -38,9 +38,9 @@ const FriendsCart = (props:any) => {
         })
     }
     {
-    props.PrivateData?.map((e: any) => {
+    props.PrivateData?.map((e: any, index:number) => {
         return  (
-            <Link href={`/messages/g/${e.id}?name=${e.name}`} key={Math.random()}>
+            <Link href={`/messages/g/${e.id}?name=${e.name}`} key={index}>
                 <div className={styles.userCard} onClick={(e:any) => {props.setShow(false)}} key={Math.random()}>
                     <div className={styles.imgFriendsContainer}>
                         <img src={networking.src} width={60} height={60} className={styles.profileImage}/>

@@ -8,9 +8,7 @@ import { User } from "./user.entity";
 
 export class chatRoom extends BaseEntity
 {
-    @PrimaryGeneratedColumn({
-        comment : 'the quiz unique indentifier',
-    })
+    @PrimaryGeneratedColumn()
     id : number
 
     @Column()

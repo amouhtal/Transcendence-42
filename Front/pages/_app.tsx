@@ -35,7 +35,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     document.getElementsByTagName("body")[0].style.height = "100%";
   });
   useEffect(() => {
-    console.log("im in SocketIo")
     let socketOptions = {
       transportOptions: {
         polling: {
@@ -76,7 +75,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         alert(data + " Has declined your invitation")
     })
   },[socket])
-  // console.log(notification)
   return (
     <>
         <Provider store={store}>

@@ -61,7 +61,6 @@ const GroupChatZone = (props:any) => {
         // setuserInfo(false);
     },[router.query.id]);
     useEffect(() => {
-        console.log("updateRoomMembers")
         axios.post("http://localhost:3001/chatRoom/getRoomMemebers",{roomId: _roomId},
         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
         ).then((res) => {
@@ -122,7 +121,6 @@ const GroupChatZone = (props:any) => {
         // }, 20000);
     },[]);
     useEffect(() => {
-        console.log("refresh")
         axios.post("http://localhost:3001/chatRoom/getRoomById", {roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
         .then((res) => {
             setThisRoomInfo(res.data);
@@ -154,9 +152,8 @@ const GroupChatZone = (props:any) => {
     if (process.browser)
         localStorage.setItem("color", color as string);
     
-    props.socket?.on("messageRoom", (data:any) => {console.log("here");setMessages(data)});
+    props.socket?.on("messageRoom", (data:any) => {setMessages(data)});
     props.socket?.off("mutedUser").once("mutedUser", (res:any) => {
-        console.log("res=",res);
         setBannedUsers([res]);
         // let newtest : any = new Date(res?.unBanTime);
         // let difference: any = newtest.getMinutes() - +new Date().getMinutes();
@@ -170,7 +167,6 @@ const GroupChatZone = (props:any) => {
         // }
     })
     props.socket?.off("unMuteUser").on("unMuteUser", (data: any) => {
-        console.log("newRes=",data);
         setBannedUsers(data)
     })
     props.socket?.off("getBannedUserByRoomId").on("getBannedUserByRoomId", (res:any) => {});
@@ -244,7 +240,6 @@ const GroupChatZone = (props:any) => {
                     <p className={styles.fullName}>{router.query.name}</p>
                     <p className={inGroupMembers(props.user?.userName) ? !isBanned(props.user?.userName) ? styles.settings : styles.displaynone : styles.displaynone} onClick={(e:any) => {setuserInfo(!userInfo)}}><BsThreeDots className={styles.settingsIcon}/></p>
                     <button className={inGroupMembers(props.user?.userName) ? styles.displaynone : styles.joinBtn} onClick={(e:any) => {
-                        console.log("members=",thisRoomInfo.members)
                         if (!thisRoomInfo.protected){
                             props.socket?.emit("Refresh", thisRoomInfo.members);
                             props.socket?.emit("addUserToChannel",{users: [{userName: props.user?.userName}], roomId: _roomId});
@@ -268,11 +263,11 @@ const GroupChatZone = (props:any) => {
                 {
                     isLoading ?
                         <div className={inGroupMembers(props.user?.userName) ? styles.chatMain : styles.chatMainBlured}>
-                                {messages?.map((e:any) => {
+                                {messages?.map((e:any,index:number) => {
                                     e.time = e.time.replace('T', " ");e.time = e.time.replace ('Z', "");e.time = e.time.split('.')[0];
                                     const [userInfo] :any = getUserInfo(e.senderId);
                                     return (
-                                        <div className={`${e.senderId === props.user?.userName ? styles.left : styles.right}`} id="lastMessage" key={Math.random()}>
+                                        <div className={`${e.senderId === props.user?.userName ? styles.left : styles.right}`} id="lastMessage" key={index}>
                                             <img src={userInfo?.picture} className={`${e?.senderId === props.user?.userName ? styles.imgRight: styles.imgLeft}  ${isBlocked(e.senderId) ? styles.blured : styles.notBlured}`} alt="" />
                                             <div id="container" className={`${e.senderId === props.user?.userName ? styles.messageSenderContainer : styles.messageReciverContainer} ${e.senderId === props.user?.userName ? color === 'black' ? styles.messageContainerBlack : 
                                                 color === 'pink' ? styles.messageContainerPink : color === 'blue' ? styles.messageContainerBlue : styles.none : styles.gray}`}>

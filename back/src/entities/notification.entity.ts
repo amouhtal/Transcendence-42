@@ -5,9 +5,7 @@ import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany
 
 export class Notification extends BaseEntity
 {
-    @PrimaryGeneratedColumn({
-        comment : 'the quiz unique indentifier',
-    })
+    @PrimaryGeneratedColumn()
     id : number
 
     @Column()

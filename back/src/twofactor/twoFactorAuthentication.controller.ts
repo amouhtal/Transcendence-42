@@ -41,7 +41,6 @@ export class TwoFactorAuthenticationController {
   ) {
     let userD: any = request.user;
     let email: string = userD.userId;
-    // const user = await this.usersService.findByemail(email);
     const isCodeValid =
       await this.twoFactorAuthenticationService.isTwoFactorAuthenticationCodeValid(
         twoFactorAuthenticationCode,
@@ -91,9 +90,7 @@ export class TwoFactorAuthenticationController {
         twoFactorAuthenticationCode,
         email,
       );
-    // const isCodeValid = await this.twoFactorAuthenticationService.isTwoFactorAuthenticationCodeValid(
-    //   "668004", "LVMFG5YHOFTHAPBT"
-    //   );
+
     if (!isCodeValid) {
       throw new UnauthorizedException('Wrong authentication code');
     }
@@ -101,9 +98,7 @@ export class TwoFactorAuthenticationController {
       this.authenticationService.newRefreshAndAccessToken(email, true, {
         ipAddress: 'ip',
       });
-    //console.logog(accessTokenCookie);
-    // response.cookie('token', accessTokenCookie);
-    // request.res.setHeader('Set-Cookie', [accessTokenCookie]);
+
     return accessTokenCookie;
   }
 }

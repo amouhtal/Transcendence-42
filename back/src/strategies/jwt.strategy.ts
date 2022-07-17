@@ -20,7 +20,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload) {
-    //console.log('--------------11----------', payload.userId);
 
     let token = await this.tokenRepository.findOneBy({ email: payload.userId });
     if (token) {
@@ -30,10 +29,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
       if (payload.isSecondFacotrAuthenticated)
         return { userId: payload.userId };
     }
-    // return {
-
-    //   userId: payload.userId,
-    // };
     throw new UnauthorizedException('Invalid JWT');
   }
 }

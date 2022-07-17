@@ -3,9 +3,7 @@ import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "t
 @Entity('messages')
 export class    messages extends BaseEntity{
 
-    @PrimaryGeneratedColumn({
-        comment : 'the quiz unique indentifier',
-    })
+    @PrimaryGeneratedColumn()
     id : number
 
     @Column()

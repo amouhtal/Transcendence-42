@@ -16,29 +16,7 @@ const CinFormation2 = (props: any) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  // useEffect(() => {
-  //       axios
-  //         .post(
-  //           `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/profile`,
-  //           null,
-  //           {
-  //             headers: {
-  //               Authorization: `Bearer ${
-  //                 localStorage.getItem("accessToken") as string
-  //               }`,
-  //             },
-  //           }
-  //         )
-  //         .then((res) => {
-  //           setUserInfo(res.data.userInfo);
-  //           // console.log("pictureUrl=",res.data.userInfo.picture)
-  //         })
-  //         .catch(function (error) {
-  //           if (error.response) {
-  //             router.push({pathname :`/errorPage/${error.response.status}`})
-  //           }
-  //         });
-  // }, []);
+
   const handelChange = (e: any) => {
     let lent: string = e.target.value;
     if (lent.length >= 6 && lent.length <= 11) {
@@ -68,7 +46,6 @@ const CinFormation2 = (props: any) => {
       } else resolve(false);
     });
   }
-  // {console.log("====>", image)};
   let putfile = (e: any) => {
     var reader = new FileReader();
     var file = document.querySelector("input[type=file]") as HTMLInputElement;
@@ -101,10 +78,8 @@ const CinFormation2 = (props: any) => {
     dispatch(update_test());
     const data = new FormData();
     let dataUserName:any;
-    console.log("usersname=",userName)
     if (userName === "")
     {
-      console.log("The UserName=",props.data.userName);
       dataUserName = {userName: props.data?.userName}
     }
     else
@@ -147,7 +122,6 @@ const CinFormation2 = (props: any) => {
           router.push({pathname :`/errorPage/${error.response.status}`})
         }
       });
-      console.log("========>",props.data?.picture)
     };
   }
     return (

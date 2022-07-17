@@ -25,12 +25,10 @@ export class chatRoomService
 
 	async createRoom(owner : string , data : any)
 	{
-		// console.log("data=",data);
 		let user = await this.usersRepository.findOneBy({userName : owner})
 		let room : chatRoom = await this.RoomRepository.create({ RoomOwner : owner })
 		room.members = [user]
 		room.RoomOwner = owner
-		// console.log(data.name)
 		room.name = data.name
 		room.type = data.type
 		room.protected = data.protected
@@ -67,7 +65,6 @@ export class chatRoomService
 	async addUsersToChannel(roomId : number ,  users: any)
 	{
 		let room : chatRoom = await this.getRoomById(roomId)
-		// console.log(room)
 		if(users.length !== 0)
 		{
 				users.map(async (e:any) => {
@@ -105,7 +102,6 @@ export class chatRoomService
 	{
 		let room : chatRoom = await this.getRoomById(roomId)
 		room.RoomOwner = newOwner 
-		// console.log(room);
 		await room.save()
 	}
 	async deleteRoom(roomId : number)
@@ -117,12 +113,10 @@ export class chatRoomService
 	async deleteUser(roomId : number, userToDelete : string)
 	{
 		let room : any = await this.getRoomById(roomId)
-		// console.log(room)
 		let i : number = 0
 		let index : number = -1
 		if(room)
 		{
-			// console.log(room.members)
 			room.members?.map(async (e:any) => {
 				if(e.userName === userToDelete)
 				{
@@ -136,7 +130,6 @@ export class chatRoomService
 					room.RoomOwner = room.members[0].userName
 				room.members.splice(index,1)
 			}
-			// admin removel
 			index = -1;
 			i = 0
 			room.administrators?.map(async (e:any) => {
@@ -150,7 +143,6 @@ export class chatRoomService
 				room.administrators.splice(index,1)
 			if(room.members.length === 0)
 			{
-				// console.log("im In delete Room")
 				this.deleteRoom(room.id)
 				return 
 			}

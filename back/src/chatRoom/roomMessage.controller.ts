@@ -30,20 +30,13 @@ export class roomMessageController {
 		return  rMessage
 	}
 
-	// @Post('getConnversation')
-	// async getRoomMessages(roomId : any)
-	// {
-	// 	console.log("RoomId=",roomId);
-	// 	// console.log(await this.RoomService.getRoomMessages(roomId))
-	// 	return await this.RoomService.getRoomMessages(roomId)
-	// }
+
 	@Post('getConnversation')
 	@UseGuards(JwtAuthGuard)
 	async getConv (@Body() roomId : any, @Req() request: Request ) 
 	{
 		const jwt = request.headers.authorization.replace('Bearer ', '');
 		const tokenInfo : any = this.jwtService.decode(jwt);
-		// console.log("RoomId=",roomId.roomId);
 
 		let conv : any = await  this.RoomService.getRoomMessages(roomId.roomId);
 		return conv
@@ -52,15 +45,8 @@ export class roomMessageController {
 	@UseGuards(JwtAuthGuard)
 	async getLastMessage (@Body() roomId : any, @Req() request: Request ) 
 	{
-		// console.log("RoomId=",roomId.roomId);
 
 		let conv : any = await  this.RoomService.getRoomMessages(roomId.roomId);
 		return conv[conv.length - 1]
 	}
 }
-/* 
-SELECT *
-FROM subject
-JOIN subject_note AS jt on jt.subject_id = subject.id
-WHERE jt.note_id = :id 
-*/
