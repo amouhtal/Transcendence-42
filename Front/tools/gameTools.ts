@@ -33,7 +33,7 @@ function drawCircleMiddle(x:number, y:number, r:number, context:CanvasRenderingC
 
 function drawMiddle(canvaWidth:number,canvaHeight:number, context:CanvasRenderingContext2D | null){ 
 
-    const circleSize = canvaWidth == 300 ? 10 : canvaWidth == 520 ? 20 : 30
+    const circleSize = canvaWidth / 40
 
     drawRect((canvaWidth / 2) - 1 ,0 ,0.5,(canvaHeight / 2) - circleSize,"grey",context);
     drawCircleMiddle((canvaWidth / 2),(canvaHeight / 2),circleSize ,context);

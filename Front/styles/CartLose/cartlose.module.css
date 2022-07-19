@@ -191,9 +191,29 @@ font-family: 'Trade Winds', cursive; */
   }
 }
 
+@media screen and (max-width: 1012px)
+{
+  .Pgame{
+    font-size: 110px;
+  }
+  .spanover{
+    font-size: 110px;
+  }
+}
+
 @media screen and (max-width: 910px)
 {
   .gameover{
+    font-size: 80px;
+  }
+}
+
+@media screen and (max-width: 800px)
+{
+  .Pgame{
+    font-size: 80px;
+  }
+  .spanover{
     font-size: 80px;
   }
 }
@@ -219,12 +239,22 @@ font-family: 'Trade Winds', cursive; */
     margin-top: 30px;
   }
 }
+
+@media screen and (max-width: 554px)
+{
+  .Pgame{
+    font-size: 60px;
+  }
+  .spanover{
+    font-size: 60px;
+  }
+}
+
 @media screen and (max-width: 542px)
 {
   .row{
-    background-color: #900202;
     height: 555px;
-    margin-top: -180px;
+    margin-top: -200px;
   }
   .gameover{
     font-size: 35px;

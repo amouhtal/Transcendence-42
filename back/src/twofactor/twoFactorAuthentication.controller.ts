@@ -41,6 +41,7 @@ export class TwoFactorAuthenticationController {
   ) {
     let userD: any = request.user;
     let email: string = userD.userId;
+
     const isCodeValid =
       await this.twoFactorAuthenticationService.isTwoFactorAuthenticationCodeValid(
         twoFactorAuthenticationCode,
@@ -48,6 +49,7 @@ export class TwoFactorAuthenticationController {
       );
 
     if (!isCodeValid) {
+      
       throw new UnauthorizedException('Wrong authentication code');
     }
 

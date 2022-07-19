@@ -1,8 +1,5 @@
-
-
 import style from '../../styles/watchMatch/livematch.module.css'
 import LiveListMatch from './ListeLiveMatch'
-import data from '../../achievement.json'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import Link from 'next/link'
@@ -10,7 +7,7 @@ import Settings from './modal'
 
 function Watch (props:any) {
     const [liveGame, changeLiveGame] = useState([])
-
+    const [refresh, setRefresh] = useState<boolean>(false)
     const [visible, setVisible] = useState(false);
     const handler = () => setVisible(true);
 
@@ -34,7 +31,7 @@ function Watch (props:any) {
             })      
           });
         })
-      },[])
+      },[refresh]);
     return (
         <>
             <div className={style.container}>

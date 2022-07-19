@@ -135,16 +135,6 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 				}
 				if(array == undefined || array.length == 0)
 					this.userServ.updateActive(false,sender_id[0].userName)
-				if(array != undefined)
-				{
-					for (let [key, value] of sockets) {
-						if(key == sender_id[0].userName)
-						{
-							for(let node of value)
-								console.log(node.id)
-						}
-					}
-				}
 			}
 		}
 	}
@@ -173,13 +163,6 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 					var obj : Array<Socket> = [];
 					obj.push(client);
 					sockets.set(sender_id[0].userName,obj);
-				}
-				for (let [key, value] of sockets) {
-					if(key == sender_id[0].userName)
-					{
-						for(let node of value)
-							console.log(node.id)
-					}
 				}
 				this.userServ.updateActive(true,sender_id[0].userName)
 				}
@@ -374,7 +357,7 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 				{
 					if (typeof playersStat.find(element => element.player1 == userInfo[0].userName || element.player2 == userInfo[0].userName) == "undefined" && 
 						typeof playersStat.find(element => element.player1 == body || element.player2 == body) == "undefined"){
-						let not : any = await this.notifServ.getNotificationBySR(body,userInfo[0].userName)
+						let not : any = await this.notifServ.getNotificationBySR(body,userInfo[0].userName,"playe")
 						if(not.length > 0)
 						{
 						Invits.push(userInfo[0].userName)
@@ -389,7 +372,7 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 						{
 							ids.emit("accepted","Accepted")
 						}
-						this.notifServ.deleteNotification(body,userInfo[0].userName)
+						this.notifServ.deleteNotification(body,userInfo[0].userName,"playe")
 						}
 					} else {
 						for(let ids of player)
@@ -417,11 +400,11 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 			const tokenInfo : any = this.jwtService.decode(auth_token);
 			let userInfo = await this.usersRepository.query(`select "userName" from public."Users" WHERE public."Users".email = '${tokenInfo.userId}'`);
 			if (Object.keys(userInfo).length > 0){
-				let not : any = await this.notifServ.getNotificationBySR(body,userInfo[0].userName)
+				let not : any = await this.notifServ.getNotificationBySR(body,userInfo[0].userName,"playe")
 				if(not.length > 0)
 				{
 					player2 = sockets.get(body)
-					this.notifServ.deleteNotification(body,userInfo[0].userName)
+					this.notifServ.deleteNotification(body,userInfo[0].userName,"playe")
 
 					for(let ids of player2)
 					{
@@ -509,10 +492,13 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 				if(users.length !== 0)
 				{
 					users.map((e:any) => {
-						sock = sockets.get(e.usersName) 
-						for(let so of sock)
+						sock = sockets.get(e.userName as string)
+						if(sock !== undefined)
 						{
-							so.join(room.id)
+							for(let so of sock)
+							{
+								so.join(`${room.id}`)
+							}
 						}
 					})
 
@@ -549,22 +535,23 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 			if(Object.keys(userInfo).length !== 0)
 			{
 				let sock : Socket[]
-				this.chatRoomServ.addUsersToChannel(data.roomId , data.users)
-				if(data.users.length !== 0)
-				{
-					data.users.map((e:any) => {
-						sock = sockets.get(e.usersName) 
-						if(sock)
-						{
-							for(let so of sock)
+					this.chatRoomServ.addUsersToChannel(data.roomId , data.users)
+					if(data.users.length !== 0)
+					{
+						data.users.map((e:any) => {
+							sock = sockets.get(e.userName as string) 
+							if(sock !== undefined)
 							{
-								so.join(`${data.room.id}`)
+								for(let so of sock)
+								{
+									so.join(`${data.roomId}`)
+								}
 							}
-						}
-					})
+						})
 
+					}
 				}
-			}
+			
 		}
 	}
 
@@ -580,9 +567,9 @@ export class chatGateway implements OnGatewayConnection , OnGatewayDisconnect {
 			if(Object.keys(userInfo).length !== 0)
 			{
 				let recvSockts : Socket[] = sockets.get(data.reciverName)
-				let oldNot =  await this.notifServ.getNotificationBySR(userInfo[0].userName, data)
+				let oldNot =  await this.notifServ.getNotificationBySR(userInfo[0].userName, data.reciverName,data.type)
 				if(oldNot !== undefined)
-					this.notifServ.deleteNotification(userInfo[0].userName, data)
+					this.notifServ.deleteNotification(userInfo[0].userName, data.reciverName,data.type)
 				this.notifServ.saveNotification(data,userInfo[0].userName)
 				let user : User = await this.usersRepository.findOneBy({userName : userInfo[0].userName}) 
                 for(let sock of recvSockts)

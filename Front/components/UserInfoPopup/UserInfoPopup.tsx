@@ -10,7 +10,6 @@ const CinFormation = (props: any) => {
   const [image, setImage] = useState<any>();
   const [userName, setUserName] = useState<string>("");
   const [file, setFile] = useState<any>([]);
-  const [imageName, changeImageName] = useState<string>("");
   const changeStyle = useRef(null);
   const [userInfo, setUserInfo] = useState<any>({});
   const dispatch = useDispatch();
@@ -84,7 +83,6 @@ const CinFormation = (props: any) => {
       let image_: FileList | null = file.files;
       if (image_ && image_.length > 0) {
         if (image_[0].name != undefined) {
-          changeImageName(image_[0].name);
           var ext = image_[0].name.split(".").pop();
           if (ext === "png" || ext === "jpg" || ext === "jpeg")
             reader.readAsDataURL(image_[0]);
@@ -109,39 +107,14 @@ const CinFormation = (props: any) => {
       data.append("image", userInfo?.picture);
     else
       data.append("image", file[0]);
-    
-    // axios
-    // .post(
-    //   `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/users/complet`,
-    //   dataUserName,
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${
-    //         localStorage.getItem("accessToken") as string
-    //       }`,
-    //     },
-    //   }
-    //   )
-    //   .then((res) => {
-    //     props.setUpdate(!props.update);
-    //     if (
-    //       res.data.message &&
-    //       (res.data.message == "valid username" ||
-    //       res.data.message == "Already have a username")
-    //       ) {
-    //         props.setUpdate(!props.update);
-    //       } else if (res.data.message) alert(res.data.message);
-    //     })
-    //     .catch(function (error) {
-    //       if (error.response) {
-    //         router.push({pathname :`/errorPage/${error.response.status}`})
-    //       }
-    // });
     props.setPopup(!props.Popup);
     props.socket?.emit("changeUserName", dataUserName)
-    axios
-    .post(
-      `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/upload`,
+    if (file.length >= 1)
+    {
+
+      axios
+      .post(
+        `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/upload`,
         data,
         {
           headers: {
@@ -150,21 +123,21 @@ const CinFormation = (props: any) => {
             }`,
           },
         }
-      )
-      .catch(function (error) {
-        if (error.response) {
-          router.push({pathname :`/errorPage/${error.response.status}`})
-        }
-      });
-  };
-  return (
+        )
+        .catch(function (error) {
+          if (error.response) {
+            router.push({pathname :`/errorPage/${error.response.status}`})
+          }
+        });
+      };
+    }
+      return (
     <>
       <div className={style.container}>
         <div className={style.row0}>
           <div className={style.row}>
             <p className={style.text1}>
-              The user should be able to upload an avatar. If the user doesn’t
-              upload an avatar.
+              Please upload an avatar (if not a default avatar will be set)
             </p>
           </div>
           <form
@@ -182,7 +155,7 @@ const CinFormation = (props: any) => {
               </div>
               <div className={style.child}>
                 <p className={style.text2}>
-                  should be able to upload an avatar
+                  you should upload an avatar
                 </p>
                 <input
                   style={{ display: "none" }}

@@ -33,6 +33,7 @@ export class TwoFactorAuthenticationService {
       token: twoFactorAuthenticationCode,
       secret: user.twoFactorAuthenticationSecret
     })
+    console.log("from here", twoFactorAuthenticationCode, user.twoFactorAuthenticationSecret);
 
     return verf;
   }

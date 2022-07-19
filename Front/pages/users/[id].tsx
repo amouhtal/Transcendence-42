@@ -80,7 +80,11 @@ function Profile(props:any) {
     axios.get("http://localhost:3001/friends/all", {headers: {Authorization: `Bearer ${localStorage.getItem("accessToken")}`,},})
     .then((res) => {
       setUsersData(res.data);
-    })
+    }).catch(function (error){
+      if (error.response){
+          router.push({pathname :`/errorPage/${error.response.status}`})
+      }
+  });
     // }
   }, [update, router.query.id, refresh]);
   let filtredData = usersData?.all_users?.filter((value: any) => {

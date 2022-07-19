@@ -192,13 +192,31 @@ font-family: 'Trade Winds', cursive; */
   }
 }
 
+@media screen and (max-width: 1012px)
+{
+  .Pgame{
+    font-size: 110px;
+  }
+  .spanover{
+    font-size: 110px;
+  }
+}
+
 @media screen and (max-width: 910px)
 {
   .gameover{
     font-size: 80px;
   }
 }
-
+@media screen and (max-width: 800px)
+{
+  .Pgame{
+    font-size: 80px;
+  }
+  .spanover{
+    font-size: 80px;
+  }
+}
 @media screen and (max-width: 722px){
   .gameover{
     font-size: 50px;
@@ -233,10 +251,13 @@ font-family: 'Trade Winds', cursive; */
     background-color: black;
   }
 }
-@media screen and (max-width: 542px)
+@media screen and (max-width: 554px)
 {
-  .row{
-    background-color: #900202;
+  .Pgame{
+    font-size: 60px;
+  }
+  .spanover{
+    font-size: 60px;
   }
 }
 @media screen and (max-width: 455px){
@@ -246,7 +267,7 @@ font-family: 'Trade Winds', cursive; */
   .row{
     width: 330px;
     height: 500px;
-    margin-top: -150px;
+    margin-top: -250px;
   }
   .winicon{
     width: 140px;
@@ -281,7 +302,7 @@ font-family: 'Trade Winds', cursive; */
   .row{
     width: 300px;
     height: 500px;
-    margin-top: -270px;
+    margin-top: -300px;
   }
 }
 @media screen and (max-width: 280px)

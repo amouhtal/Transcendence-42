@@ -1,22 +1,13 @@
 import styles from '../../styles/messages/index.module.css'
 import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
-import Router, { useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 import FriendsZone from '../../components/Messages/friendsZone';
-import Image from 'next/image';
-import image from '../../public/images/profile.jpg'
-import UserInfo from '../../components/Messages/UserInfo';
-import ChatZone from '../../components/Messages/chatZone';
-import UserInfoPopup2 from '../../components/UserInfoPopup/UserInfoPopup2'
-import {useSelector} from 'react-redux'
 import axios from 'axios';
 const messages = (props: any) => {
     const [Status ,setStatus] = useState<boolean>(false);
     const [showFriends, setShowFriends] = useState<boolean>(true);
     const router = useRouter();
-    const [ContactInformation, setContatInformation] = useState<any>([]);
     const [friends, setFriends] = useState<any>();
-    let FriendsInformation: any = [];
     const [blockedUsers, setBlockedUsers] = useState<any>([]);
     useEffect(() => {
         axios.get("http://localhost:3001/message/getConntacts",
@@ -50,7 +41,6 @@ const messages = (props: any) => {
             }
         });
       }, []);
-    const test:any = useSelector<any>(state=>state);
         return (
         <>
             <div className={styles.globaleContainer}>
@@ -62,7 +52,6 @@ const messages = (props: any) => {
                     </div>
                 </div>
             </div>
-            {test.sizes_.zak_test && <UserInfoPopup2 />}
         </>
     );
 }

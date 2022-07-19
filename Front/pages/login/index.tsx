@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import Login from '../../components/login/Login'
 
 const login = () => {
-    const router = useRouter();
     return (
         <div>
             <Login />

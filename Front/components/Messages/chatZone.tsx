@@ -1,20 +1,13 @@
 import styles from "../../styles/messages/ChatZone.module.css";
-import Image from "next/image";
-import image from "../../public/images/profile.jpg";
 import { BsThreeDots } from "react-icons/bs";
-import { GrSend } from "react-icons/gr";
-import { MdUploadFile } from "react-icons/md";
-import img from "../../public/images/send.png";
 import clip from "../../public/images/paperclip.png";
 import send from "../../public/images/send-message.png";
 import { useEffect, useRef, useState } from "react";
 import UserInfo from "./UserInfo";
-import io from "socket.io-client";
 import FriendsZone from "../../components/Messages/friendsZone";
 import back from "../../public/images/left.png";
 import axios from "axios";
-import { Router, useRouter } from "next/router";
-import typing from "../../public/images/typing.gif";
+import {  useRouter } from "next/router";
 import blocked from "../../public/images/banned-sign.png"
 import blank from "../../public/images/blank-profile-picture.png"
 
@@ -63,7 +56,6 @@ const ChatZone = (props: any) => {
   const dummy: any = useRef<any>();
   const dummy2: any = useRef<any>();
   useEffect(() => {
-    // dummy.current.scrollIntoView();
     if (messages !== []) {
       const userName = messages[0]?.senderId === props.user?.userName ? "" : messages[0]?.reciverId;
       axios
@@ -156,7 +148,6 @@ const ChatZone = (props: any) => {
   return (
     <>
       <FriendsZone data={friends} status={props.status} show={showFriends} setShow={setShowFriends} socket={props.socket} updateFriendsList={updateFriendsList} setUpdateFreindsList={setUpdateFriendsList} blockedusers={props.blockedusers}/>
-	  {/* <div className={styles.globaleContainer}> */}
 
       <div className={props.isBlocked || isNotInUsers(router.query.id as string) ? (userInfo ? styles.chatZoneBlured : styles.fullChatZoneBlured) : (userInfo ? styles.chatZone : styles.fullChatZone)}>
 		<div className={props.isBlocked ? styles.blockContaint : isNotInUsers(router.query.id as string) ? styles.blockContaint : styles.none}></div>
@@ -211,7 +202,6 @@ const ChatZone = (props: any) => {
             </div>
             <button className={isNotInUsers(router.query.id as string) ? styles.displaynone : styles.blockedBtn} onClick={(e:any) => {router.push("/users/blocked");}} >Manage blocked users</button>
         </div>
-		{/* </div> */}
       <UserInfo data={reciverId} status={reciverId?.isActive} allMessages={AllMessages} setMessages={setMessages} messages={messages} display={userInfo} color={setColor} setDisplay={setuserInfo}
     			update={update} setUpdate={setUpdate}/>
     </>

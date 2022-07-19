@@ -126,7 +126,7 @@ export class chatRoomController {
 	async getRoomById(@Body() body :any)
 	{
 		let room : chatRoom = await this.RoomService.getRoomById(body.roomId)
-		if(room !== null)
+		if(room !== null && room !== undefined )
 		{
 			return room
 		}

@@ -1,6 +1,5 @@
 import style from "../../styles/CartLose/cartlose.module.css";
 import lose from "../../public/images/two-removebg-preview.png";
-import imgme from "../../public/images/profile.jpg";
 import Link from "next/link";
 const CartLose = (props:any) => {
   return (

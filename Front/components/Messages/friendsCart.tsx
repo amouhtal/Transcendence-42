@@ -1,9 +1,5 @@
 import styles from '../../styles/messages/friends.module.css'
-import Image from 'next/image'
 import Link from 'next/link'
-import image from '../../public/images/profile.jpg'
-import { Dispatch, SetStateAction, FunctionComponent, useState, useEffect } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 
 const FriendsCart = (props:any) => {
@@ -34,9 +30,6 @@ const FriendsCart = (props:any) => {
                     </div>
                     <div className={styles.status}>
                     <p>{e.isActive ? "Online" : "Offline"}</p>
-                    </div>
-                    <div className={styles.LastMessage}>
-                    <p>This is last message fdsfsddsdsadsaad</p>
                     </div>
                     </div>
                     </Link>

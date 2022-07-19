@@ -1,15 +1,10 @@
 import styles from '../../../styles/messages/messages.module.css'
 import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
-import Router, { useRouter } from 'next/router';
-import FriendsZone from '../../../components/Messages/friendsZone';
-import Image from 'next/image';
-import image from '../../public/images/profile.jpg'
-import UserInfo from '../../../components/Messages/UserInfo';
-// const socket = io("10.12.11.5:3000",{transports:['websocket']});
+import { useRouter } from 'next/router';
 import GroupChatZone from '../../../components/Messages/g/chatZone';
 import axios from 'axios';
-import { curryGetDefaultMiddleware } from '@reduxjs/toolkit/dist/getDefaultMiddleware';
+import { Loading, Grid } from "@nextui-org/react";
+
 const Messages = (props:any) => {
     const [Status ,setStatus] = useState<boolean>(false);
     const router = useRouter();
@@ -20,7 +15,9 @@ const Messages = (props:any) => {
     const [usersData, setUsersData] = useState<any>([]);
     const [administrators, setAdministrators] = useState<any>([]);
     const [blockedUsers, setBlockedUsers] = useState<any>([]);
-
+    const [isLoading, setIsloading] = useState<boolean>(true);
+    const [refresh, setRefresh] = useState<boolean>(false);
+    // const [refresh, setRefresh] = useState<boolean></boolean>÷
     const _roomId : number = typeof window != "undefined" ? +window.location.href.split("/")[5].substr(0, window.location.href.split("/")[5].indexOf("?")) : 0;
     useEffect(() => {
         axios.post("http://localhost:3001/chatRoom/getOwner", {roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
@@ -50,7 +47,11 @@ const Messages = (props:any) => {
         {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}}
         ).then((res) => {
             setGroupMembers(res.data);
-        })
+        }).catch(function (error){
+          if (error.response){
+              router.push({pathname :`/errorPage/${error.response.status}`})
+          }
+      });
         axios.get(`http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/all`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -64,7 +65,7 @@ const Messages = (props:any) => {
                 router.push({pathname :`/errorPage/${error.response.status}`})
             }
         });
-    },[])
+    },[_roomId])
     useEffect(() => {
         const response: any = axios
           .post(
@@ -89,6 +90,17 @@ const Messages = (props:any) => {
       }, []);
 
       useEffect(() => {
+        axios.post("http://localhost:3001/chatRoom/getRoomById", {roomId: _roomId}, {headers:{'Authorization': `Bearer ${localStorage.getItem("accessToken")}`}})
+        .then((res) => {
+            if (res.data == "")
+              router.push("/messages/g");
+            else
+              setIsloading(false);
+        }).catch(function (error){
+          if (error.response){
+              router.push({pathname :`/errorPage/${error.response.status}`})
+          }
+      });;
         axios
           .get(
             `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/friends/block`,
@@ -102,13 +114,13 @@ const Messages = (props:any) => {
           )
           .then((res) => {
             setBlockedUsers(res.data.users_T_blocked);
-      })
-    }, []);
-    var test:boolean = true;
-
-    // const [filterData] = FakeData.filter((value: any) => {
-    //     return (value.userName === router.query.id);
-    // });
+      }).catch(function (error){
+        if (error.response){
+            router.push({pathname :`/errorPage/${error.response.status}`})
+        }
+    });
+    }, [refresh]);
+    props.socket?.off("Refresh").on("Refresh", (data:any) => {setRefresh(!refresh)});
     const checkIfMemver = (e:string) => {
         let isGroupMember = false;
         groupMembers.map((curr:any) => {
@@ -121,10 +133,17 @@ const Messages = (props:any) => {
     }
     return (
         <div className={styles.globaleContainer}>
-                <div className={styles.bcontainer}>
+                {
+                  isLoading ?
+                  <div className={styles.LoadingContainer}>
+                    <Grid><Loading type="gradient" /></Grid>
+                  </div>
+                  :
+                  <div className={styles.bcontainer}>
                     <GroupChatZone  status={Status} socket={props.socket} user={userInfo} roomOwner={roomOwner} administrators={administrators} setRoomOwner={setRoomOwner}
                     update={update} setUpdate={setUpdate} ShowJoin={false} usersData={usersData} blockedusers={blockedUsers} />
                 </div>
+                  }
         </div>
     );
 }

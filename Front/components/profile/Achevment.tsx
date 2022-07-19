@@ -1,5 +1,4 @@
 import style from "../../styles/profile/sliderAchevment.module.css";
-import Link from "next/link";
 import LiveListMatch from "../LiveMatch/ListeLiveMatch";
 import CartNotification from "../notification/Cart";
 import { useRouter } from "next/router";
@@ -7,8 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function Achevment(props: any) {
-      const router = useRouter();
-    const [userInfo, setUserInfo] = useState<any>({});
+    const router = useRouter();
     const [allnotification, setNotification] = useState([])
     const [livematch, setLiveMatch] = useState<any>([])
     const [alluser, setAlluser] = useState([])
@@ -29,7 +27,6 @@ function Achevment(props: any) {
                 }
             })
     }, [])
-
     useEffect(() => {
             axios.post(
               `http://${process.env.NEXT_PUBLIC_IP_ADRESSE}:${process.env.NEXT_PUBLIC_PORT}/livegames/getLiveGameByUserName`,
@@ -83,7 +80,7 @@ function Achevment(props: any) {
             const [senderInformation]: any = getSenderInformation(e.senderName);
             return (
               <div key={Math.random()}>
-                <CartNotification MyP={true} key={id} data={e} PicSender={senderInformation}/>
+                <CartNotification MyP={true} key={id} data={e} PicSender={senderInformation} socket = {props.socket}/>
               </div>
             )})
            ):( <div className={style.NoNotification}>No Notification</div>)

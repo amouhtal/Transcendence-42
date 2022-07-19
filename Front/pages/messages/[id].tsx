@@ -1,11 +1,6 @@
 import styles from '../../styles/messages/messages.module.css'
 import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
-import Router, { useRouter } from 'next/router';
-import FriendsZone from '../../components/Messages/friendsZone';
-import Image from 'next/image';
-import image from '../../public/images/profile.jpg'
-import UserInfo from '../../components/Messages/UserInfo';
+import { useRouter } from 'next/router';
 import ChatZone from '../../components/Messages/chatZone';
 import axios from 'axios';
 import { Loading, Grid } from "@nextui-org/react";
@@ -16,7 +11,6 @@ const Messages = (props:any) => {
     const [userInfo ,setUserInfo] = useState<any>();
     const [blockedUsers, setBlockedUsers] = useState<any>([]);
     const [isBlocked, setisBlocked] = useState<boolean>(false);
-	const [updateIsBlocked, setUpdateIsBlocked] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(true);
 
 	const userNameFromUrl: string = typeof window != "undefined" ? window.location.href.split("/")[4] : "";

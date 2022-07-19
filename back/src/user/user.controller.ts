@@ -161,7 +161,7 @@ export class UserController {
 
     let user: User = await this.userService.getUserJwt(jwt);
 
-    if (user.ifUserName) 
+    if (user?.ifUserName) 
       return { exist: true };
     return { exist: false };
   }

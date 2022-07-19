@@ -11,7 +11,6 @@ import { useRouter } from "next/router";
 
 function ErrorType() {
   const router = useRouter();
-  const [redirect, setRedirect] = useState<boolean>(false);
   const [CodeStatus, setCodeStatus] = useState<string>("");
   useEffect(() => {
     typeof window != "undefined" &&
@@ -25,7 +24,6 @@ function ErrorType() {
       {CodeStatus == "400" ? (
         <img className={style.Contante} src={icon400.src}></img>
       ) : CodeStatus == "401" ? (
-        // <img className={style.Contante} src={icon401.src}></img>
         redirectFunction()
       ) : CodeStatus == "403" ? (
         <img className={style.Contante} src={icon403.src}></img>

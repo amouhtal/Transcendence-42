@@ -1,5 +1,4 @@
 import style from "../../styles/profile/cartProfile.module.css";
-import image from "../../public/images/profile.jpg";
 import ajout from "../../public/images/ajouter.png";
 import blocked from "../../public/images/blockUser.png";
 import play from "../../public/images/tennis1.png";
@@ -8,13 +7,10 @@ import axios from "axios";
 import accept from "../../public/images/usersImages/accept.png";
 import reject from "../../public/images/usersImages/reject.png";
 import { useRouter } from "next/router";
-import ErrorType from "../AllError/ErrorType";
 import setting from "../../public/images/imgeSidBar/profileSetting.png";
-
+import Link from "next/link";
 function CartProfile(props: any) {
   const router = useRouter()
-  let isConected = false;
-  const route = useRouter();
   const CheckIfFriend = (user: any) => {
     let friendstest = false;
     props.friends?.map((e: any) => {
@@ -172,10 +168,12 @@ function CartProfile(props: any) {
               props.socket?.emit("Refresh", [{userName: props.data?.userName}])
             }}
             ></img>
+            <Link href={`/messages/${router.query.id}`}>
           <img
             src={chatIcon.src}
             className={props.Myprofile ? style.none : style.play}
             ></img>
+            </Link>
           <img
             src={accept.src}
             width={30}

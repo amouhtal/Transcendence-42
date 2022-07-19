@@ -3,10 +3,8 @@ import CartProfile from "../../components/profile/cartProfile";
 import MatchHestory from "../../components/profile/matchHestory";
 import Achevment from "../../components/profile/Achevment";
 import axios from "axios";
-import Router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { type } from "os";
-import UserInfoPopup from "../../components/UserInfoPopup/UserInfoPopup";
 import CinFormation2  from "../../components/UserInfoPopup/UserInfoPopup2";
 import { Loading, Grid } from "@nextui-org/react";
 
@@ -15,7 +13,6 @@ function Profile(props: any) {
   const [userInfo, setUserInfo] = useState<any>({});
   const [MatchHistory, setMatchHistory] = useState<any>([]);
   const router = useRouter();
-  const [showContent, setShowContent] = useState<boolean>(false);
   const [Popup ,setPopup] = useState<Boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [refresh, setRefresh] = useState<boolean>(false);
@@ -54,7 +51,7 @@ function Profile(props: any) {
       <div className={Style.container}>
         <div className={Style.header}>
           <CartProfile data={userInfo} Myprofile={true} setPopup={setPopup} Popup={Popup}/>
-          <Achevment Myprofile={true} data={userInfo}/>
+          <Achevment Myprofile={true} data={userInfo} socket = {props.socket}/>
         </div>
         <MatchHestory userData={userInfo} gameHistory={MatchHistory} />
       </div>

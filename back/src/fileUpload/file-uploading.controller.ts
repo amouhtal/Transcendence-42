@@ -50,7 +50,7 @@ export class uploadController {
       .createQueryBuilder('Users')
       .update('User')
       .set({ picture: root })
-      .where('userName = :userName', { userName: user.userName })
+      .where('userName = :userName', { userName: user?.userName })
       .execute();
 
     return response;

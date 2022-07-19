@@ -1,32 +1,18 @@
 import styles from '../../../styles/users/usersCard.module.css'
-import Image from 'next/image'
 import Link from 'next/link'
-import image from '../../../public/images/profile.jpg'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
-import addUser from '../../../public/images/usersImages/add-user.png'
-import chatting from '../../../public/images/usersImages/chatting.png'
 import { useRouter } from 'next/router'
-import profileIcon from '../../../public/images/profile.jpg'
-import blockUser from '../../../public/images/usersImages/block-user.png'
-import accept from '../../../public/images/usersImages/accept.png'
-import reject from '../../../public/images/usersImages/reject.png'
-import users from '../../../pages/users'
 import ban from '../../../public/images/ban.png'
 import kick from '../../../public/images/kick.png'
 const UsersCart = (props:any) => {
     const [myData, setData] = useState<any>(props.data);
-    const router = useRouter();
-    const [status, setStatus] = useState<boolean>(false);
-    const [Checked, setChecked] = useState<boolean>(false);
-    const [choosen, setChoosen] = useState<any>([]);
     const [showBanPannel, setShowBanPannel] = useState<boolean>(false);
     const [userBanned, setUserBanned] = useState<string>("");
     const [BanChoice, setBanChoice] = useState<boolean>(false);
     const [MuteChoice, setMuteChoice] = useState<boolean>(false);
     const [BanMuteTime, setBanMuteTime] = useState<string>("");
 	const _roomId : number = typeof window != "undefined" ? window.location.href.indexOf("?") !== -1 ? +window.location.href.split("/")[5]?.substr(0, window.location.href.split("/")[5]?.indexOf("?")) : 0 : 0;
-
+    const router = useRouter();
     useEffect(() => {
         setData(props.data)
     })
@@ -68,9 +54,11 @@ const UsersCart = (props:any) => {
         })
         return isAdmin;
     }
+    if (typeof props.data !== "object")
+        router.push("/messages/g")
     return (
         <>
-        {props.data?.map((e: any, index:number) => {
+        {typeof props.data === "object" && props.data?.map((e: any, index:number) => {
                 return  (
                     <div className={styles.userCard} id={`${e.userName}%${e.picture}`} key={index} onClick={(e:any) => handelClick(e)}>
                         <div className={`${styles.imgContainer}`}>
@@ -87,6 +75,8 @@ const UsersCart = (props:any) => {
                         <div id={e.userName} className={isAdministrator(e.userName) ? props.roomOwner !== e.userName ? styles.admin : styles.none : styles.none}>
                             <p>Admin</p>
                         </div>
+
+
                         <div className={props.showBanBtn ? props.user.userName !== props.roomOwner && !isAdministrator(props.user.userName) ? styles.none : props.user.userName === props.roomOwner && e.userName !== props.roomOwner ? styles.ban : isAdministrator(props.user.userName) ? e.userName === props.roomOwner || isAdministrator(e.userName) ? styles.none : styles.ban : styles.none : styles.none} id={e.userName}
                         onClick={(e:any) => {}}>
                             <img src={ban.src} alt="ban" id={e.userName} onClick={(curr:any) => {setShowBanPannel(!showBanPannel);setUserBanned(curr.target.id); setMuteChoice(true)}}/>

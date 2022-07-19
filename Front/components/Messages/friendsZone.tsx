@@ -1,19 +1,9 @@
 import { FiSearch } from "react-icons/fi";
-import { MdAddComment } from "react-icons/md"
 import FriendsCart from './friendsCart';
 import styles from '../../styles/messages/messages.module.css'
-import img from '../../public/images/plus.png'
-import { BsPlus } from "react-icons/bs";
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import image from '../../public/images/profile.jpg'
-import stylesfriends from '../../styles/messages/friends.module.css'
-import axios from "axios";
+import React, {  useState } from "react";
 
 const FriendsZone = (props:any) => {
-    const [ContactInformation, setContatInformation] = useState<any>([]);
-    let FriendsInformation: any = [];
     return (
         <div className={props.show ? styles.friendListshow : styles.friendListDontshow}>
             <div className={styles.searchBar}>

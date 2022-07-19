@@ -1,8 +1,6 @@
-import image from '../../public/imgSlide/IMG_20210525_100044_455.jpg'
 import  style from '../../styles/game/CartPlayer.module.css'
 
 export const Player = (props:any) =>{
-    //console.logogogogogogogog("sdghdh")
     return(
         <div className={style.Container}>
             <div>

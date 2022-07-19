@@ -1,6 +1,5 @@
 import style from "../../styles/CartWin/cartwin.module.css";
 import win from "../../public/images/one-removebg-preview.png";
-import imgme from "../../public/images/profile.jpg";
 import circleimg from "../../public/images/cercle1-removebg-preview.png";
 import Link from "next/link";
 const Cartwin = (props:any) => {

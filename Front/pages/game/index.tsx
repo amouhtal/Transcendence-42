@@ -1,10 +1,7 @@
 import {Player, Player2} from "../../components/game/cartPlayer";
 import style from "../../styles/game/HomeGame.module.css";
 import Game from "../../components/game";
-import UserInfoPopup from "../../components/UserInfoPopup/UserInfoPopup";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import leagend from "../../public/images/3amii9.png";
 import { Loading } from "@nextui-org/react";
 import axios from "axios";
 import CountDown from "../../components/conterDown/conterDown";
@@ -120,8 +117,6 @@ const HomeGame = (props: any) => {
           </>
         ):""}
       </div>
-
-      {/* {test.sizes_.zak_test && <UserInfoPopup />} */}
     </>
   );
 };

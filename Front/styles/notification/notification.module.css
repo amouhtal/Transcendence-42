@@ -13,8 +13,8 @@
     width: 90%;
     height: 90vh;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    flex-flow: column;
+    align-items: center;
     padding: 25px;
     gap: 40px;
     overflow-y: scroll;
@@ -66,6 +66,7 @@
 .textContent{
     color: rgba(255, 255, 255, 0.714);
     font-size: 17px;
+    text-align: center;
     font-family: monospace;
     font-weight: bold;
 }

@@ -1,5 +1,5 @@
 import style from "../../styles/addUser.module.css";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
@@ -10,9 +10,7 @@ const CinFormation2 = (props: any) => {
   const [image, setImage] = useState<any>();
   const [userName, setUserName] = useState<string>("");
   const [file, setFile] = useState<any>([]);
-  const [imageName, changeImageName] = useState<string>("");
   const changeStyle = useRef(null);
-  const [userInfo, setUserInfo] = useState<any>({});
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -63,7 +61,6 @@ const CinFormation2 = (props: any) => {
       let image_: FileList | null = file.files;
       if (image_ && image_.length > 0) {
         if (image_[0].name != undefined) {
-          changeImageName(image_[0].name);
           var ext = image_[0].name.split(".").pop();
           if (ext === "png" || ext === "jpg" || ext === "jpeg")
             reader.readAsDataURL(image_[0]);
@@ -130,8 +127,7 @@ const CinFormation2 = (props: any) => {
         <div className={style.row0}>
           <div className={style.row}>
             <p className={style.text1}>
-              The user should be able to upload an avatar. If the user doesn’t
-              upload an avatar.
+            Please upload an avatar (if not a default avatar will be set)
             </p>
           </div>
           <form
@@ -149,7 +145,7 @@ const CinFormation2 = (props: any) => {
               </div>
               <div className={style.child}>
                 <p className={style.text2}>
-                  should be able to upload an avatar
+                  you should be able to upload an avatar
                 </p>
                 <input
                   style={{ display: "none" }}

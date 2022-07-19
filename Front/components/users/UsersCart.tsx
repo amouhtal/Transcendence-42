@@ -1,24 +1,18 @@
 import styles from "../../styles/users/usersCard.module.css";
-import Image from "next/image";
 import Link from "next/link";
-import image from "../../public/images/profile.jpg";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import addUser from "../../public/images/usersImages/add-user.png";
 import chatting from "../../public/images/usersImages/chatting.png";
 import { useRouter } from "next/router";
-import profileIcon from "../../public/images/profile.jpg";
 import blockUser from "../../public/images/usersImages/block-user.png";
 import accept from "../../public/images/usersImages/accept.png";
 import reject from "../../public/images/usersImages/reject.png";
-import users from "../../pages/users";
-import ErrorType from "../AllError/ErrorType";
 import { Loading, Grid } from "@nextui-org/react";
 
 const UsersCart = (props: any) => {
   const [myData, setData] = useState<any>(props.data);
   const router = useRouter();
-  const [status, setStatus] = useState<boolean>(false);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
