@@ -3,7 +3,8 @@ ft_transcendence is the last common core project of 42 School. The superficial p
 ## How to launch
 just enter the command below.
 
-docker-compose up --build
+-> docker-compose up --build
+<br>
 To access the website, go to localhost
 
 http://localhos:3000 or http://127.0.0.1:3000
